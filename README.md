@@ -25,6 +25,6 @@ Importar moodloop.sql en phpMyAdmin.
 Ejecutar XAMPP y activar Apache + MySQL.
 Acceder a localhost/moodloop/frontend/index.html.
 
-##❗ Aviso importante  
+## ❗ Aviso importante  
 Antes de clonar el repositorio, asegúrate de hacerlo dentro de una carpeta vacía.  
 Si lo haces en un proyecto abierto, todos los archivos y recursos de MoodLoop se mezclarán con los existentes, lo que puede provocar errores o conflictos en la estructura.
