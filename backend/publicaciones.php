@@ -1,15 +1,12 @@
 <?php
-include "db.php";
+// publicaciones.php
+// Script para mostrar publicaciones usando la clase Publicacion
 
-$sql = "SELECT mensaje, estado_emocional, fecha_hora FROM Publicaciones ORDER BY fecha_hora DESC";
-$resultado = mysqli_query($conn, $sql);
+require_once "Publicacion.php"; // Incluimos la clase Publicacion
 
-if (mysqli_num_rows($resultado) > 0) {
-    echo "<h2>Publicaciones recientes</h2>";
-    while ($fila = mysqli_fetch_assoc($resultado)) {
-        echo "<p><strong>" . $fila["estado_emocional"] . "</strong>: " . $fila["mensaje"] . "<br><em>" . $fila["fecha_hora"] . "</em></p>";
-    }
-} else {
-    echo "No hay publicaciones.";
-}
+// Creamos un objeto de tipo Publicacion
+$p = new Publicacion();
+
+// Mostramos las últimas 5 publicaciones
+$p->mostrarPublicacionesHTML(5);
 ?>
