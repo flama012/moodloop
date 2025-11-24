@@ -24,3 +24,6 @@ MoodLoop es una red social que permite a los usuarios compartir publicaciones vi
 Importar moodloop.sql en phpMyAdmin.
 Ejecutar XAMPP y activar Apache + MySQL.
 Acceder a localhost/moodloop/frontend/index.html.
+
+## ! Aviso
+A la hora de clonar el repositorio asegurarse de estar en un proyecto vacio, o de lo contrario se importaran todos los assets al proyecto abierto.
