@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
 $usuario = "root";
-$contrasena = ""; // tu contraseña
-$base_datos = "red_social";
+$contrasena = "Ciclo2gs"; // tu contraseña
+$base_datos = "moodloop";
 
 // Crear conexión
 $conn = mysqli_connect($host, $usuario, $contrasena, $base_datos);
