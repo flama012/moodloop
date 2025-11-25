@@ -1,15 +1,16 @@
 <?php
-// Usuario.php
+// UsuarioBBDD.php
 // Clase para manejar usuarios en la base de datos
 
-require_once "db.php"; // Incluimos la conexión
+require_once "Conexion.php"; // Incluimos la conexión (Singleton)
 
-class Usuario {
+class UsuarioBBDD {
     private $conn; // Guardará la conexión
 
-    // Constructor: se ejecuta al crear un objeto Usuario
+    // Constructor: se ejecuta al crear un objeto UsuarioBBDD
     public function __construct() {
-        $this->conn = conectar(); // Llamamos a la función conectar()
+        // Obtenemos la conexión única desde el Singleton
+        $this->conn = Conexion::getInstancia()->getConexion();
     }
 
     // Método para obtener todos los usuarios
@@ -20,7 +21,7 @@ class Usuario {
         $usuarios = []; // Array vacío para guardar resultados
 
         // Si hay filas en el resultado, las recorremos con un bucle
-        if (mysqli_num_rows($resultado) > 0) {
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
             while ($fila = mysqli_fetch_assoc($resultado)) {
                 $usuarios[] = $fila; // Añadimos cada fila al array
             }
