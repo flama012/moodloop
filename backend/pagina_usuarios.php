@@ -1,5 +1,5 @@
 <?php
-// usuarios.php
+// pagina_usuarios.php
 // Script para mostrar usuarios usando la clase UsuarioBBDD
 
 require_once "UsuarioBBDD.php"; // Incluimos la clase UsuarioBBDD
