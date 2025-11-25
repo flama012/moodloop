@@ -2,22 +2,23 @@
 // Publicacion.php
 // Clase para manejar publicaciones en la base de datos
 
-require_once "db.php"; // Incluimos la conexión
+require_once "Conexion.php"; // Incluimos la conexión (Singleton)
 
 class Publicacion {
     private $conn; // Guardará la conexión
 
     public function __construct() {
-        $this->conn = conectar(); // Conectamos a la base de datos
+        // Obtenemos la conexión única desde el Singleton
+        $this->conn = Conexion::getInstancia()->getConexion();
     }
 
     // Método para obtener publicaciones (con límite opcional)
     public function obtenerPublicaciones($limite = 10) {
         // Consulta SQL: selecciona las publicaciones más recientes
         $sql = "SELECT mensaje, estado_emocional, fecha_hora 
-            FROM Publicaciones 
-            ORDER BY fecha_hora DESC 
-            LIMIT " . intval($limite);
+                FROM Publicaciones 
+                ORDER BY fecha_hora DESC 
+                LIMIT " . intval($limite);
 
         $resultado = mysqli_query($this->conn, $sql);
 
