@@ -1,150 +1,48 @@
 <?php
-require_once "Usuario.php";
-class UsuarioBBDD
-{
+// Usuario.php
+// Clase para manejar usuarios en la base de datos
+require_once "db.php"; // Incluimos la conexión
 
-    // Método para obtener todos los usuarios
-    public function listarUsuarios() {
-        $sql = "SELECT id_usuario, nombre_usuario, correo FROM Usuarios";
-        $resultado = mysqli_query($this->conn, $sql);
+class Usuario {
+    private $id;
+    private $nombre;
+    private $email;
+    private $password;
+    private $biografia;
+    private $estado;
+    private $rol;
 
-        $usuarios = []; // Array vacío para guardar resultados
+    private $confirmado;
 
-        // Si hay filas en el resultado, las recorremos con un bucle
-        if (mysqli_num_rows($resultado) > 0) {
-            while ($fila = mysqli_fetch_assoc($resultado)) {
-                $usuarios[] = $fila; // Añadimos cada fila al array
-            }
-        }
+    private $baneado;
 
-        return $usuarios; // Devolvemos el array de usuarios
-    }
+    private $fechaRegistro;
 
-    // Método para mostrar usuarios en HTML
-    public function mostrarUsuariosHTML() {
-        $usuarios = $this->listarUsuarios();
+    private $conn; // Guardará la conexión
 
-        if (count($usuarios) > 0) {
-            echo "<h2>Usuarios registrados</h2><ul>";
-            // Recorremos el array con un bucle foreach
-            foreach ($usuarios as $u) {
-                echo "<li>" . $u["nombre_usuario"] . " (" . $u["correo"] . ")</li>";
-            }
-            echo "</ul>";
-        } else {
-            echo "No hay usuarios.";
-        }
-    }
 
-    // Comprobar repetidos
-    public function comprobarRepetido($email) {
-        $sql = "SELECT id FROM usuarios WHERE  correo = :email";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-        return $stmt->rowCount() > 0;
+    public function __get(string $name){
+        return $this->$name;
     }
 
 
-    public function existeEmail($email){
-        $resultado = false;
-        try {
-            $conexion = ConexionDB::getConexion("prueba");
-            $consulta = $conexion->prepare("SELECT email FROM usuarios WHERE email = :email");
-            $consulta->bindParam(":email", $email);
-            $consulta->execute();
-            if ($consulta->rowCount() == 1) {
-                $resultado = true;
-            }
-        }
-        catch (PDOException $e) {
-
-        }
-        return $resultado;
-
+    public function __set(string $name, $value): void{
+        $this->$name = $value;
     }
-
-    public function insertarUsuario($dni, $apellido, $nombre, $email, $password, $token, $rol){
-        $resultado = false;
-        try {
-            $conexion = ConexionDB::getConexion("prueba");
-            $consulta = $conexion->prepare("INSERT INTO usuarios (dni, apellidos, nombre, email, password, token, rol) VALUES (:dni, :apellido, :nombre, :email, :password, :token, :rol)");
-            $consulta->bindParam(":dni", $dni);
-            $consulta->bindParam(":apellido", $apellido);
-            $consulta->bindParam(":nombre", $nombre);
-            $consulta->bindParam(":email", $email);
-            $consulta->bindParam(":password", $password);
-            $consulta->bindParam(":token", $token);
-            $consulta->bindParam(":rol", $rol);
-
-            $consulta->execute();
-        }
-        catch (PDOException $e) {
-            //no hacemos nada ya que solo la vamos a capturar y devolverá false la función
-        }
-        if($consulta->rowCount() ==1){
-            $resultado = true;
-        }
-
-        return $resultado;
+    // Constructor: se ejecuta al crear un objeto Usuario
+    public function __construct($nombre, $email, $password, $biografia, $estado) {
+        $this->conn = conectar(); // Llamamos a la función conectar()
+        //javi
+        $this->id =0;
+        $this->nombre = $nombre;
+        $this->email = $email;
+        $this->password = $password;
+        $this->biografia = $biografia;
+        $this->estado = $estado;
+        $this->rol = 2;//no se si el 2 es el que esta confirmado o no
+        $this->confirmado = 0;
+        $this->baneado = false;
+        $this->fechaRegistro = date("Y-m-d H:i:s");
     }
-
-    public function obtenerTokern($email){
-        $resultado = false;
-        try {
-            $conexion = ConexionDB::getConexion("prueba");
-            $consulta = $conexion->prepare("SELECT * FROM usuarios WHERE email = :email");
-            $consulta->bindParam(":email", $email);
-            $consulta->execute();
-            if ($consulta->rowCount() == 1) {
-                $fila = $consulta->fetch(PDO::FETCH_ASSOC);
-                $token = $fila["token"];
-                return $token;
-            }
-        }
-        catch (PDOException $e) {
-        }
-        return $resultado;
-    }
-    public function obtenerUsuario($email){
-        $usuario = false;
-        try{
-            $conexion = ConexionDB::getConexion("prueba");
-            $consulta = $conexion->prepare("SELECT * FROM usuarios WHERE email = :email");
-            $consulta->bindParam(":email", $email);
-            $consulta->execute();
-            if ($consulta->rowCount() == 1) {
-                $fila = $consulta->fetch(PDO::FETCH_ASSOC);
-                $usuario = new Usuario($fila["dni"], $fila["apellidos"], $fila["nombre"], $fila["email"], $fila["password"]);
-                $usuario->id=($fila["id"]);
-                $usuario->rol=$fila["rol"];
-                $usuario->token=$fila["token"];
-
-            }
-        }
-        catch (PDOException $e) {
-
-        }
-        return $usuario;
-    }
-
-    public function actualizaRol($usuario){
-        $resultado = false;
-        try{
-            $conexion = ConexionDB::getConexion("prueba");
-            $consulta = $conexion->prepare("UPDATE usuarios SET rol = 2 WHERE id = :id");
-            $id = $usuario->id;
-            $consulta->bindParam(":id", $id);//debemos poner variables simples
-            $consulta->execute();
-            if ($consulta->rowCount() == 1) {
-                $resultado = true;
-            }
-        }
-        catch (PDOException $e) {
-
-        }
-        return $resultado;
-    }
-
-
 }
+?>
