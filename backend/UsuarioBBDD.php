@@ -1,48 +1,49 @@
 <?php
-// Usuario.php
+// UsuarioBBDD.php
+// Clase Usuario
+require_once "Usuario.php";
 // Clase para manejar usuarios en la base de datos
 require_once "db.php"; // Incluimos la conexión
 
-class Usuario {
-    private $id;
-    private $nombre;
-    private $email;
-    private $password;
-    private $biografia;
-    private $estado;
-    private $rol;
+class UsuarioBBDD {
 
-    private $confirmado;
-
-    private $baneado;
-
-    private $fechaRegistro;
 
     private $conn; // Guardará la conexión
 
 
-    public function __get(string $name){
-        return $this->$name;
-    }
 
 
-    public function __set(string $name, $value): void{
-        $this->$name = $value;
+    // Método para obtener todos los usuarios
+    public function listarUsuarios() {
+        $sql = "SELECT id_usuario, nombre_usuario, correo FROM Usuarios";
+        $resultado = mysqli_query($this->conn, $sql);
+
+        $usuarios = []; // Array vacío para guardar resultados
+
+        // Si hay filas en el resultado, las recorremos con un bucle
+        if (mysqli_num_rows($resultado) > 0) {
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                $usuarios[] = $fila; // Añadimos cada fila al array
+            }
+        }
+
+        return $usuarios; // Devolvemos el array de usuarios
     }
-    // Constructor: se ejecuta al crear un objeto Usuario
-    public function __construct($nombre, $email, $password, $biografia, $estado) {
-        $this->conn = conectar(); // Llamamos a la función conectar()
-        //javi
-        $this->id =0;
-        $this->nombre = $nombre;
-        $this->email = $email;
-        $this->password = $password;
-        $this->biografia = $biografia;
-        $this->estado = $estado;
-        $this->rol = 2;//no se si el 2 es el que esta confirmado o no
-        $this->confirmado = 0;
-        $this->baneado = false;
-        $this->fechaRegistro = date("Y-m-d H:i:s");
+
+    // Método para mostrar usuarios en HTML
+    public function mostrarUsuariosHTML() {
+        $usuarios = $this->listarUsuarios();
+
+        if (count($usuarios) > 0) {
+            echo "<h2>Usuarios registrados</h2><ul>";
+            // Recorremos el array con un bucle foreach
+            foreach ($usuarios as $u) {
+                echo "<li>" . $u["nombre_usuario"] . " (" . $u["correo"] . ")</li>";
+            }
+            echo "</ul>";
+        } else {
+            echo "No hay usuarios.";
+        }
     }
 }
 ?>

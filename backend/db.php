@@ -5,7 +5,7 @@
 function conectar() {
     // Datos de conexión
     $host = "localhost";          // Servidor de la base de datos
-    $usuario = "root";            // Usuario de MySQL
+    $usuario = "root";            // UsuarioBBDD de MySQL
     $contrasena = "Ciclo2gs";     // Contraseña de MySQL
     $base_datos = "moodloop";     // Nombre de la base de datos
 

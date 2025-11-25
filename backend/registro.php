@@ -76,7 +76,7 @@ if (isset($_SESSION["mensaje"])) {
         <input type="password" id="confirmar" required name="confirmar">
     </p>
     <p>
-        <a href="terminos.php">Acepta los terminos</a>
+        <a>Acepta los terminos</a>
         <input type="checkbox" required name="confirmar" id="confirmar" value="Enviar">
     </p>
     <p>

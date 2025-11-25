@@ -34,10 +34,10 @@ if (isset($_POST["enviar"])) {
     $hash= password_hash($_POST["password"], PASSWORD_DEFAULT);//encriptamos
 
     //se almacena en la clase que esta con los mismos campos que en la base de datos
-    $u=new Usuario($dni, $apellidos, $nombre, $email, $hash);
+    $u=new UsuarioBBDD($dni, $apellidos, $nombre, $email, $hash);
     //insertamos los campos
     $conexion->insertarUsuario($u);
-    echo "Usuario registrado correctamente";
+    echo "UsuarioBBDD registrado correctamente";
 }
 
 

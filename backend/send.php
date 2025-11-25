@@ -28,7 +28,7 @@ if (isset($_POST['enviarCorreo'])) {
         if($insertar){
             $correo = enviarCorreoGmail($_POST['email'], $asunto, $mensaje);
             if($correo){
-                echo "Usuario registrado, entra en tu buzón y haz clic en el enlace para confirmar tu correo";
+                echo "UsuarioBBDD registrado, entra en tu buzón y haz clic en el enlace para confirmar tu correo";
                 //ahora habría que enviarlo al index(login)
             }
             else{
