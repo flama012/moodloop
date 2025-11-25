@@ -21,8 +21,8 @@ echo "<body>";
 echo "<div class='menu'>";
 echo "  <h1>Moodloop - Panel Backend</h1>";
 echo "  <p>Selecciona una opción:</p>";
-echo "  <a href='usuarios.php'>Ver usuarios registrados</a>";
-echo "  <a href='publicaciones.php'>Ver publicaciones recientes</a>";
+echo "  <a href='pagina_usuarios.php'>Ver usuarios registrados</a>";
+echo "  <a href='pagina_publicaciones.php'>Ver publicaciones recientes</a>";
 echo "</div>";
 
 echo "</body>";
