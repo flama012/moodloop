@@ -1,299 +1,188 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 24-11-2025 a las 13:33:19
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Crear base de datos
+CREATE DATABASE IF NOT EXISTS moodloop DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE moodloop;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+-- Desactivar claves foráneas temporalmente
+SET FOREIGN_KEY_CHECKS = 0;
 
+-- =========================
+-- Tablas
+-- =========================
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+DROP TABLE IF EXISTS comentarios;
+CREATE TABLE comentarios (
+  id_comentario INT AUTO_INCREMENT PRIMARY KEY,
+  id_publicacion INT NOT NULL,
+  id_usuario INT NOT NULL,
+  texto VARCHAR(255) NOT NULL,
+  fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
---
--- Base de datos: `moodloop`
---
-CREATE DATABASE IF NOT EXISTS `moodloop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `moodloop`;
+DROP TABLE IF EXISTS etiquetas;
+CREATE TABLE etiquetas (
+  id_etiqueta INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_etiqueta VARCHAR(50) NOT NULL UNIQUE
+);
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS megusta;
+CREATE TABLE megusta (
+  id_megusta INT AUTO_INCREMENT PRIMARY KEY,
+  id_publicacion INT NOT NULL,
+  id_usuario INT NOT NULL,
+  fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY (id_publicacion, id_usuario)
+);
 
---
--- Estructura de tabla para la tabla `comentarios`
---
+DROP TABLE IF EXISTS publicaciones;
+CREATE TABLE publicaciones (
+  id_publicacion INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  mensaje VARCHAR(500) NOT NULL,
+  estado_emocional VARCHAR(50),
+  fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-DROP TABLE IF EXISTS `comentarios`;
-CREATE TABLE `comentarios` (
-  `id_comentario` int(11) NOT NULL,
-  `id_publicacion` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `texto` varchar(255) NOT NULL,
-  `fecha_hora` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS publicacion_etiqueta;
+CREATE TABLE publicacion_etiqueta (
+  id_publicacion INT NOT NULL,
+  id_etiqueta INT NOT NULL,
+  PRIMARY KEY (id_publicacion, id_etiqueta)
+);
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS roles;
+CREATE TABLE roles (
+  id_rol INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_rol VARCHAR(20) NOT NULL UNIQUE
+);
 
---
--- Estructura de tabla para la tabla `etiquetas`
---
+DROP TABLE IF EXISTS seguidores;
+CREATE TABLE seguidores (
+  id_seguidor INT NOT NULL,
+  id_seguido INT NOT NULL,
+  fecha_inicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id_seguidor, id_seguido)
+);
 
-DROP TABLE IF EXISTS `etiquetas`;
-CREATE TABLE `etiquetas` (
-  `id_etiqueta` int(11) NOT NULL,
-  `nombre_etiqueta` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS usuarios;
+CREATE TABLE usuarios (
+  id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_usuario VARCHAR(50) NOT NULL UNIQUE,
+  correo VARCHAR(100) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  biografia VARCHAR(255),
+  estado_emocional VARCHAR(50),
+  id_rol INT NOT NULL,
+  confirmado TINYINT(1) DEFAULT 0,
+  baneado TINYINT(1) DEFAULT 0,
+  token VARCHAR(255),
+  fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
--- --------------------------------------------------------
+-- =========================
+-- Claves foráneas
+-- =========================
 
---
--- Estructura de tabla para la tabla `megusta`
---
+ALTER TABLE comentarios
+  ADD FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id_publicacion) ON DELETE CASCADE,
+  ADD FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE;
 
-DROP TABLE IF EXISTS `megusta`;
-CREATE TABLE `megusta` (
-  `id_megusta` int(11) NOT NULL,
-  `id_publicacion` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `fecha_hora` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+ALTER TABLE megusta
+  ADD FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id_publicacion) ON DELETE CASCADE,
+  ADD FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE;
 
--- --------------------------------------------------------
+ALTER TABLE publicaciones
+  ADD FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE;
 
---
--- Estructura de tabla para la tabla `publicaciones`
---
+ALTER TABLE publicacion_etiqueta
+  ADD FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id_publicacion) ON DELETE CASCADE,
+  ADD FOREIGN KEY (id_etiqueta) REFERENCES etiquetas(id_etiqueta) ON DELETE CASCADE;
 
-DROP TABLE IF EXISTS `publicaciones`;
-CREATE TABLE `publicaciones` (
-  `id_publicacion` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `mensaje` varchar(500) NOT NULL,
-  `estado_emocional` varchar(50) DEFAULT NULL,
-  `fecha_hora` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+ALTER TABLE seguidores
+  ADD FOREIGN KEY (id_seguidor) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+  ADD FOREIGN KEY (id_seguido) REFERENCES usuarios(id_usuario) ON DELETE CASCADE;
 
--- --------------------------------------------------------
+ALTER TABLE usuarios
+  ADD FOREIGN KEY (id_rol) REFERENCES roles(id_rol);
 
---
--- Estructura de tabla para la tabla `publicacion_etiqueta`
---
+-- =========================
+-- Datos iniciales (seed)
+-- =========================
 
-DROP TABLE IF EXISTS `publicacion_etiqueta`;
-CREATE TABLE `publicacion_etiqueta` (
-  `id_publicacion` int(11) NOT NULL,
-  `id_etiqueta` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Roles
+INSERT INTO roles (nombre_rol) VALUES
+('admin'),
+('usuario'),
+('usuario_sin_confirma')
+ON DUPLICATE KEY UPDATE nombre_rol = VALUES(nombre_rol);
 
--- --------------------------------------------------------
+-- Variables de rol
+SET @rol_admin = (SELECT id_rol FROM roles WHERE nombre_rol = 'admin');
+SET @rol_usuario = (SELECT id_rol FROM roles WHERE nombre_rol = 'usuario');
 
---
--- Estructura de tabla para la tabla `roles`
---
+-- Usuarios
+INSERT INTO usuarios (nombre_usuario, correo, password_hash, biografia, estado_emocional, id_rol, confirmado, baneado, token)
+VALUES
+('admin', 'admin@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Administrador del sistema', 'neutral', @rol_admin, 1, 0, NULL),
+('erik', 'erik@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Desarrollador web en formación', 'motivado', @rol_usuario, 1, 0, NULL),
+('maria', 'maria@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Me encanta compartir frases positivas', 'feliz', @rol_usuario, 1, 0, NULL)
+ON DUPLICATE KEY UPDATE
+  password_hash = VALUES(password_hash),
+  biografia = VALUES(biografia),
+  estado_emocional = VALUES(estado_emocional),
+  id_rol = VALUES(id_rol),
+  confirmado = VALUES(confirmado),
+  baneado = VALUES(baneado),
+  token = VALUES(token);
 
-DROP TABLE IF EXISTS `roles`;
-CREATE TABLE `roles` (
-  `id_rol` int(11) NOT NULL,
-  `nombre_rol` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Variables de usuario
+SET @uid_erik = (SELECT id_usuario FROM usuarios WHERE correo = 'erik@moodloop.com');
+SET @uid_maria = (SELECT id_usuario FROM usuarios WHERE correo = 'maria@moodloop.com');
 
---
--- Volcado de datos para la tabla `roles`
---
+-- Publicaciones
+INSERT IGNORE INTO publicaciones (id_usuario, mensaje, estado_emocional)
+VALUES
+(@uid_erik, 'Hoy aprendí a conectar PHP con MySQL 🎉', 'motivado'),
+(@uid_maria, 'La vida es mejor con una sonrisa 😊', 'feliz');
 
-INSERT INTO `roles` (`id_rol`, `nombre_rol`) VALUES
-(1, 'admin'),
-(2, 'usuario'),
-(3, 'usuario_sin_confirma');
+-- Variables de publicación
+SET @pub_erik = (SELECT id_publicacion FROM publicaciones WHERE id_usuario = @uid_erik AND mensaje LIKE 'Hoy aprendí%');
+SET @pub_maria = (SELECT id_publicacion FROM publicaciones WHERE id_usuario = @uid_maria AND mensaje LIKE 'La vida es mejor%');
 
--- --------------------------------------------------------
+-- Etiquetas
+INSERT INTO etiquetas (nombre_etiqueta) VALUES
+('programacion'),
+('motivacion'),
+('felicidad')
+ON DUPLICATE KEY UPDATE nombre_etiqueta = VALUES(nombre_etiqueta);
 
---
--- Estructura de tabla para la tabla `seguidores`
---
+-- Variables de etiqueta
+SET @tag_programacion = (SELECT id_etiqueta FROM etiquetas WHERE nombre_etiqueta = 'programacion');
+SET @tag_motivacion = (SELECT id_etiqueta FROM etiquetas WHERE nombre_etiqueta = 'motivacion');
+SET @tag_felicidad = (SELECT id_etiqueta FROM etiquetas WHERE nombre_etiqueta = 'felicidad');
 
-DROP TABLE IF EXISTS `seguidores`;
-CREATE TABLE `seguidores` (
-  `id_seguidor` int(11) NOT NULL,
-  `id_seguido` int(11) NOT NULL,
-  `fecha_inicio` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Relación publicación-etiqueta
+INSERT IGNORE INTO publicacion_etiqueta (id_publicacion, id_etiqueta) VALUES
+(@pub_erik, @tag_programacion),
+(@pub_erik, @tag_motivacion),
+(@pub_maria, @tag_felicidad);
 
--- --------------------------------------------------------
+-- Comentarios
+INSERT IGNORE INTO comentarios (id_publicacion, id_usuario, texto)
+VALUES
+(@pub_erik, @uid_maria, '¡Qué bien, Erik! Yo también quiero aprender eso.'),
+(@pub_maria, @uid_erik, 'Totalmente de acuerdo, María 😄');
 
---
--- Estructura de tabla para la tabla `usuarios`
---
+-- Me gusta
+INSERT IGNORE INTO megusta (id_publicacion, id_usuario)
+VALUES
+(@pub_erik, @uid_maria),
+(@pub_maria, @uid_erik);
 
-DROP TABLE IF EXISTS `usuarios`;
-CREATE TABLE `usuarios` (
-  `id_usuario` int(11) NOT NULL,
-  `nombre_usuario` varchar(50) NOT NULL,
-  `correo` varchar(100) NOT NULL,
-  `contraseña_hash` varchar(255) NOT NULL,
-  `biografia` varchar(255) DEFAULT NULL,
-  `estado_emocional` varchar(50) DEFAULT NULL,
-  `id_rol` int(11) NOT NULL,
-  `confirmado` tinyint(1) DEFAULT 0,
-  `baneado` tinyint(1) DEFAULT 0,
-  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Seguidores
+INSERT IGNORE INTO seguidores (id_seguidor, id_seguido)
+VALUES
+(@uid_erik, @uid_maria),
+(@uid_maria, @uid_erik);
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `comentarios`
---
-ALTER TABLE `comentarios`
-  ADD PRIMARY KEY (`id_comentario`),
-  ADD KEY `id_publicacion` (`id_publicacion`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `etiquetas`
---
-ALTER TABLE `etiquetas`
-  ADD PRIMARY KEY (`id_etiqueta`),
-  ADD UNIQUE KEY `nombre_etiqueta` (`nombre_etiqueta`);
-
---
--- Indices de la tabla `megusta`
---
-ALTER TABLE `megusta`
-  ADD PRIMARY KEY (`id_megusta`),
-  ADD UNIQUE KEY `id_publicacion` (`id_publicacion`,`id_usuario`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `publicaciones`
---
-ALTER TABLE `publicaciones`
-  ADD PRIMARY KEY (`id_publicacion`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `publicacion_etiqueta`
---
-ALTER TABLE `publicacion_etiqueta`
-  ADD PRIMARY KEY (`id_publicacion`,`id_etiqueta`),
-  ADD KEY `id_etiqueta` (`id_etiqueta`);
-
---
--- Indices de la tabla `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`id_rol`),
-  ADD UNIQUE KEY `nombre_rol` (`nombre_rol`);
-
---
--- Indices de la tabla `seguidores`
---
-ALTER TABLE `seguidores`
-  ADD PRIMARY KEY (`id_seguidor`,`id_seguido`),
-  ADD KEY `id_seguido` (`id_seguido`);
-
---
--- Indices de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_usuario`),
-  ADD UNIQUE KEY `nombre_usuario` (`nombre_usuario`),
-  ADD UNIQUE KEY `correo` (`correo`),
-  ADD KEY `id_rol` (`id_rol`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `comentarios`
---
-ALTER TABLE `comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `etiquetas`
---
-ALTER TABLE `etiquetas`
-  MODIFY `id_etiqueta` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `megusta`
---
-ALTER TABLE `megusta`
-  MODIFY `id_megusta` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `publicaciones`
---
-ALTER TABLE `publicaciones`
-  MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `roles`
---
-ALTER TABLE `roles`
-  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `comentarios`
---
-ALTER TABLE `comentarios`
-  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`id_publicacion`) REFERENCES `publicaciones` (`id_publicacion`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `megusta`
---
-ALTER TABLE `megusta`
-  ADD CONSTRAINT `megusta_ibfk_1` FOREIGN KEY (`id_publicacion`) REFERENCES `publicaciones` (`id_publicacion`) ON DELETE CASCADE,
-  ADD CONSTRAINT `megusta_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `publicaciones`
---
-ALTER TABLE `publicaciones`
-  ADD CONSTRAINT `publicaciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `publicacion_etiqueta`
---
-ALTER TABLE `publicacion_etiqueta`
-  ADD CONSTRAINT `publicacion_etiqueta_ibfk_1` FOREIGN KEY (`id_publicacion`) REFERENCES `publicaciones` (`id_publicacion`) ON DELETE CASCADE,
-  ADD CONSTRAINT `publicacion_etiqueta_ibfk_2` FOREIGN KEY (`id_etiqueta`) REFERENCES `etiquetas` (`id_etiqueta`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `seguidores`
---
-ALTER TABLE `seguidores`
-  ADD CONSTRAINT `seguidores_ibfk_1` FOREIGN KEY (`id_seguidor`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
-  ADD CONSTRAINT `seguidores_ibfk_2` FOREIGN KEY (`id_seguido`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Restaurar claves foráneas
+SET FOREIGN_KEY_CHECKS = 1;
