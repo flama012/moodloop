@@ -74,8 +74,8 @@ CREATE TABLE usuarios (
   id_rol INT NOT NULL,
   confirmado TINYINT(1) DEFAULT 0,
   baneado TINYINT(1) DEFAULT 0,
-  token VARCHAR(255),
-  fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  token VARCHAR(255)
 );
 
 -- =========================
