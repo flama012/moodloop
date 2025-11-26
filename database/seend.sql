@@ -21,38 +21,41 @@ SET @rol_pendiente = (SELECT id_rol FROM roles WHERE nombre_rol = 'usuario_sin_c
 -- Insertar Usuarios (idempotente)
 -- Nota: hashes de contraseña de ejemplo (reemplaza por password_hash en producción)
 -- =========================
-INSERT INTO usuarios (nombre_usuario, correo, contraseña_hash, biografia, estado_emocional, id_rol, confirmado, baneado, fecha_registro)
+INSERT INTO usuarios (nombre_usuario, correo, password_hash, biografia, estado_emocional, id_rol, confirmado, baneado, token, fecha_registro)
 VALUES
-('admin', 'admin@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Administrador del sistema', 'neutral', @rol_admin, 1, 0, NOW())
+('admin', 'admin@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Administrador del sistema', 'neutral', @rol_admin, 1, 0, NULL, NOW())
 ON DUPLICATE KEY UPDATE
-    contraseña_hash = VALUES(contraseña_hash),
+    password_hash = VALUES(password_hash),
     biografia = VALUES(biografia),
     estado_emocional = VALUES(estado_emocional),
     id_rol = @rol_admin,
     confirmado = 1,
-    baneado = 0;
+    baneado = 0,
+    token = VALUES(token);
 
-INSERT INTO usuarios (nombre_usuario, correo, contraseña_hash, biografia, estado_emocional, id_rol, confirmado, baneado, fecha_registro)
+INSERT INTO usuarios (nombre_usuario, correo, password_hash, biografia, estado_emocional, id_rol, confirmado, baneado, token, fecha_registro)
 VALUES
-('erik', 'erik@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Desarrollador web en formación', 'motivado', @rol_usuario, 1, 0, NOW())
+('erik', 'erik@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Desarrollador web en formación', 'motivado', @rol_usuario, 1, 0, NULL, NOW())
 ON DUPLICATE KEY UPDATE
-    contraseña_hash = VALUES(contraseña_hash),
+    password_hash = VALUES(password_hash),
     biografia = VALUES(biografia),
     estado_emocional = VALUES(estado_emocional),
     id_rol = @rol_usuario,
     confirmado = 1,
-    baneado = 0;
+    baneado = 0,
+    token = VALUES(token);
 
-INSERT INTO usuarios (nombre_usuario, correo, contraseña_hash, biografia, estado_emocional, id_rol, confirmado, baneado, fecha_registro)
+INSERT INTO usuarios (nombre_usuario, correo, password_hash, biografia, estado_emocional, id_rol, confirmado, baneado, token, fecha_registro)
 VALUES
-('maria', 'maria@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Me encanta compartir frases positivas', 'feliz', @rol_usuario, 1, 0, NOW())
+('maria', 'maria@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Me encanta compartir frases positivas', 'feliz', @rol_usuario, 1, 0, NULL, NOW())
 ON DUPLICATE KEY UPDATE
-    contraseña_hash = VALUES(contraseña_hash),
+    password_hash = VALUES(password_hash),
     biografia = VALUES(biografia),
     estado_emocional = VALUES(estado_emocional),
     id_rol = @rol_usuario,
     confirmado = 1,
-    baneado = 0;
+    baneado = 0,
+    token = VALUES(token);
 
 -- Guardar IDs de usuarios para relaciones
 SET @uid_admin = (SELECT id_usuario FROM usuarios WHERE correo = 'admin@moodloop.com' LIMIT 1);
