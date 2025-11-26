@@ -33,7 +33,7 @@ if (isset($_POST['enviar'])) {
         //si no existe se envia el correo y lo registro con el email y el token generado
         $asunto = "Verificación de correo";
         $token = hash('sha256', rand(1, 15000));
-        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/proyecto/proyectomoodloop/moodloop/backend/verificar.php?email=" . $correo . '&token=' . $token;;
+        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/proyecto/moodloop/backend/verificar.php?email=" . $correo . '&token=' . $token;;
         $passwordHaseada = password_hash($password, PASSWORD_DEFAULT);
         //registro del usuario en la base de datos
         $insertar = $usuBD->insertarUsuario(
