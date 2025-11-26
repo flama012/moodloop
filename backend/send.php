@@ -5,56 +5,79 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-if (isset($_POST['enviarCorreo'])) {
+session_start();
+
+if (isset($_POST['enviar'])) {
+    // recoger datos
+    $nombre     = $_POST["nombre"];
+    $correo     = $_POST["correo"];
+    $password   = $_POST["password"];
+    $confirmar  = $_POST["confirmar"];
+
+    //Contraseña es la misma que confirmar contraseña
+    if ($password != $confirmar) {
+        $_SESSION["mensaje"] = "Las contraseñas no coinciden.";
+        header("Location: registro.php");
+        exit();
+    }
+
     //verificar si existe ya ese correo en la tabla usuarios
     require_once 'UsuarioBBDD.php';
     $usuBD = new UsuarioBBDD();
-    if ($usuBD->existeEmail($_POST['email'])) {
-        session_start();
+    if ($usuBD->existeEmail($correo)) {
         $_SESSION["error"] = "Error, el email ya existe"; //guardar datos para que se queden los campos
         // del formulario menos el email y el password
-        header('Location: index.php');
+        header('Location: registro.php');
     }
     else {
-
-
         //si no existe se envia el correo y lo registro con el email y el token generado
         $asunto = "Verificación de correo";
         $token = hash('sha256', rand(1, 15000));
-        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu...verificar.php?email=" . $_POST['email'] . '&token=' . $token;;
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/proyecto/proyectomoodloop/moodloop/backend/verificar.php?email=" . $correo . '&token=' . $token;;
+        $passwordHaseada = password_hash($password, PASSWORD_DEFAULT);
         //registro del usuario en la base de datos
-        $insertar = $usuBD->insertarUsuario($_POST['dni'], $_POST['apellidos'], $_POST['nombre'], $_POST['email'], $password, $token, 1);
+        $insertar = $usuBD->insertarUsuario(
+            null,                       // id_usuario autoincrement
+                    $nombre,                     // nombre_usuario
+                    $correo,                     // correo
+                    $passwordHaseada,            // contraseña_hash
+            "",                          // biografia
+                "",                          // estado_emocional
+                2,                           // id_rol (usuario)
+            0,                           // confirmado
+            0,                           // baneado
+            date("Y-m-d H:i:s"),         // fecha_registro
+            $token                       // token
+        );
         if($insertar){
-            $correo = enviarCorreoGmail($_POST['email'], $asunto, $mensaje);
-            if($correo){
+            $correoEnviado = enviarCorreoGmail($correo, $asunto, $mensaje);
+            if($correoEnviado){
                 echo "UsuarioBBDD registrado, entra en tu buzón y haz clic en el enlace para confirmar tu correo";
                 //ahora habría que enviarlo al index(login)
+                echo '<a href="login.php">Volver al login</a>';
             }
             else{
-                session_start();
                 $_SESSION["error"] = "Error, no se ha podido enviar el correo";
-                header('Location: index.php');
+                header('Location: registro.php');
             }
         }
         else{
-            session_start();
             $_SESSION["error"] = "Error, no se ha podido insertar el usuario"; //guardar datos para que se queden los campos
             // del formulario menos el email y el password
-            header('Location: index.php');
+            header('Location: registro.php');
         }
 
 
     }
 }
 else{
-    header('Location: index.php');
+    header('Location: registro.php');
 }
 
 function enviarCorreoGmail($email, $asunto, $mensaje){
     $resultado = false;
     //Load Composer's autoloader (created by composer, not included with PHPMailer)
-    require '../../../vendor/autoload.php';
+    require '../../../../../vendor/autoload.php';
 
 //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
@@ -90,6 +113,7 @@ function enviarCorreoGmail($email, $asunto, $mensaje){
 
 }
 
+//Reenviar el correo si no ha podido antes
 function reenviarCorreo($email){
     $asunto = "Verificación de correo";
     $usuBD = new UsuarioBBDD();
@@ -101,14 +125,14 @@ function reenviarCorreo($email){
         if ($correo) {
             echo "Entra en tu buzón y haz clic en el enlace para confirmar tu correo";
             //ahora habría que enviarlo al index(login)
+            echo '<a href="login.php">Volver al login</a>';
+
         } else {
-            session_start();
             $_SESSION["error"] = "Error, no se ha podido enviar el correo";
-            header('Location: index.php');
+            header('Location: registro.php');
         }
     }
     else {
-        session_start();
         $_SESSION["error"] = "Error, no existe ese email";
         header('Location: reenviar.php');
     }

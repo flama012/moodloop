@@ -2,7 +2,7 @@
 // Publicacion.php
 // Clase para manejar publicaciones en la base de datos
 
-require_once "Conexion.php"; // Incluimos la conexión (Singleton)
+require_once "ConexionDB.php"; // Incluimos la conexión (Singleton)
 
 class Publicacion {
     private $conn; // Guardará la conexión

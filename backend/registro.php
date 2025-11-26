@@ -1,42 +1,13 @@
 <?php
-//require_once "";
+require_once "ConexionDB.php";
 session_start();
 //si se envia el formulario de registro
-if (isset($_POST["submit"])) {
-//lo guardamos en variables para hacer comprobaciones
-    $nombre = $_POST["nombre"];
-    $correo = $_POST["correo"];
-    $password = $_POST["password"];
-    $confirmar = $_POST["confirmar"];
 
 // VALIDACIONES
   //email
-    //Contraseña es la misma que confirmar contraseña
-    if ($password != $confirmar) {
-        $_SESSION["mensaje"] = "Las contraseñas no coinciden.";
-        header("Location: registro.php");
-        exit();
-    }
-
-
     // CONEXIÓN BD CON TU SINGLETON
     $db = ConexionDB::getConexion("moodloop");
 
-    // Comprobar si email ya existe
-    $stmt = $db->prepare("SELECT correo FROM usuarios WHERE correo = ?");
-    $stmt->execute([$correo]);
-
-    if ($stmt->rowCount() > 0) {
-        $_SESSION["mensaje"] = "Ese email ya está registrado.";
-        header("Location: registro.php");
-        exit();
-    }
-
-    // Insertar usuario
-
-
-
-}
 ?>
 <!doctype html>
 <html lang="en">
@@ -57,7 +28,7 @@ if (isset($_SESSION["mensaje"])) {
 }
 ?>
 <!-- Guarda los datos como post  -->
-<form name="form1" method="post" action="registro.php"><!--Recargamos la pagina-->
+<form name="form1" method="post" action="send.php"><!--lo llevamos al send para enviarle el correo-->
     <p>
         <label for="nombre"> Nombre de usuario:</label>
         <input type="text" id="nombre" required name="nombre"">
@@ -77,7 +48,7 @@ if (isset($_SESSION["mensaje"])) {
     </p>
     <p>
         <a href="terminos.php">Acepta los terminos</a>
-        <input type="checkbox" required name="confirmar" id="confirmar" value="Enviar">
+        <input type="checkbox" required name="terminos" id="terminos" value="Enviar">
     </p>
     <p>
         <input type="submit" name="enviar" id="enviar" value="Enviar">
@@ -86,6 +57,13 @@ if (isset($_SESSION["mensaje"])) {
     <p>
         <a href="login.php">Volver al login</a>
     </p>
+
+    <?php
+    if(isset($_SESSION["error"])){
+        echo "<p style = 'color: red'>".$_SESSION["error"]."</p>";
+    }
+
+    ?>
 </form>
 </body>
 </html>
