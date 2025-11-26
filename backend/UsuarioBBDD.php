@@ -5,6 +5,7 @@ require_once "Usuario.php";//incluimos la clase Usuario
 require_once "ConexionDB.php"; // Incluimos la conexión
 
 class UsuarioBBDD{
+    //Registro y enviar email
     public function existeEmail($correo){
         $resultado = false;
         try {
