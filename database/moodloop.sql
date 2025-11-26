@@ -13,9 +13,9 @@ SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+ /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+ /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+ /*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de datos: `moodloop`
@@ -136,12 +136,13 @@ CREATE TABLE `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `nombre_usuario` varchar(50) NOT NULL,
   `correo` varchar(100) NOT NULL,
-  `contraseña_hash` varchar(255) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,   -- CAMBIO: antes era 'contraseña_hash'
   `biografia` varchar(255) DEFAULT NULL,
   `estado_emocional` varchar(50) DEFAULT NULL,
   `id_rol` int(11) NOT NULL,
   `confirmado` tinyint(1) DEFAULT 0,
   `baneado` tinyint(1) DEFAULT 0,
+  `token` varchar(255) DEFAULT NULL,       -- NUEVO CAMPO: para confirmación o recuperación
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -149,60 +150,36 @@ CREATE TABLE `usuarios` (
 -- Índices para tablas volcadas
 --
 
---
--- Indices de la tabla `comentarios`
---
 ALTER TABLE `comentarios`
   ADD PRIMARY KEY (`id_comentario`),
   ADD KEY `id_publicacion` (`id_publicacion`),
   ADD KEY `id_usuario` (`id_usuario`);
 
---
--- Indices de la tabla `etiquetas`
---
 ALTER TABLE `etiquetas`
   ADD PRIMARY KEY (`id_etiqueta`),
   ADD UNIQUE KEY `nombre_etiqueta` (`nombre_etiqueta`);
 
---
--- Indices de la tabla `megusta`
---
 ALTER TABLE `megusta`
   ADD PRIMARY KEY (`id_megusta`),
   ADD UNIQUE KEY `id_publicacion` (`id_publicacion`,`id_usuario`),
   ADD KEY `id_usuario` (`id_usuario`);
 
---
--- Indices de la tabla `publicaciones`
---
 ALTER TABLE `publicaciones`
   ADD PRIMARY KEY (`id_publicacion`),
   ADD KEY `id_usuario` (`id_usuario`);
 
---
--- Indices de la tabla `publicacion_etiqueta`
---
 ALTER TABLE `publicacion_etiqueta`
   ADD PRIMARY KEY (`id_publicacion`,`id_etiqueta`),
   ADD KEY `id_etiqueta` (`id_etiqueta`);
 
---
--- Indices de la tabla `roles`
---
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id_rol`),
   ADD UNIQUE KEY `nombre_rol` (`nombre_rol`);
 
---
--- Indices de la tabla `seguidores`
---
 ALTER TABLE `seguidores`
   ADD PRIMARY KEY (`id_seguidor`,`id_seguido`),
   ADD KEY `id_seguido` (`id_seguido`);
 
---
--- Indices de la tabla `usuarios`
---
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `nombre_usuario` (`nombre_usuario`),
@@ -213,39 +190,21 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
---
--- AUTO_INCREMENT de la tabla `comentarios`
---
 ALTER TABLE `comentarios`
   MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT de la tabla `etiquetas`
---
 ALTER TABLE `etiquetas`
   MODIFY `id_etiqueta` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT de la tabla `megusta`
---
 ALTER TABLE `megusta`
   MODIFY `id_megusta` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT de la tabla `publicaciones`
---
 ALTER TABLE `publicaciones`
   MODIFY `id_publicacion` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT de la tabla `roles`
---
 ALTER TABLE `roles`
   MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
 ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -253,47 +212,17 @@ ALTER TABLE `usuarios`
 -- Restricciones para tablas volcadas
 --
 
---
--- Filtros para la tabla `comentarios`
---
 ALTER TABLE `comentarios`
   ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`id_publicacion`) REFERENCES `publicaciones` (`id_publicacion`) ON DELETE CASCADE,
   ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
 
---
--- Filtros para la tabla `megusta`
---
 ALTER TABLE `megusta`
   ADD CONSTRAINT `megusta_ibfk_1` FOREIGN KEY (`id_publicacion`) REFERENCES `publicaciones` (`id_publicacion`) ON DELETE CASCADE,
   ADD CONSTRAINT `megusta_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
 
---
--- Filtros para la tabla `publicaciones`
---
 ALTER TABLE `publicaciones`
   ADD CONSTRAINT `publicaciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
 
---
--- Filtros para la tabla `publicacion_etiqueta`
---
 ALTER TABLE `publicacion_etiqueta`
   ADD CONSTRAINT `publicacion_etiqueta_ibfk_1` FOREIGN KEY (`id_publicacion`) REFERENCES `publicaciones` (`id_publicacion`) ON DELETE CASCADE,
-  ADD CONSTRAINT `publicacion_etiqueta_ibfk_2` FOREIGN KEY (`id_etiqueta`) REFERENCES `etiquetas` (`id_etiqueta`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `seguidores`
---
-ALTER TABLE `seguidores`
-  ADD CONSTRAINT `seguidores_ibfk_1` FOREIGN KEY (`id_seguidor`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE,
-  ADD CONSTRAINT `seguidores_ibfk_2` FOREIGN KEY (`id_seguido`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  ADD CONSTRAINT
