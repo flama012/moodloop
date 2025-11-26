@@ -68,7 +68,7 @@ CREATE TABLE usuarios (
   id_usuario INT AUTO_INCREMENT PRIMARY KEY,
   nombre_usuario VARCHAR(50) NOT NULL UNIQUE,
   correo VARCHAR(100) NOT NULL UNIQUE,
-  password_hash VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   biografia VARCHAR(255),
   estado_emocional VARCHAR(50),
   id_rol INT NOT NULL,
@@ -120,13 +120,13 @@ SET @rol_admin = (SELECT id_rol FROM roles WHERE nombre_rol = 'admin');
 SET @rol_usuario = (SELECT id_rol FROM roles WHERE nombre_rol = 'usuario');
 
 -- Usuarios
-INSERT INTO usuarios (nombre_usuario, correo, password_hash, biografia, estado_emocional, id_rol, confirmado, baneado, token)
+INSERT INTO usuarios (nombre_usuario, correo, password, biografia, estado_emocional, id_rol, confirmado, baneado, token)
 VALUES
 ('admin', 'admin@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Administrador del sistema', 'neutral', @rol_admin, 1, 0, NULL),
 ('erik', 'erik@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Desarrollador web en formación', 'motivado', @rol_usuario, 1, 0, NULL),
 ('maria', 'maria@moodloop.com', '$2y$10$abcdefghijklmnopqrstuv', 'Me encanta compartir frases positivas', 'feliz', @rol_usuario, 1, 0, NULL)
 ON DUPLICATE KEY UPDATE
-  password_hash = VALUES(password_hash),
+  password = VALUES(password),
   biografia = VALUES(biografia),
   estado_emocional = VALUES(estado_emocional),
   id_rol = VALUES(id_rol),
