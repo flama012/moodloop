@@ -2,6 +2,48 @@
 // index.php
 // Este archivo es el punto de inicio del backend.
 // Muestra un menú sencillo con enlaces a las funcionalidades básicas.
+session_start();
+require_once "UsuarioBBDD.php";
+
+if (isset($_POST["iniciar"])) {
+
+    // Recoger datos
+    $correo = $_POST["emailLogin"];
+    $password = $_POST["passwordLogin"];
+
+    $usuarioBD = new UsuarioBBDD();
+
+    //Comprobar si existe el email
+    if (!$usuarioBD->existeEmail($correo)) {
+        $_SESSION["error"] = "Este correo no está registrado.";
+        header("Location: login.php");
+        exit();
+    }
+
+    //Obtener datos del usuario
+    $usuario = $usuarioBD->obtenerUsuario($correo);
+
+    //Comprobar confirmación del correo
+    if ($usuario->__get('confirmado') != 1) {
+        $_SESSION["error"] = "Debes confirmar tu correo antes de iniciar sesión.";
+        header("Location: login.php");
+        exit();
+    }
+
+    //Comprobar contraseña
+    if (!password_verify($password, $usuario->__get('password'))) {
+        $_SESSION["error"] = "La contraseña es incorrecta.";
+        header("Location: login.php");
+        exit();
+    }
+
+    //Login correcto → guardar sesión
+    $_SESSION["usuario"] = $usuario->__get("id_usuario");
+    $_SESSION["nombre"]  = $usuario->__get("nombre_usuario");
+
+    header("Location: index.php");
+    exit();
+}
 
 echo "<!DOCTYPE html>";
 echo "<html lang='es'>";
@@ -21,8 +63,8 @@ echo "<body>";
 echo "<div class='menu'>";
 echo "  <h1>Moodloop - Panel Backend</h1>";
 echo "  <p>Selecciona una opción:</p>";
-echo "  <a href='usuarios.php'>Ver usuarios registrados</a>";
-echo "  <a href='publicaciones.php'>Ver publicaciones recientes</a>";
+echo "  <a href='pagina_usuarios.php'>Ver usuarios registrados</a>";
+echo "  <a href='pagina_publicaciones.php'>Ver publicaciones recientes</a>";
 echo "</div>";
 
 echo "</body>";

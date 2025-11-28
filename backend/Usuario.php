@@ -1,48 +1,43 @@
 <?php
-// Usuario.php
-// Clase para manejar usuarios en la base de datos
-
-require_once "db.php"; // Incluimos la conexión
-
 class Usuario {
-    private $conn; // Guardará la conexión
+    private  $id_usuario;
+    private  $nombre_usuario;
+    private  $correo;
+    private  $password;
+    private  $biografia;
+    private  $estado_emocional;
+    private  $id_rol;
+    private  $confirmado;
+    private  $baneado;
+    private  $fechaRegistro;
+    private  $token;
 
-    // Constructor: se ejecuta al crear un objeto Usuario
-    public function __construct() {
-        $this->conn = conectar(); // Llamamos a la función conectar()
+    public function __construct( $nombre_usuario,  $correo,  $password) {
+        $this->id_usuario = 0;
+        $this->nombre_usuario = $nombre_usuario;
+        $this->correo = $correo;
+        $this->password = $password;
+        $this->biografia = "";
+        $this->estado_emocional = "";
+        $this->id_rol = 2;
+        $this->confirmado = 0;
+        $this->baneado = false;
+        $this->fechaRegistro = date("Y-m-d H:i:s");
+        $this->token = "";
     }
 
-    // Método para obtener todos los usuarios
-    public function listarUsuarios() {
-        $sql = "SELECT id_usuario, nombre_usuario, correo FROM Usuarios";
-        $resultado = mysqli_query($this->conn, $sql);
-
-        $usuarios = []; // Array vacío para guardar resultados
-
-        // Si hay filas en el resultado, las recorremos con un bucle
-        if (mysqli_num_rows($resultado) > 0) {
-            while ($fila = mysqli_fetch_assoc($resultado)) {
-                $usuarios[] = $fila; // Añadimos cada fila al array
-            }
+    // Getter genérico
+    public function __get( $name) {
+        if(isset($this, $name)){
+            return $this->$name;
         }
-
-        return $usuarios; // Devolvemos el array de usuarios
+        return null;
     }
 
-    // Método para mostrar usuarios en HTML
-    public function mostrarUsuariosHTML() {
-        $usuarios = $this->listarUsuarios();
-
-        if (count($usuarios) > 0) {
-            echo "<h2>Usuarios registrados</h2><ul>";
-            // Recorremos el array con un bucle foreach
-            foreach ($usuarios as $u) {
-                echo "<li>" . $u["nombre_usuario"] . " (" . $u["correo"] . ")</li>";
-            }
-            echo "</ul>";
-        } else {
-            echo "No hay usuarios.";
+    // Setter genérico
+    public function __set( $name, $value): void {
+        if(isset($this, $name)){
+            $this->$name = $value;
         }
     }
 }
-?>

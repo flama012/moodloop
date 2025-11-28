@@ -1,5 +1,5 @@
 <?php
-// publicaciones.php
+// pagina_publicaciones.php
 // Script para mostrar publicaciones usando la clase Publicacion
 
 require_once "Publicacion.php"; // Incluimos la clase Publicacion
