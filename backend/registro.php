@@ -40,7 +40,7 @@ session_start();
         <input type="password" id="confirmar" required name="confirmar">
     </p>
     <p>
-        <a href="terminos.php">Acepta los terminos</a>
+        <a href="terminos.php">Acepto los Términos y Condiciones y la Política de Privacidad.</a>
         <input type="checkbox" required name="terminos" id="terminos" value="Enviar">
     </p>
     <p>

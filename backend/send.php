@@ -120,7 +120,7 @@ function reenviarCorreo($email){
     $usuBD = new UsuarioBBDD();
     $token = $usuBD->obtenerTokern($email);
     if ($token) {
-        $mensaje = "Pincha en este enlace para confirmar tu correo: htpp://aula2gs.edu/proyecto/moodloop/backend/verificar.php?email=" . $_POST['email'] . '&token=' . $token;;
+        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/proyecto/moodloop/backend/verificar.php?email=" . $_POST['email'] . '&token=' . $token;;
         $correo = enviarCorreoGmail($_POST['email'], $asunto, $mensaje);
 
         if ($correo) {

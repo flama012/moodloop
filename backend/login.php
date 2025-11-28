@@ -5,8 +5,6 @@ session_start();
 $db = ConexionDB::getConexion("moodloop");// aquí la conexion que hayais puesto
 
 //si se logea el usuario
-
-
 echo "<h2>Inicia sesión</h2>";
 
 ?>
