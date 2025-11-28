@@ -16,7 +16,7 @@ if (isset($_POST['enviar'])) {
 
     //Contraseña es la misma que confirmar contraseña
     if ($password != $confirmar) {
-        $_SESSION["mensaje"] = "Las contraseñas no coinciden.";
+        $_SESSION["error"] = "Las contraseñas no coinciden.";
         header("Location: registro.php");
         exit();
     }
@@ -31,9 +31,10 @@ if (isset($_POST['enviar'])) {
     }
     else {
         //si no existe se envia el correo y lo registro con el email y el token generado
-        $asunto = "Verificación de correo";
+        $asunto = "Verifica tu correo";
         $token = hash('sha256', rand(1, 15000));
-        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/proyecto/moodloop/backend/verificar.php?email=" . $correo . '&token=' . $token;;
+        $mensaje = 'Pulsa <a href="http://aula2gs.edu/proyecto/moodloop/backend/verificar.php?email='
+            . $correo . '&token=' . $token . '">aquí</a> para confirmar tu correo.';
         $passwordHaseada = password_hash($password, PASSWORD_DEFAULT);
         //registro del usuario en la base de datos
         $insertar = $usuBD->insertarUsuario(
@@ -54,7 +55,7 @@ if (isset($_POST['enviar'])) {
             if($correoEnviado){
                 echo "UsuarioBBDD registrado, entra en tu buzón y haz clic en el enlace para confirmar tu correo";
                 //ahora habría que enviarlo al index(login)
-                echo '<a href="login.php">Volver al login</a>';
+                echo '<br><a href="login.php">Volver al login</a>';
             }
             else{
                 $_SESSION["error"] = "Error, no se ha podido enviar el correo";
@@ -84,7 +85,7 @@ function enviarCorreoGmail($email, $asunto, $mensaje){
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->SMTPDebug = 0; //SMTP::DEBUG_SERVER; esto es para sacar toda la informacion                     //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host = 'smtp.gmail.com';                             //Set the SMTP server to send through
         $mail->SMTPAuth = true;                                   //Enable SMTP authentication

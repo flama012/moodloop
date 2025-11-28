@@ -20,13 +20,6 @@ session_start();
 </head>
 <body>
 <h2>Regístrate</h2>
-
-<?php
-if (isset($_SESSION["mensaje"])) {
-    echo "<p style='color:red;'>".$_SESSION["mensaje"]."</p>";
-    unset($_SESSION["mensaje"]);
-}
-?>
 <!-- Guarda los datos como post  -->
 <form name="form1" method="post" action="send.php"><!--lo llevamos al send para enviarle el correo-->
     <p>
@@ -61,6 +54,7 @@ if (isset($_SESSION["mensaje"])) {
     <?php
     if(isset($_SESSION["error"])){
         echo "<p style = 'color: red'>".$_SESSION["error"]."</p>";
+        unset($_SESSION["error"]);
     }
 
     ?>

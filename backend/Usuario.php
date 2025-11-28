@@ -1,18 +1,18 @@
 <?php
 class Usuario {
-    private int $id_usuario;
-    private string $nombre_usuario;
-    private string $correo;
-    private string $password;
-    private string $biografia;
-    private string $estado_emocional;
-    private int $id_rol;
-    private int $confirmado;
-    private bool $baneado;
-    private string $fechaRegistro;
-    private string $token;
+    private  $id_usuario;
+    private  $nombre_usuario;
+    private  $correo;
+    private  $password;
+    private  $biografia;
+    private  $estado_emocional;
+    private  $id_rol;
+    private  $confirmado;
+    private  $baneado;
+    private  $fechaRegistro;
+    private  $token;
 
-    public function __construct(string $nombre_usuario, string $correo, string $password) {
+    public function __construct( $nombre_usuario,  $correo,  $password) {
         $this->id_usuario = 0;
         $this->nombre_usuario = $nombre_usuario;
         $this->correo = $correo;
@@ -27,16 +27,16 @@ class Usuario {
     }
 
     // Getter genérico
-    public function __get(string $name) {
-        if(property_exists($this, $name)){
+    public function __get( $name) {
+        if(isset($this, $name)){
             return $this->$name;
         }
         return null;
     }
 
     // Setter genérico
-    public function __set(string $name, $value): void {
-        if(property_exists($this, $name)){
+    public function __set( $name, $value): void {
+        if(isset($this, $name)){
             $this->$name = $value;
         }
     }
