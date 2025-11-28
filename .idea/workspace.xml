@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="92150aaa-c892-418a-912b-311336dc5351" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/Usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Usuario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/registro.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/registro.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/send.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/send.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,11 +73,22 @@
       <updated>1764163298445</updated>
       <workItem from="1764163299681" duration="376000" />
       <workItem from="1764230155028" duration="5000" />
-      <workItem from="1764345158654" duration="1671000" />
+      <workItem from="1764345158654" duration="2365000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
