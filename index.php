@@ -1,80 +1,68 @@
 <?php
 // index.php
-// Este archivo es el punto de inicio del backend.
-// Muestra un menú sencillo con enlaces a las funcionalidades básicas.
+// Punto de inicio del proyecto Moodloop.
+// Gestiona el login, registro y redirección al feed.
+
+// Iniciamos sesión si no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
-require_once "UsuarioBBDD.php";
 
+// Incluimos la clase de acceso a usuarios desde el backend
+require_once "./backend/UsuarioBBDD.php";
+
+// Si se envía el formulario de inicio de sesión
 if (isset($_POST["iniciar"])) {
 
-    // Recoger datos
-    $correo = $_POST["emailLogin"];
+    // Recoger datos del formulario
+    $correo   = $_POST["emailLogin"];
     $password = $_POST["passwordLogin"];
 
     $usuarioBD = new UsuarioBBDD();
 
-    //Comprobar si existe el email
+    // Comprobar si existe el email
     if (!$usuarioBD->existeEmail($correo)) {
         $_SESSION["error"] = "Este correo no está registrado.";
         header("Location: index.php");
         exit();
     }
 
-    //Obtener datos del usuario
+    // Obtener datos del usuario
     $usuario = $usuarioBD->obtenerUsuario($correo);
 
-    //Comprobar confirmación del correo
+    // Comprobar confirmación del correo
     if ($usuario->__get('confirmado') != 1) {
         $_SESSION["error"] = "Debes confirmar tu correo antes de iniciar sesión.";
-        require_once "login.php";
+        require_once "./frontend/login.php";
+        exit();
     }
 
-    //Comprobar contraseña
+    // Comprobar contraseña
     if (!password_verify($password, $usuario->__get('password'))) {
         $_SESSION["error"] = "La contraseña es incorrecta.";
-        require_once "login.php";
+        require_once "./frontend/login.php";
+        exit();
     }
 
-    //Login correcto → guardar sesión
+    // Login correcto → guardar datos en sesión
     $_SESSION["usuario"] = $usuario->__get("id_usuario");
     $_SESSION["nombre"]  = $usuario->__get("nombre_usuario");
 
-    header("Location: pagina_feed.php");
+    // Redirigir al feed
+    header("Location: ./frontend/pagina_feed.php");
     exit();
-} elseif(isset($_SESSION['usuario']) && $_SESSION['usuario'] != null) {
-    header("Location: pagina_feed.php");
+
+} elseif (isset($_SESSION['usuario']) && $_SESSION['usuario'] != null) {
+    // Si ya hay sesión activa, redirigir al feed
+    header("Location: ./frontend/pagina_feed.php");
     exit();
-}elseif(isset($_POST["registro"])){
-    require_once "registro.php";
+
+} elseif (isset($_POST["registro"])) {
+    // Si se pulsa el botón de registro, cargar formulario de registro
+    require_once "./frontend/registro.php";
+
 } else {
-    require_once "login.php";
+    // Si no hay acción, mostrar formulario de login
+    require_once "./frontend/login.php";
 }
-
-echo "<!DOCTYPE html>";
-echo "<html lang='es'>";
-echo "<head>";
-echo "  <meta charset='UTF-8'>";
-echo "  <title>Moodloop - Panel Backend</title>";
-echo "  <style>
-          body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
-          h1 { color: #333; }
-          a { display: block; margin: 10px 0; text-decoration: none; color: #007BFF; }
-          a:hover { text-decoration: underline; }
-          .menu { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-        </style>";
-echo "</head>";
-echo "<body>";
-
-echo "<div class='menu'>";
-echo "  <h1>Moodloop - Panel Backend</h1>";
-echo "  <p>Selecciona una opción:</p>";
-echo "  <a href='../frontend/pagina_usuarios.php'>Ver usuarios registrados</a>";
-echo "  <a href='pagina_publicaciones.php'>Ver publicaciones recientes</a>";
-echo "</div>";
-
-echo "</body>";
-echo "</html>";
-
 ?>

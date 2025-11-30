@@ -40,7 +40,7 @@ echo "
 </section>
 
    <p>
-        <a href='../backend/index.php'>Volver al registro</a>
+        <a href='../index.php'>Volver al registro</a>
     </p>
 
 </body>
