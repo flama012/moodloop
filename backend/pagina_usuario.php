@@ -1,8 +1,8 @@
 <?php
-// Iniciamos sesión si no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
+
 ?>
 
 <!doctype html>
@@ -12,22 +12,16 @@ if (!isset($_SESSION)) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Usuario</title>
+    <title>Feed</title>
 </head>
 <body>
-
 <h1>USUARIO</h1>
-
-<!-- Menú de navegación principal -->
 <h3>Menú:</h3>
-<nav>
-    <a href="pagina_feed.php">FEED</a> <!-- Página principal del feed -->
-    <a href="pagina_usuario.php">USUARIO</a> <!-- Página actual -->
-    <a href="pagina_publicacion.php">CREAR PUBLICACIÓN</a> <!-- Formulario de publicación -->
-</nav>
+<a href="pagina_feed.php">FEED</a>
+<a href="pagina_usuario.php">USUARIO</a>
+<a href="pagina_publicacion.php">CREAR PUBLICACION</a>
 
-<!-- Formulario para publicar estado emocional -->
-<form action="../backend/pagina_publicaciones.php" method="post">
+<form action="/publicar.php" method="post">
     <div class="field">
         <label for="estado_emocional">Estado emocional</label>
         <select id="estado_emocional" name="estado_emocional" required>
@@ -46,6 +40,5 @@ if (!isset($_SESSION)) {
 
     <button type="submit">Publicar</button>
 </form>
-
 </body>
 </html>

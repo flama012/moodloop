@@ -55,7 +55,7 @@ if (isset($_POST['enviar'])) {
             if($correoEnviado){
                 echo "UsuarioBBDD registrado, entra en tu buzón y haz clic en el enlace para confirmar tu correo";
                 //ahora habría que enviarlo al index(login)
-                echo '<br><a href="../frontend/login.php">Volver al login</a>';
+                echo '<br><a href="login.php">Volver al login</a>';
             }
             else{
                 $_SESSION["error"] = "Error, no se ha podido enviar el correo";
@@ -126,7 +126,7 @@ function reenviarCorreo($email){
         if ($correo) {
             echo "Entra en tu buzón y haz clic en el enlace para confirmar tu correo";
             //ahora habría que enviarlo al index(login)
-            echo '<a href="../frontend/login.php">Volver al login</a>';
+            echo '<a href="login.php">Volver al login</a>';
 
         } else {
             $_SESSION["error"] = "Error, no se ha podido enviar el correo";

@@ -1,8 +1,9 @@
 <?php
-// Iniciamos sesión si no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
+
+
 ?>
 
 <!doctype html>
@@ -15,16 +16,10 @@ if (!isset($_SESSION)) {
     <title>Feed</title>
 </head>
 <body>
-
 <h1>FEED</h1>
-
-<!-- Menú de navegación principal -->
 <h3>Menú:</h3>
-<nav>
-    <a href="pagina_feed.php">FEED</a> <!-- Página actual -->
-    <a href="pagina_usuario.php">USUARIO</a> <!-- Perfil del usuario -->
-    <a href="pagina_publicacion.php">CREAR PUBLICACIÓN</a> <!-- Formulario para publicar -->
-</nav>
-
+    <a href="pagina_feed.php">FEED</a>
+    <a href="pagina_usuario.php">USUARIO</a>
+    <a href="../backend/pagina_publicacion.php">CREAR PUBLICACION</a>
 </body>
 </html>
