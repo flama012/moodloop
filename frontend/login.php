@@ -1,6 +1,8 @@
 <?php
 require_once "ConexionDB.php";
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 //guardamos la conexion con base de datos
 $db = ConexionDB::getConexion("moodloop");// aquí la conexion que hayais puesto
 
@@ -19,7 +21,7 @@ echo "<h2>Inicia sesión</h2>";
 </head>
 <body>
 <!-- El formulario -->
-<form name="form2" method="post" action="index.php"><!--Vamos al feed-->
+<form name="form2" method="post" action="../backend/index.php"><!--Vamos al feed-->
     <p>
         <label for="email">Email:</label>
         <input type="email" id="emailLogin" required name="emailLogin">
@@ -33,10 +35,13 @@ echo "<h2>Inicia sesión</h2>";
         <input type="submit" name="iniciar" id="iniciar">
     </p>
 
+</form>
+<form name="form2" method="post" action="../backend/index.php">
     <p>
-        <label>Registro:</label>
-        <a href="registro.php">Registrate aquí</a>
+        <label>Regístrate aquí:</label>
+
     </p>
+    <input type="submit" name="registro" id="registro" value="Registro">
 </form>
 </body>
 </html>

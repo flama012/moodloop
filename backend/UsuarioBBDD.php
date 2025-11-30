@@ -113,5 +113,43 @@ class UsuarioBBDD{
         }
         return $resultado;
     }
+
+
+
+    // Método para obtener todos los usuarios con PDO
+    public function listarUsuarios() {
+        $usuarios = []; // Array vacío para guardar resultados
+        try {
+            $conexion = ConexionDB::getConexion("moodloop");
+            $sql = "SELECT id_usuario, nombre_usuario, correo FROM usuarios";
+            $consulta = $conexion->prepare($sql);
+            $consulta->execute();
+
+            // Obtenemos todas las filas como array asociativo
+            $usuarios = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Manejo opcional del error
+            echo "Error al listar usuarios: " . $e->getMessage();
+        }
+
+        return $usuarios; // Devolvemos el array de usuarios
+    }
+
+    // Método para mostrar usuarios en HTML con PDO
+    public function mostrarUsuariosHTML() {
+        $usuarios = $this->listarUsuarios();
+
+        if (count($usuarios) > 0) {
+            echo "<h2>Usuarios registrados</h2><ul>";
+            foreach ($usuarios as $u) {
+                echo "<li>" . htmlspecialchars($u["nombre_usuario"]) .
+                    " (" . htmlspecialchars($u["correo"]) . ")</li>";
+            }
+            echo "</ul>";
+        } else {
+            echo "No hay usuarios.";
+        }
+    }
+
 }
 ?>

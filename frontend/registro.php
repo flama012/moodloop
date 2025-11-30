@@ -1,6 +1,8 @@
 <?php
 require_once "ConexionDB.php";
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 //si se envia el formulario de registro
 
 // VALIDACIONES
@@ -21,7 +23,7 @@ session_start();
 <body>
 <h2>Regístrate</h2>
 <!-- Guarda los datos como post  -->
-<form name="form1" method="post" action="send.php"><!--lo llevamos al send para enviarle el correo-->
+<form name="form1" method="post" action="../backend/send.php"><!--lo llevamos al send para enviarle el correo-->
     <p>
         <label for="nombre"> Nombre de usuario:</label>
         <input type="text" id="nombre" required name="nombre"">
@@ -48,7 +50,7 @@ session_start();
         <!--Lo guardamos como enviar-->
     </p>
     <p>
-        <a href="login.php">Volver al login</a>
+        <a href="../backend/index.php">Volver al login</a>
     </p>
 
     <?php
