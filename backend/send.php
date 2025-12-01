@@ -33,7 +33,7 @@ if (isset($_POST['enviar'])) {
         //si no existe se envia el correo y lo registro con el email y el token generado
         $asunto = "Verifica tu correo";
         $token = hash('sha256', rand(1, 15000));
-        $mensaje = 'Pulsa <a href="http://aula2gs.edu/proyecto/moodloop/backend/verificar.php?email='
+        $mensaje = 'Pulsa <a href="http://aula2gs.edu/moodloop/backend/verificar.php?email='
             . $correo . '&token=' . $token . '">aquí</a> para confirmar tu correo.';
         $passwordHaseada = password_hash($password, PASSWORD_DEFAULT);
         //registro del usuario en la base de datos
@@ -78,7 +78,7 @@ else{
 function enviarCorreoGmail($email, $asunto, $mensaje){
     $resultado = false;
     //Load Composer's autoloader (created by composer, not included with PHPMailer)
-    require '../../../../vendor/autoload.php';
+    require '../../../vendor/autoload.php';
 
 //Create an instance; passing `true` enables exceptions
     $mail = new PHPMailer(true);
@@ -120,7 +120,7 @@ function reenviarCorreo($email){
     $usuBD = new UsuarioBBDD();
     $token = $usuBD->obtenerTokern($email);
     if ($token) {
-        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/proyecto/moodloop/backend/verificar.php?email=" . $_POST['email'] . '&token=' . $token;;
+        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/moodloop/backend/verificar.php?email=" . $_POST['email'] . '&token=' . $token;;
         $correo = enviarCorreoGmail($_POST['email'], $asunto, $mensaje);
 
         if ($correo) {
