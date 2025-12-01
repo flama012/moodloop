@@ -13,18 +13,6 @@ El sistema adapta el feed según emociones y etiquetas frecuentes, fomentando la
 
 ---
 
-## 🛠️ Tecnologías principales
-
-| Categoría       | Tecnologías usadas |
-|-----------------|--------------------|
-| **Frontend**    | HTML, CSS, JavaScript |
-| **Backend**     | PHP (PDO, sesiones) |
-| **Base de datos** | MySQL (phpMyAdmin) |
-| **Servidor local** | XAMPP |
-| **Dependencias** | Composer, PHPMailer |
-
----
-
 ## 📊 Estadísticas del repositorio
 - **Lenguaje principal:** ![PHP](https://img.shields.io/badge/PHP-8.2-blue?logo=php)  
 - **Lenguajes usados:**  
