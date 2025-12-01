@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92150aaa-c892-418a-912b-311336dc5351" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/terminos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/registro.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/registro.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/send.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/send.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/UsuarioBBDD.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/UsuarioBBDD.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pagina_usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pagina_usuario.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +34,9 @@
     &quot;assignee&quot;: &quot;Javier2006pj&quot;
   }
 }</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="70375232-a2c1-474e-86de-b1995d2997c9" />
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/flama012/moodloop.git&quot;,
@@ -51,22 +52,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#7 on backend-login&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/Proyecto/moodloop&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "#9 on pagina-usuario",
+    "last_opened_file_path": "C:/xampp/htdocs/Proyecto/moodloop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -85,6 +86,7 @@
       <workItem from="1764163299681" duration="376000" />
       <workItem from="1764230155028" duration="5000" />
       <workItem from="1764345158654" duration="4406000" />
+      <workItem from="1764592770735" duration="4264000" />
     </task>
     <servers />
   </component>
