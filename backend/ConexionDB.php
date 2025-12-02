@@ -1,5 +1,5 @@
 <?php
-require_once "Config.php";
+require_once "Config_ConexionDB.php";
 
 //Clase que usa el patrón de diseño Singleton
 //Garantiza que solo va a existir una única conexión a la BBDD por cada base de datos diferente

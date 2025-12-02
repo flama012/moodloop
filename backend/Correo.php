@@ -6,8 +6,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
-class Correo
-{
+class Correo{
     private $mailer;
 
     public function __construct() {

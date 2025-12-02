@@ -1,16 +1,18 @@
 <?php
 require_once "../backend/UsuarioBBDD.php";
+require_once "../backend/PublicacionBBDD.php";
 
 if (!isset($_SESSION)) {
     session_start();
 }
 
-/*
+
 if (!isset($_SESSION["usuario"])) {
     $_SESSION["error"] = "No has iniciado sesión.";
     header("Location: ../index.php");
-    exit();}
-*/
+    exit();
+}
+
 
 $bbdd = new UsuarioBBDD();
 
@@ -18,6 +20,11 @@ $bbdd = new UsuarioBBDD();
 $infoUsuario = $bbdd->obtenerUsuario($_SESSION["correo"]);//hay que pilla la sesion del correo
 $nombreUsuario = $infoUsuario->__get("nombre_usuario");
 $biografiaActual = $infoUsuario->__get("biografia");
+$idUsuario = $infoUsuario->__get("id_usuario");
+
+$publiBBDD = new PublicacionBBDD();
+$misPublicaciones = $publiBBDD->obtenerPublicacionesPorUsuario($idUsuario);
+
 
 // PROCESAR FORMULARIO DE BIOGRAFÍA
 if (isset($_POST["guardar_biografia"])) {
@@ -78,7 +85,7 @@ if (isset($_SESSION["mensaje"])) {
 <!-- FORMULARIO DE BIOGRAFÍA -->
 <h3>Biografía</h3>
 <form action="pagina_usuario.php" method="post">
-    <textarea name="biografia" rows="4" cols="40" required><?= $biografiaActual ?></textarea>
+    <textarea name="biografia" rows="4" cols="40"><?= $biografiaActual ?></textarea>
     <br><br>
     <button type="submit" name="guardar_biografia">Guardar biografía</button>
 </form>
@@ -102,5 +109,39 @@ if (isset($_SESSION["mensaje"])) {
     <br><br>
     <button type="submit" name="submit">Publicar</button>
 </form>
+<h3>Mis publicaciones</h3>
+<?php
+if (!empty($misPublicaciones)) {
+    foreach ($misPublicaciones as $pub) {
+        echo "<p>";
+        echo "<strong>Estado emocional:</strong> " . $pub["estado_emocional"] . "<br>";
+        echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
+        echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
+
+        // Mostrar número de me gusta
+        $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
+        echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
+
+        // Mostrar comentarios
+        $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
+        if (!empty($comentarios)) {
+            echo "<strong>Comentarios:</strong><br>";
+            foreach ($comentarios as $c) {
+                echo "- " . $c["texto"] . " <em>por "
+                        . $c["nombre_usuario"] . " ("
+                        . $c["fecha_hora"] . ")</em><br>";
+            }
+        } else {
+            echo "Sin comentarios.<br>";
+        }
+
+        echo "</p>";
+    }
+} else {
+    echo "<p>No tienes publicaciones todavía.</p>";
+}
+?>
+
+
 </body>
 </html>
