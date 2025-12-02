@@ -5,6 +5,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+require_once 'UsuarioBBDD.php';
+
 session_start();
 
 if (isset($_POST['enviar'])) {
@@ -22,7 +24,6 @@ if (isset($_POST['enviar'])) {
     }
 
     //verificar si existe ya ese correo en la tabla usuarios
-    require_once 'UsuarioBBDD.php';
     $usuBD = new UsuarioBBDD();
     if ($usuBD->existeEmail($correo)) {
         $_SESSION["error"] = "Error, el email ya existe"; //guardar datos para que se queden los campos
@@ -31,7 +32,7 @@ if (isset($_POST['enviar'])) {
     }
     else {
         //si no existe se envia el correo y lo registro con el email y el token generado
-        $asunto = "Verifica tu correo";
+        $asunto = "Verificar correo moodloop";
         $token = hash('sha256', rand(1, 15000));
         $mensaje = 'Pulsa <a href="http://aula2gs.edu/moodloop/backend/verificar.php?email='
             . $correo . '&token=' . $token . '">aquí</a> para confirmar tu correo.';
@@ -53,7 +54,7 @@ if (isset($_POST['enviar'])) {
         if($insertar){
             $correoEnviado = enviarCorreoGmail($correo, $asunto, $mensaje);
             if($correoEnviado){
-                echo "UsuarioBBDD registrado, entra en tu buzón y haz clic en el enlace para confirmar tu correo";
+                echo "Usuario registrado, entra en tu buzón y haz clic en el enlace para confirmar tu correo";
                 //ahora habría que enviarlo al index(login)
                 echo '<br><a href="login.php">Volver al login</a>';
             }
@@ -116,11 +117,11 @@ function enviarCorreoGmail($email, $asunto, $mensaje){
 
 //Reenviar el correo si no ha podido antes
 function reenviarCorreo($email){
-    $asunto = "Verificación de correo";
+    $asunto = "Verificar correo moodloop";
     $usuBD = new UsuarioBBDD();
     $token = $usuBD->obtenerTokern($email);
     if ($token) {
-        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/moodloop/backend/verificar.php?email=" . $_POST['email'] . '&token=' . $token;;
+        $mensaje = "Pincha en este enlace para confirmar tu correo: http://aula2gs.edu/moodloop/backend/verificar.php?email=" . $_POST['email'] . '&token=' . $token;
         $correo = enviarCorreoGmail($_POST['email'], $asunto, $mensaje);
 
         if ($correo) {

@@ -1,5 +1,5 @@
 <?php
-require_once "UsuarioBBDD.php";
+require_once "../backend/UsuarioBBDD.php";
 if(isset($_GET['email'])) {
     //recogemos el emial y token
     $usuBD = new UsuarioBBDD();
