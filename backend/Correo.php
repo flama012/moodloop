@@ -40,7 +40,7 @@ class Correo
 
             $this->mailer->isHTML(true);
             $this->mailer->Subject = "Correo de verificación de Moodloop.";
-            $this->mailer->Body = 'Pulsa <a href="http://aula2gs.edu/moodloop/backend/verificar.php?email='
+            $this->mailer->Body = 'Pulsa <a href="http://aula2gs.edu/moodloop/frontend/verificar.php?email='
                 . $destinario . '&token=' . $token . '">aquí</a> para confirmar tu correo.';
             $this->mailer->send();
             $resultado = true;
