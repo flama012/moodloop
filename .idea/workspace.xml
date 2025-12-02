@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92150aaa-c892-418a-912b-311336dc5351" name="Changes" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/backend/Correo.php" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/frontend/confirmarCorreo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -13,6 +14,12 @@
       <change beforePath="$PROJECT_DIR$/frontend/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/login.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/registro.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/registro.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/UsuarioBBDD.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/UsuarioBBDD.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pagina_usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pagina_usuario.php" afterDir="false" />
+>>>>>>> pagina-usuario
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +45,9 @@
     &quot;assignee&quot;: &quot;Javier2006pj&quot;
   }
 }</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="70375232-a2c1-474e-86de-b1995d2997c9" />
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/flama012/moodloop.git&quot;,
@@ -59,6 +69,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;JavaScript Debug.index.php.executor&quot;: &quot;Run&quot;,
@@ -76,8 +87,24 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "#9 on pagina-usuario",
+    "last_opened_file_path": "C:/xampp/htdocs/Proyecto/moodloop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+>>>>>>> pagina-usuario
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -96,9 +123,13 @@
       <workItem from="1764163299681" duration="376000" />
       <workItem from="1764230155028" duration="5000" />
       <workItem from="1764345158654" duration="4406000" />
+<<<<<<< HEAD
       <workItem from="1764592305188" duration="4918000" />
       <workItem from="1764604511258" duration="4134000" />
       <workItem from="1764661120321" duration="1217000" />
+=======
+      <workItem from="1764592770735" duration="4264000" />
+>>>>>>> pagina-usuario
     </task>
     <servers />
   </component>

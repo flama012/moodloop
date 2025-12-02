@@ -151,5 +151,34 @@ class UsuarioBBDD{
         }
     }
 
+    //escoger el estado emocional
+    public function actualizarEstadoEmocional($id_usuario, $estado_emocional){
+        $resultado = false;
+        try {
+            $conexion = ConexionDB::getConexion("moodloop");
+            $consulta = $conexion->prepare("UPDATE usuarios SET estado_emocional = :estado_emocional WHERE id_usuario = :id_usuario");
+            $consulta->bindParam(":estado_emocional", $estado_emocional);
+            $consulta->bindParam(":id_usuario", $id_usuario);
+            $resultado = $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Error al actualizar el estado emocional: " . $e->getMessage();
+        }
+        return $resultado;
+    }
+
+    // Actualizar la biografía del usuario
+    public function actualizarBiografia($id_usuario, $biografia){
+        $resultado = false;
+        try {
+            $conexion = ConexionDB::getConexion("moodloop");
+            $consulta = $conexion->prepare("UPDATE usuarios SET biografia = :biografia WHERE id_usuario = :id_usuario");
+            $consulta->bindParam(":biografia", $biografia);
+            $consulta->bindParam(":id_usuario", $id_usuario);
+            $resultado = $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Error al actualizar la biografía: " . $e->getMessage();
+        }
+        return $resultado;
+    }
 }
 ?>
