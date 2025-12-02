@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92150aaa-c892-418a-912b-311336dc5351" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/terminos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/PublicacionBBDD.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/registro.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/registro.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/send.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/send.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Publicacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Publicacion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pagina_publicacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pagina_publicacion.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +37,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/flama012/moodloop.git&quot;,
-    &quot;accountId&quot;: &quot;70375232-a2c1-474e-86de-b1995d2997c9&quot;
+    &quot;accountId&quot;: &quot;41582d2d-1456-4ce8-aaa1-9e81ac7e46d6&quot;
   }
 }</component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
@@ -47,33 +45,39 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="3619dfAXi6mAs8dn2Wy9AzY8WyD" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#7 on backend-login&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/Proyecto/moodloop&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "#10 on pagina-creacion-publicacion",
+    "last_opened_file_path": "C:/xampp/htdocs/moodloop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PS-252.25557.128" />
-        <option value="bundled-php-predefined-a98d8de5180a-ce40d0652d34-com.jetbrains.php.sharedIndexes-PS-252.25557.128" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-PS-252.26830.95" />
+        <option value="bundled-php-predefined-a98d8de5180a-9b563d34894c-com.jetbrains.php.sharedIndexes-PS-252.26830.95" />
       </set>
     </attachedChunks>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="PHP" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -85,6 +89,8 @@
       <workItem from="1764163299681" duration="376000" />
       <workItem from="1764230155028" duration="5000" />
       <workItem from="1764345158654" duration="4406000" />
+      <workItem from="1764591460805" duration="5133000" />
+      <workItem from="1764661254129" duration="70000" />
     </task>
     <servers />
   </component>
