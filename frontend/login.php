@@ -53,6 +53,8 @@ if (isset($_POST["iniciar"])) {
     //Login correcto → guardar sesión
     $_SESSION["usuario"] = $usuario->__get("id_usuario");
     $_SESSION["nombre"]  = $usuario->__get("nombre_usuario");
+    $_SESSION["correo"] = $usuario->__get("correo");
+    $_SESSION["id_usuario"] = $usuario->__get("id_usuario");
 
     header("Location: pagina_feed.php");
     exit();

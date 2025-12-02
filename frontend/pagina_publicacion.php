@@ -13,11 +13,8 @@ if (!isset($_SESSION["id_usuario"])) {
     exit();
 }
 
-// Incluimos la clase Publicacion z
-require_once "Publicacion.php";
-
-// Creamos un objeto de la clase Publicacion
-$publicacion = new Publicacion();
+// Creamos un objeto de la clase PublicacionBBDD
+$publicacion = new PublicacionBBDD();
 
 // Variables para mensajes
 $mensaje_exito = "";
@@ -87,12 +84,5 @@ if ($mensaje_error != "") {
     <input type="submit" value="Publicar">
 </form>
 
-<hr>
-
-<h2>Últimas publicaciones</h2>
-<?php
-// Mostrar publicaciones usando el método de la clase
-$publicacion->mostrarPublicacionesHTML(10);
-?>
 </body>
 </html>

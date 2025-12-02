@@ -20,6 +20,6 @@ if (!isset($_SESSION)) {
 <h3>Menú:</h3>
     <a href="pagina_feed.php">FEED</a>
     <a href="pagina_usuario.php">USUARIO</a>
-    <a href="../backend/pagina_publicacion.php">CREAR PUBLICACION</a>
+    <a href="pagina_publicacion.php">CREAR PUBLICACION</a>
 </body>
 </html>
