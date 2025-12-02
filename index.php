@@ -7,7 +7,6 @@
 if (!isset($_SESSION)) {
     session_start();
 }
-
 // Incluimos la clase de acceso a usuarios desde el backend
 require_once "./backend/UsuarioBBDD.php";
 
@@ -59,10 +58,12 @@ if (isset($_POST["iniciar"])) {
 
 } elseif (isset($_POST["registro"])) {
     // Si se pulsa el botón de registro, cargar formulario de registro
-    require_once "./frontend/registro.php";
+    require_once "frontend/registro.php";
 
 } else {
     // Si no hay acción, mostrar formulario de login
-    require_once "./frontend/login.php";
+    //require_once "./frontend/login.php";
+    header("Location: ./frontend/login.php");
+    exit;
 }
 ?>

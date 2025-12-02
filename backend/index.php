@@ -23,7 +23,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 require_once "./backend/UsuarioBBDD.php";
-
+/*
 if (isset($_POST["iniciar"])) {
 
     // Recoger datos
@@ -60,15 +60,18 @@ if (isset($_POST["iniciar"])) {
 
     header("Location: ./frontend/pagina_feed.php");
     exit();
-} elseif(isset($_SESSION['usuario']) && $_SESSION['usuario'] != null) {
+}
+elseif(isset($_SESSION['usuario']) && $_SESSION['usuario'] != null) {
     header("Location: ./frontend/pagina_feed.php");
     exit();
-}elseif(isset($_POST["registro"])){
+}
+elseif(isset($_POST["registro"])){
     require_once "./frontend/registro.php";
-} else {
+}
+else {
     require_once "./frontend/login.php";
 }
 
-
+*/
 
 ?>
