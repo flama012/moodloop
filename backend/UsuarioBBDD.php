@@ -5,6 +5,13 @@ require_once "Usuario.php";//incluimos la clase Usuario
 require_once "ConexionDB.php"; // Incluimos la conexión
 
 class UsuarioBBDD{
+
+    private $conn;
+
+    public function __construct() {
+        $this->conn = ConexionDB::getConexion("moodloop");
+    }
+
     //Registro y enviar email
     public function existeEmail($correo){
         $resultado = false;
@@ -51,7 +58,7 @@ class UsuarioBBDD{
         return $resultado;
     }
     public function obtenerTokern($correo){
-        $resultado = false;
+        $resultado = null;
         try {
             $conexion = ConexionDB::getConexion("moodloop");
             $consulta = $conexion->prepare("SELECT * FROM usuarios WHERE correo = :correo");
@@ -60,7 +67,7 @@ class UsuarioBBDD{
             if ($consulta->rowCount() == 1) {
                 $fila = $consulta->fetch(PDO::FETCH_ASSOC);
                 $token = $fila["token"];
-                return $token;
+                $resultado = $token;
             }
         }
         catch (PDOException $e) {
@@ -180,5 +187,37 @@ class UsuarioBBDD{
         }
         return $resultado;
     }
+
+
+    // Contar seguidores (quiénes me siguen)
+    public function contarSeguidores($id_usuario) {
+        try {
+            $sql = "SELECT COUNT(*) as total FROM seguidores WHERE id_seguido = :id";
+            $consulta = $this->conn->prepare($sql);
+            $consulta->bindParam(":id", $id_usuario, PDO::PARAM_INT);
+            $consulta->execute();
+            $fila = $consulta->fetch(PDO::FETCH_ASSOC);
+            return $fila["total"];
+        } catch (PDOException $e) {
+            echo "Error al contar seguidores: " . $e->getMessage();
+            return 0;
+        }
+    }
+
+    // Contar seguidos (a quiénes sigo yo)
+    public function contarSeguidos($id_usuario) {
+        try {
+            $sql = "SELECT COUNT(*) as total FROM seguidores WHERE id_seguidor = :id";
+            $consulta = $this->conn->prepare($sql);
+            $consulta->bindParam(":id", $id_usuario, PDO::PARAM_INT);
+            $consulta->execute();
+            $fila = $consulta->fetch(PDO::FETCH_ASSOC);
+            return $fila["total"];
+        } catch (PDOException $e) {
+            echo "Error al contar seguidos: " . $e->getMessage();
+            return 0;
+        }
+    }
+
 }
 ?>

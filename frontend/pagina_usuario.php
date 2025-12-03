@@ -21,8 +21,12 @@ $infoUsuario = $bbdd->obtenerUsuario($_SESSION["correo"]);//hay que pilla la ses
 $nombreUsuario = $infoUsuario->__get("nombre_usuario");
 $biografiaActual = $infoUsuario->__get("biografia");
 $idUsuario = $infoUsuario->__get("id_usuario");
+$seguidores = $bbdd->contarSeguidores($idUsuario);
+$seguidos = $bbdd->contarSeguidos($idUsuario);
+
 
 $publiBBDD = new PublicacionBBDD();
+$totalPublicaciones = $publiBBDD->contarPublicacionesPorUsuario($idUsuario);
 $misPublicaciones = $publiBBDD->obtenerPublicacionesPorUsuario($idUsuario);
 
 
@@ -64,6 +68,9 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
 <?php
+require_once "cabecera.php";
+
+
 if (isset($_SESSION["error"])) {
     echo "<p style='color:red;'>" . $_SESSION["error"] . "</p>";
     unset($_SESSION["error"]);
@@ -77,11 +84,13 @@ if (isset($_SESSION["mensaje"])) {
 
 <h1>PERFIL DE USUARIO</h1>
 <p><strong>Nombre de usuario:</strong> <?= $nombreUsuario ?></p>
-<nav>
-    <a href="pagina_feed.php">FEED</a>
-    <a href="pagina_usuario.php">USUARIO</a>
-    <a href="pagina_publicacion.php">CREAR PUBLICACIÓN</a>
-</nav>
+
+<h3>Estadísticas</h3>
+<p><strong>Seguidores:</strong> <?= $seguidores ?></p>
+<p><strong>Seguidos:</strong> <?= $seguidos ?></p>
+<p><strong>Publicaciones:</strong> <?= $totalPublicaciones ?></p>
+
+
 <!-- FORMULARIO DE BIOGRAFÍA -->
 <h3>Biografía</h3>
 <form action="pagina_usuario.php" method="post">
