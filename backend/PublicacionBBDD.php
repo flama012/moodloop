@@ -60,7 +60,11 @@ class PublicacionBBDD {
     // ============================
     public function obtenerPublicaciones($limite = 10) {
         try {
-            $sql = "SELECT * FROM publicaciones ORDER BY fecha_hora DESC LIMIT :limite";
+            $sql = "SELECT p.*, u.nombre_usuario
+                FROM publicaciones p
+                JOIN usuarios u ON p.id_usuario = u.id_usuario
+                ORDER BY p.fecha_hora DESC
+                LIMIT :limite";
 
             $consulta = $this->conn->prepare($sql);
             $consulta->bindValue(":limite", (int)$limite, PDO::PARAM_INT);
@@ -72,6 +76,7 @@ class PublicacionBBDD {
             return [];
         }
     }
+
 
     // ============================
     // OBTENER UNA PUBLICACIÓN POR SU ID
@@ -153,9 +158,11 @@ class PublicacionBBDD {
     // ============================
     public function obtenerPublicacionesPorUsuario($id_usuario, $limite = 10) {
         try {
-            $sql = "SELECT * FROM publicaciones 
-                WHERE id_usuario = :id_usuario 
-                ORDER BY fecha_hora DESC 
+            $sql = "SELECT p.*, u.nombre_usuario
+                FROM publicaciones p
+                JOIN usuarios u ON p.id_usuario = u.id_usuario
+                WHERE p.id_usuario = :id_usuario
+                ORDER BY p.fecha_hora DESC
                 LIMIT :limite";
 
             $consulta = $this->conn->prepare($sql);
@@ -169,6 +176,7 @@ class PublicacionBBDD {
             return [];
         }
     }
+
 
     // ============================
     // OBTENER COMENTARIOS DE UNA PUBLICACIÓN
@@ -259,22 +267,27 @@ class PublicacionBBDD {
 
     // Publicaciones filtradas por etiquetas (hasta 5)
     public function obtenerPublicacionesPorEtiquetas($etiquetas) {
+        // Creamos los placeholders dinámicos según el número de etiquetas
         $placeholders = implode(',', array_fill(0, count($etiquetas), '?'));
-        $sql = "SELECT p.*, u.nombre_usuario, GROUP_CONCAT(e.nombre_etiqueta) AS etiquetas
+
+        $sql = "SELECT DISTINCT p.*, u.nombre_usuario
             FROM publicaciones p
             JOIN usuarios u ON p.id_usuario = u.id_usuario
             JOIN publicacion_etiqueta pe ON p.id_publicacion = pe.id_publicacion
             JOIN etiquetas e ON pe.id_etiqueta = e.id_etiqueta
             WHERE e.nombre_etiqueta IN ($placeholders)
-            GROUP BY p.id_publicacion
             ORDER BY p.fecha_hora DESC";
+
         $consulta = $this->conn->prepare($sql);
+
         foreach ($etiquetas as $i => $et) {
             $consulta->bindValue($i+1, $et, PDO::PARAM_STR);
         }
+
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     // Top 5 emociones más usadas
     public function obtenerTopEmociones() {
