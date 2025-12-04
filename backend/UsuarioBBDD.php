@@ -41,11 +41,11 @@ class UsuarioBBDD {
         $id_usuario, $nombre, $correo, $password, $biografia,
         $estado_emocional, $id_rol, $confirmado, $baneado, $fecha_registro, $token
     ) {
-        $resultado = false;
         try {
             $sql = "INSERT INTO usuarios 
-                    (id_usuario, nombre_usuario, correo, password, biografia, estado_emocional, id_rol, confirmado, baneado, fecha_registro, token)
-                    VALUES (:id_usuario, :nombre_usuario, :correo, :password, :biografia, :estado_emocional, :id_rol, :confirmado, :baneado, :fecha_registro, :token)";
+                (id_usuario, nombre_usuario, correo, password, biografia, estado_emocional, id_rol, confirmado, baneado, fecha_registro, token)
+                VALUES (:id_usuario, :nombre_usuario, :correo, :password, :biografia, :estado_emocional, :id_rol, :confirmado, :baneado, :fecha_registro, :token)";
+
             $consulta = $this->conn->prepare($sql);
             $consulta->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
             $consulta->bindParam(":nombre_usuario", $nombre, PDO::PARAM_STR);
@@ -59,12 +59,19 @@ class UsuarioBBDD {
             $consulta->bindParam(":fecha_registro", $fecha_registro, PDO::PARAM_STR);
             $consulta->bindParam(":token", $token, PDO::PARAM_STR);
 
-            $resultado = $consulta->execute();
+            return $consulta->execute();
+
         } catch (PDOException $e) {
-            echo "Error al insertar usuario: " . $e->getMessage();
+
+            // ✅ Error 1062 = nombre_usuario o correo duplicado
+            if ($e->errorInfo[1] == 1062) {
+                return "duplicado_usuario";
+            }
+
+            return false;
         }
-        return $resultado;
     }
+
 
     // Obtener token del usuario por correo
     public function obtenerTokern($correo) {
