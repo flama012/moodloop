@@ -19,7 +19,7 @@ if (isset($_POST["irARegistro"])) {
 if (isset($_POST["iniciar"])) {
 
     // Recoger datos
-    $correo = $_POST["emailLogin"];
+    $correo = trim($_POST["emailLogin"]);
     $password = $_POST["passwordLogin"];
 
     $usuarioBD = new UsuarioBBDD();
@@ -36,10 +36,14 @@ if (isset($_POST["iniciar"])) {
 
     //Comprobar confirmación del correo
     if ($usuario->__get('confirmado') != 1) {
-        $_SESSION["error"] = "Debes confirmar tu correo antes de iniciar sesión.";
+
+        // Guardamos correo y token para reenviar
+        $_SESSION["correoNoVerificado"] = $usuario->__get("correo");
+        $_SESSION["tokenNoVerificado"]  = $usuario->__get("token");
+
+        $_SESSION["error"] = "Tu cuenta no está verificada.";
         header("location: login.php");
         exit();
-        //require_once "./frontend/login.php";
     }
 
     //Comprobar contraseña
@@ -47,23 +51,36 @@ if (isset($_POST["iniciar"])) {
         $_SESSION["error"] = "La contraseña es incorrecta.";
         header("location: login.php");
         exit();
-        //require_once "./frontend/login.php";
     }
 
     //Login correcto → guardar sesión
     $_SESSION["usuario"] = $usuario->__get("id_usuario");
     $_SESSION["nombre"]  = $usuario->__get("nombre_usuario");
-    $_SESSION["correo"] = $usuario->__get("correo");
+    $_SESSION["correo"]  = $usuario->__get("correo");
     $_SESSION["id_usuario"] = $usuario->__get("id_usuario");
 
     header("Location: pagina_feed.php");
     exit();
 }
 
+// Mostrar errores
 if (isset($_SESSION["error"])) {
     echo "<h1 style='color:red;'>" . $_SESSION["error"] . "</h1>";
+    unset($_SESSION["error"]);
 }
 
+if (isset($_SESSION["mensaje"])) {
+    echo "<h3 style='color:green;'>" . $_SESSION["mensaje"] . "</h3>";
+    unset($_SESSION["mensaje"]);
+}
+
+// Si el usuario no está verificado, mostrar botón de reenvío
+if (isset($_SESSION["correoNoVerificado"])) {
+    echo "<form method='post' action='reenviar_confirmacion.php'>
+            <p style='color:blue;'>¿No recibiste el correo de verificación?</p>
+            <input type='submit' value='Reenviar correo de verificación'>
+          </form>";
+}
 ?>
 <!doctype html>
 <html lang="es">
