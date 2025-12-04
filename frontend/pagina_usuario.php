@@ -117,7 +117,6 @@ if (isset($_SESSION["mensaje"])) {
     <label for="estado_emocional">Estado emocional</label>
     <select id="estado_emocional" name="estado_emocional" required>
 
-        <!-- Si no hay estado guardado, se muestra esta opción -->
         <option value="" disabled <?= $estadoActual ? "" : "selected" ?>>Selecciona tu estado…</option>
 
         <?php foreach ($emociones as $emo): ?>
@@ -140,11 +139,22 @@ if (!empty($misPublicaciones)) {
         echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
         echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
 
-        // Mostrar número de me gusta
+        // ✅ Me gusta
         $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
         echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
 
-        // Mostrar comentarios
+        echo '<form action="../backend/procesar_like.php" method="post">
+                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                <button type="submit">👍 Me gusta</button>
+              </form><br><br>';
+
+        // ✅ Etiquetas
+        $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
+        if (!empty($etis)) {
+            echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis) . "<br>";
+        }
+
+        // ✅ Comentarios
         $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
         if (!empty($comentarios)) {
             echo "<strong>Comentarios:</strong><br>";
@@ -156,6 +166,13 @@ if (!empty($misPublicaciones)) {
         } else {
             echo "Sin comentarios.<br>";
         }
+
+        // ✅ Formulario para comentar
+        echo '<form action="../backend/procesar_comentario.php" method="post">
+                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>
+                <button type="submit">Comentar</button>
+              </form>';
 
         echo "</p>";
     }

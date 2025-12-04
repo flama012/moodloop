@@ -73,8 +73,6 @@ if (isset($_POST["dejar_seguir"])) {
 
 <h1>Perfil de <?= $usuario->nombre_usuario ?></h1>
 
-<!-- NO mostramos el email porque no quieres que sea público -->
-
 <h3>Biografía</h3>
 <p><?= $usuario->biografia ?></p>
 
@@ -111,22 +109,41 @@ if (!empty($publicaciones)) {
         echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
         echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
 
-        // Número de me gusta
+        // ✅ Número de me gusta
         $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
         echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
 
-        // Comentarios
+        // ✅ Botón Me gusta
+        echo '<form action="../backend/procesar_like.php" method="post">
+                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                <button type="submit">👍 Me gusta</button>
+              </form><br>';
+
+        // ✅ Etiquetas
+        $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
+        if (!empty($etis)) {
+            echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis) . "<br>";
+        }
+
+        // ✅ Comentarios
         $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
         if (!empty($comentarios)) {
             echo "<strong>Comentarios:</strong><br>";
             foreach ($comentarios as $c) {
                 echo "- " . $c["texto"] . " <em>por "
-                    . $c["nombre_usuario"] . " ("
-                    . $c["fecha_hora"] . ")</em><br>";
+                        . $c["nombre_usuario"] . " ("
+                        . $c["fecha_hora"] . ")</em><br>";
             }
         } else {
             echo "Sin comentarios.<br>";
         }
+
+        // ✅ Formulario para comentar
+        echo '<form action="../backend/procesar_comentario.php" method="post">
+                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>
+                <button type="submit">Comentar</button>
+              </form>';
 
         echo "</div>";
     }

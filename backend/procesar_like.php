@@ -25,16 +25,16 @@ $c = $conn->prepare($sql);
 $c->execute([":u" => $idUsuario, ":p" => $idPublicacion]);
 
 if ($c->fetch()) {
-    // Quitar like
     $sql = "DELETE FROM megusta WHERE id_usuario = :u AND id_publicacion = :p";
     $d = $conn->prepare($sql);
     $d->execute([":u" => $idUsuario, ":p" => $idPublicacion]);
 } else {
-    // Dar like
     $sql = "INSERT INTO megusta (id_usuario, id_publicacion) VALUES (:u, :p)";
     $i = $conn->prepare($sql);
     $i->execute([":u" => $idUsuario, ":p" => $idPublicacion]);
 }
 
-header("Location: ../frontend/pagina_feed.php");
+// ✅ Volver a la página anterior
+$volver = $_SERVER["HTTP_REFERER"] ?? "../frontend/pagina_feed.php";
+header("Location: $volver");
 exit();

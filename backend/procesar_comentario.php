@@ -19,7 +19,8 @@ $idUsuario = $_SESSION["id_usuario"];
 $comentario = trim($_POST["comentario"]);
 
 if ($comentario === "") {
-    header("Location: ../frontend/pagina_feed.php");
+    $volver = $_SERVER["HTTP_REFERER"] ?? "../frontend/pagina_feed.php";
+    header("Location: $volver");
     exit();
 }
 
@@ -35,5 +36,7 @@ $c->execute([
     ":t" => $comentario
 ]);
 
-header("Location: ../frontend/pagina_feed.php");
+// ✅ Volver a la página anterior
+$volver = $_SERVER["HTTP_REFERER"] ?? "../frontend/pagina_feed.php";
+header("Location: $volver");
 exit();
