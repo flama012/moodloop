@@ -16,12 +16,10 @@ El sistema adapta el feed según emociones y etiquetas frecuentes, fomentando la
 ## 📊 Estadísticas del repositorio
 - **Lenguaje principal:** ![PHP](https://img.shields.io/badge/PHP-8.2-blue?logo=php)  
 - **Lenguajes usados:**  
-  ![HTML](https://img.shields.io/badge/HTML-30%25-orange?logo=html5)  
-  ![CSS](https://img.shields.io/badge/CSS-25%25-blue?logo=css3)  
+  ![HTML](https://img.shields.io/badge/HTML-25%25-orange?logo=html5)  
+  ![CSS](https://img.shields.io/badge/CSS-20%25-blue?logo=css3)  
   ![JavaScript](https://img.shields.io/badge/JavaScript-20%25-yellow?logo=javascript)  
-  ![PHP](https://img.shields.io/badge/PHP-25%25-purple?logo=php)  
-
-*(Los porcentajes son ilustrativos, puedes ajustarlos con datos reales de GitHub)*
+  ![PHP](https://img.shields.io/badge/PHP-35%25-purple?logo=php)  
 
 ---
 ## 🛠️ Tecnologías
