@@ -294,5 +294,61 @@ class UsuarioBBDD {
             return false;
         }
     }
+
+    // ============================================================
+    // BUSCAR USUARIOS POR NOMBRE (COINCIDENCIAS PARCIALES)
+    // ============================================================
+    // Devuelve un array con usuarios cuyo nombre contenga el texto buscado.
+    // Ejemplo: buscar "er" encuentra "Erik", "Sergio", "Héctor", etc.
+    public function buscarUsuariosPorNombre($textoBuscado) {
+        $resultados = [];
+
+        try {
+            // Añadimos % para buscar coincidencias parciales
+            $texto = "%" . $textoBuscado . "%";
+
+            // Consulta: buscamos solo por nombre_usuario
+            $sql = "SELECT id_usuario, nombre_usuario
+                FROM usuarios
+                WHERE nombre_usuario LIKE :texto
+                ORDER BY nombre_usuario ASC";
+
+            // Preparamos la consulta
+            $consulta = $this->conn->prepare($sql);
+
+            // Enlazamos el parámetro
+            $consulta->bindParam(":texto", $texto, PDO::PARAM_STR);
+
+            // Ejecutamos
+            $consulta->execute();
+
+            // Obtenemos todos los resultados como array asociativo
+            $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            echo "Error al buscar usuarios: " . $e->getMessage();
+        }
+
+        return $resultados;
+    }
+    // -------------------------------------------------------------
+    // Obtener un usuario por su ID
+    // -------------------------------------------------------------
+    public function getUsuarioPorId($id) {
+
+        // Consulta SQL para buscar un usuario por su ID
+        $sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
+
+        // Preparamos la consulta usando la conexión correcta ($this->conn)
+        $stmt = $this->conn->prepare($sql);
+
+        // Ejecutamos la consulta enviando el ID
+        $stmt->execute([$id]);
+
+        // Devolvemos el usuario como un objeto
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+
 }
 ?>
