@@ -389,5 +389,7 @@ class PublicacionBBDD {
         $consulta = $this->conn->query($sql);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 }
 ?>
