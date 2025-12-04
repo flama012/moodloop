@@ -1,6 +1,8 @@
 <?php
+// ============================================================
 // UsuarioBBDD.php
 // Clase para manejar operaciones de usuarios en la base de datos
+// ============================================================
 
 require_once "Usuario.php";     // Clase de entidad Usuario (getters/setters)
 require_once "ConexionDB.php";  // Singleton de conexión PDO
@@ -30,13 +32,11 @@ class UsuarioBBDD {
             if ($consulta->rowCount() === 1) {
                 $resultado = true;
             }
-        } catch (PDOException $e) {
-            // Manejo silencioso opcional
-        }
+        } catch (PDOException $e) {}
         return $resultado;
     }
 
-    // Insertar un usuario (devuelve true/false)
+    // Insertar un usuario (devuelve true/false o "duplicado_usuario")
     public function insertarUsuario(
         $id_usuario, $nombre, $correo, $password, $biografia,
         $estado_emocional, $id_rol, $confirmado, $baneado, $fecha_registro, $token
@@ -62,16 +62,12 @@ class UsuarioBBDD {
             return $consulta->execute();
 
         } catch (PDOException $e) {
-
-            // Error 1062 = nombre_usuario o correo duplicado
             if ($e->errorInfo[1] == 1062) {
                 return "duplicado_usuario";
             }
-
             return false;
         }
     }
-
 
     // Obtener token del usuario por correo
     public function obtenerTokern($correo) {
@@ -85,9 +81,7 @@ class UsuarioBBDD {
                 $fila = $consulta->fetch(PDO::FETCH_ASSOC);
                 $resultado = $fila["token"] ?? null;
             }
-        } catch (PDOException $e) {
-            // Manejo silencioso opcional
-        }
+        } catch (PDOException $e) {}
         return $resultado;
     }
 
@@ -103,9 +97,7 @@ class UsuarioBBDD {
             if ($consulta->rowCount() === 1) {
                 $resultado = true;
             }
-        } catch (PDOException $e) {
-            // Manejo silencioso opcional
-        }
+        } catch (PDOException $e) {}
         return $resultado;
     }
 
@@ -125,10 +117,10 @@ class UsuarioBBDD {
             if ($consulta->rowCount() === 1) {
                 $fila = $consulta->fetch(PDO::FETCH_ASSOC);
 
-                // Construimos el objeto Usuario con los campos principales
+                // Construimos el objeto Usuario
                 $usuario = new Usuario($fila["nombre_usuario"], $fila["correo"], $fila["password"]);
 
-                // Asignamos propiedades adicionales usando tus setters mágicos
+                // Setters mágicos
                 $usuario->__set('id_usuario', $fila["id_usuario"]);
                 $usuario->__set('biografia', $fila["biografia"]);
                 $usuario->__set('estado_emocional', $fila["estado_emocional"]);
@@ -138,9 +130,7 @@ class UsuarioBBDD {
                 $usuario->__set('fechaRegistro', $fila["fecha_registro"]);
                 $usuario->__set('token', $fila["token"]);
             }
-        } catch (PDOException $e) {
-            // Manejo silencioso opcional
-        }
+        } catch (PDOException $e) {}
         return $usuario;
     }
 
@@ -242,11 +232,51 @@ class UsuarioBBDD {
         }
     }
 
+    // Obtener lista de seguidores (para ver_seguidores.php)
+    public function obtenerSeguidores($id_usuario) {
+        try {
+            $sql = "SELECT u.id_usuario, u.nombre_usuario
+                    FROM usuarios u
+                    JOIN seguidores s ON u.id_usuario = s.id_seguidor
+                    WHERE s.id_seguido = :id
+                    ORDER BY u.nombre_usuario ASC";
+
+            $consulta = $this->conn->prepare($sql);
+            $consulta->bindParam(":id", $id_usuario, PDO::PARAM_INT);
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    // Obtener lista de seguidos (para ver_seguidos.php)
+    public function obtenerSeguidos($id_usuario) {
+        try {
+            $sql = "SELECT u.id_usuario, u.nombre_usuario
+                    FROM usuarios u
+                    JOIN seguidores s ON u.id_usuario = s.id_seguido
+                    WHERE s.id_seguidor = :id
+                    ORDER BY u.nombre_usuario ASC";
+
+            $consulta = $this->conn->prepare($sql);
+            $consulta->bindParam(":id", $id_usuario, PDO::PARAM_INT);
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
     // ============================================================
-    // MÉTODOS OPCIONALES ÚTILES (no rompen nada si no los usas)
+    // MÉTODOS OPCIONALES ÚTILES
     // ============================================================
 
-    // Obtener usuario por ID (útil para sesiones)
+    // Obtener usuario por ID (devuelve array)
     public function obtenerUsuarioPorId($id_usuario) {
         try {
             $sql = "SELECT * FROM usuarios WHERE id_usuario = :id";
@@ -259,7 +289,37 @@ class UsuarioBBDD {
         }
     }
 
-    // Comprobar si ya sigo a alguien (para evitar duplicados)
+    // Obtener usuario por ID como OBJETO Usuario
+    public function obtenerUsuarioObjetoPorId($id_usuario) {
+        try {
+            $sql = "SELECT * FROM usuarios WHERE id_usuario = :id";
+            $consulta = $this->conn->prepare($sql);
+            $consulta->bindParam(":id", $id_usuario, PDO::PARAM_INT);
+            $consulta->execute();
+
+            if ($consulta->rowCount() === 1) {
+                $fila = $consulta->fetch(PDO::FETCH_ASSOC);
+
+                $usuario = new Usuario($fila["nombre_usuario"], $fila["correo"], $fila["password"]);
+
+                $usuario->__set('id_usuario', $fila["id_usuario"]);
+                $usuario->__set('biografia', $fila["biografia"]);
+                $usuario->__set('estado_emocional', $fila["estado_emocional"]);
+                $usuario->__set('id_rol', $fila["id_rol"]);
+                $usuario->__set('confirmado', $fila["confirmado"]);
+                $usuario->__set('baneado', $fila["baneado"]);
+                $usuario->__set('fechaRegistro', $fila["fecha_registro"]);
+                $usuario->__set('token', $fila["token"]);
+
+                return $usuario;
+            }
+
+        } catch (PDOException $e) {}
+
+        return null;
+    }
+
+    // Comprobar si ya sigo a alguien
     public function existeRelacionSeguimiento($id_seguidor, $id_seguido) {
         try {
             $sql = "SELECT 1 FROM seguidores WHERE id_seguidor = :seguidor AND id_seguido = :seguido";
@@ -273,11 +333,11 @@ class UsuarioBBDD {
         }
     }
 
-    // Seguir a un usuario (inserta relación)
+    // Seguir a un usuario
     public function seguirUsuario($id_seguidor, $id_seguido) {
         try {
-            if ($id_seguidor === $id_seguido) return false; // Evitar seguirse a uno mismo
-            if ($this->existeRelacionSeguimiento($id_seguidor, $id_seguido)) return true; // Ya existe
+            if ($id_seguidor === $id_seguido) return false;
+            if ($this->existeRelacionSeguimiento($id_seguidor, $id_seguido)) return true;
 
             $sql = "INSERT INTO seguidores (id_seguidor, id_seguido) VALUES (:seguidor, :seguido)";
             $c = $this->conn->prepare($sql);
@@ -289,7 +349,7 @@ class UsuarioBBDD {
         }
     }
 
-    // Dejar de seguir (eliminar relación)
+    // Dejar de seguir
     public function dejarDeSeguirUsuario($id_seguidor, $id_seguido) {
         try {
             $sql = "DELETE FROM seguidores WHERE id_seguidor = :seguidor AND id_seguido = :seguido";
@@ -302,34 +362,22 @@ class UsuarioBBDD {
         }
     }
 
-    // ============================================================
-    // BUSCAR USUARIOS POR NOMBRE (COINCIDENCIAS PARCIALES)
-    // ============================================================
-    // Devuelve un array con usuarios cuyo nombre contenga el texto buscado.
-    // Ejemplo: buscar "er" encuentra "Erik", "Sergio", "Héctor", etc.
+    // Buscar usuarios por coincidencia parcial
     public function buscarUsuariosPorNombre($textoBuscado) {
         $resultados = [];
 
         try {
-            // Añadimos % para buscar coincidencias parciales
             $texto = "%" . $textoBuscado . "%";
 
-            // Consulta: buscamos solo por nombre_usuario
             $sql = "SELECT id_usuario, nombre_usuario
                 FROM usuarios
                 WHERE nombre_usuario LIKE :texto
                 ORDER BY nombre_usuario ASC";
 
-            // Preparamos la consulta
             $consulta = $this->conn->prepare($sql);
-
-            // Enlazamos el parámetro
             $consulta->bindParam(":texto", $texto, PDO::PARAM_STR);
-
-            // Ejecutamos
             $consulta->execute();
 
-            // Obtenemos todos los resultados como array asociativo
             $resultados = $consulta->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
@@ -338,24 +386,18 @@ class UsuarioBBDD {
 
         return $resultados;
     }
-    // -------------------------------------------------------------
+
     // Obtener un usuario por su ID
-    // -------------------------------------------------------------
     public function getUsuarioPorId($id) {
 
-        // Consulta SQL para buscar un usuario por su ID
         $sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
 
-        // Preparamos la consulta usando la conexión correcta ($this->conn)
         $stmt = $this->conn->prepare($sql);
 
-        // Ejecutamos la consulta enviando el ID
         $stmt->execute([$id]);
 
-        // Devolvemos el usuario como un objeto
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
-
 
 }
 ?>

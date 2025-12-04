@@ -99,8 +99,21 @@ if (isset($_SESSION["mensaje"])) {
 <p><strong>Nombre de usuario:</strong> <?= $nombreUsuario ?></p>
 
 <h3>Estadísticas</h3>
-<p><strong>Seguidores:</strong> <?= $seguidores ?></p>
-<p><strong>Seguidos:</strong> <?= $seguidos ?></p>
+
+<p>
+    <strong>Seguidores:</strong>
+    <a href="ver_seguidores.php?id=<?= $idUsuario ?>">
+        <?= $seguidores ?>
+    </a>
+</p>
+
+<p>
+    <strong>Seguidos:</strong>
+    <a href="ver_seguidos.php?id=<?= $idUsuario ?>">
+        <?= $seguidos ?>
+    </a>
+</p>
+
 <p><strong>Publicaciones:</strong> <?= $totalPublicaciones ?></p>
 
 <!-- FORMULARIO DE BIOGRAFÍA -->
