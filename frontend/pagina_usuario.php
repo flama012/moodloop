@@ -172,6 +172,13 @@ if (!empty($misPublicaciones)) {
                 <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                 <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>
                 <button type="submit">Comentar</button>
+              </form><br>';
+
+        // ✅ Botón para eliminar publicación
+        echo '<form action="../backend/eliminar_publicacion.php" method="post"
+                onsubmit="return confirm(\'¿Seguro que quieres eliminar esta publicación? Esta acción no se puede deshacer.\');">
+                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                <button type="submit" style="background:red; color:white;">🗑️ Eliminar publicación</button>
               </form>';
 
         echo "</p>";

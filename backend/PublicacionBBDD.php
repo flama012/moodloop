@@ -191,16 +191,19 @@ class PublicacionBBDD {
     // ELIMINAR PUBLICACIÓN
     // ============================================================
     // Borra una publicación por su ID
-    public function eliminarPublicacion($id_publicacion) {
-        try {
-            $sql = "DELETE FROM publicaciones WHERE id_publicacion = :id";
-            $consulta = $this->conn->prepare($sql);
-            $consulta->bindParam(":id", $id_publicacion, PDO::PARAM_INT);
-            return $consulta->execute();
-        } catch (PDOException $e) {
-            echo "Error al eliminar publicación: " . $e->getMessage();
-            return false;
-        }
+    public function eliminarPublicacion($idPublicacion) {
+
+        // Eliminar comentarios
+        $sql = "DELETE FROM comentarios WHERE id_publicacion = :p";
+        $this->conn->prepare($sql)->execute([":p" => $idPublicacion]);
+
+        // Eliminar likes
+        $sql = "DELETE FROM megusta WHERE id_publicacion = :p";
+        $this->conn->prepare($sql)->execute([":p" => $idPublicacion]);
+
+        // Eliminar publicación
+        $sql = "DELETE FROM publicaciones WHERE id_publicacion = :p";
+        $this->conn->prepare($sql)->execute([":p" => $idPublicacion]);
     }
 
     // ============================================================
@@ -388,6 +391,13 @@ class PublicacionBBDD {
                 LIMIT 5";
         $consulta = $this->conn->query($sql);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function esPublicacionDeUsuario($idPublicacion, $idUsuario) {
+        $sql = "SELECT 1 FROM publicaciones WHERE id_publicacion = :p AND id_usuario = :u";
+        $consulta = $this->conn->prepare($sql);
+        $consulta->execute([":p" => $idPublicacion, ":u" => $idUsuario]);
+        return $consulta->fetch() ? true : false;
     }
 
 
