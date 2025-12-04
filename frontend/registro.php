@@ -56,7 +56,7 @@ if (isset($_POST['registrarse'])) {
             $token                      // token
     );
 
-    // ✅ Manejo de errores del método insertarUsuario()
+    // Manejo de errores del método insertarUsuario()
     if ($insertar === "duplicado_usuario") {
         $_SESSION["error"] = "El nombre de usuario ya está en uso. Elige otro.";
         header("Location: registro.php");
@@ -69,7 +69,7 @@ if (isset($_POST['registrarse'])) {
         exit();
     }
 
-    // ✅ Registro correcto
+    // Registro correcto
     $_SESSION["correoRegistro"] = $correo;
     $_SESSION["tokenRegistro"] = $token;
 

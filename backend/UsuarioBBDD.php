@@ -63,7 +63,7 @@ class UsuarioBBDD {
 
         } catch (PDOException $e) {
 
-            // ✅ Error 1062 = nombre_usuario o correo duplicado
+            // Error 1062 = nombre_usuario o correo duplicado
             if ($e->errorInfo[1] == 1062) {
                 return "duplicado_usuario";
             }

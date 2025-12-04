@@ -139,7 +139,7 @@ if (!empty($misPublicaciones)) {
         echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
         echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
 
-        // ✅ Me gusta
+        // Me gusta
         $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
         echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
 
@@ -148,13 +148,13 @@ if (!empty($misPublicaciones)) {
                 <button type="submit">👍 Me gusta</button>
               </form><br><br>';
 
-        // ✅ Etiquetas
+        // Etiquetas
         $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
         if (!empty($etis)) {
             echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis) . "<br>";
         }
 
-        // ✅ Comentarios
+        // Comentarios
         $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
         if (!empty($comentarios)) {
             echo "<strong>Comentarios:</strong><br>";
@@ -167,14 +167,14 @@ if (!empty($misPublicaciones)) {
             echo "Sin comentarios.<br>";
         }
 
-        // ✅ Formulario para comentar
+        // Formulario para comentar
         echo '<form action="../backend/procesar_comentario.php" method="post">
                 <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                 <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>
                 <button type="submit">Comentar</button>
               </form><br>';
 
-        // ✅ Botón para eliminar publicación
+        // Botón para eliminar publicación
         echo '<form action="../backend/eliminar_publicacion.php" method="post"
                 onsubmit="return confirm(\'¿Seguro que quieres eliminar esta publicación? Esta acción no se puede deshacer.\');">
                 <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">

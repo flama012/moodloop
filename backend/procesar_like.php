@@ -34,7 +34,7 @@ if ($c->fetch()) {
     $i->execute([":u" => $idUsuario, ":p" => $idPublicacion]);
 }
 
-// ✅ Volver a la página anterior
+// Volver a la página anterior
 $volver = $_SERVER["HTTP_REFERER"] ?? "../frontend/pagina_feed.php";
 header("Location: $volver");
 exit();

@@ -108,23 +108,23 @@ if (!empty($publicaciones)) {
         echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
         echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
 
-        // ✅ Número de me gusta
+        // Número de me gusta
         $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
         echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
 
-        // ✅ Botón Me gusta
+        // Botón Me gusta
         echo '<form action="../backend/procesar_like.php" method="post">
                 <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                 <button type="submit">👍 Me gusta</button>
               </form><br>';
 
-        // ✅ Etiquetas
+        // Etiquetas
         $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
         if (!empty($etis)) {
             echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis) . "<br>";
         }
 
-        // ✅ Comentarios
+        // Comentarios
         $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
         if (!empty($comentarios)) {
             echo "<strong>Comentarios:</strong><br>";
@@ -137,7 +137,7 @@ if (!empty($publicaciones)) {
             echo "Sin comentarios.<br>";
         }
 
-        // ✅ Formulario para comentar
+        // Formulario para comentar
         echo '<form action="../backend/procesar_comentario.php" method="post">
                 <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                 <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>

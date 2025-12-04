@@ -36,7 +36,7 @@ $c->execute([
     ":t" => $comentario
 ]);
 
-// ✅ Volver a la página anterior
+// Volver a la página anterior
 $volver = $_SERVER["HTTP_REFERER"] ?? "../frontend/pagina_feed.php";
 header("Location: $volver");
 exit();

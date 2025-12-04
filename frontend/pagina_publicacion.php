@@ -7,7 +7,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-// ✅ Verificamos que el usuario esté logueado (versión correcta)
+// Verificamos que el usuario esté logueado (versión correcta)
 if (!isset($_SESSION["usuario"])) {
     $_SESSION["error"] = "Debes iniciar sesión para crear publicaciones.";
     header("Location: ../index.php");
