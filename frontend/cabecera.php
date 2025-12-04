@@ -5,7 +5,6 @@
 
     <!-- 1. LOGO -->
     <div>
-        <!-- Puedes cambiar la ruta por tu imagen real -->
         <a href="pagina_feed.php">
             <img src="logo_moodloop.png" alt="MoodLoop" style="height:50px;">
         </a>
@@ -24,7 +23,13 @@
         <a href="pagina_feed.php">FEED</a>
         <a href="pagina_usuario.php">USUARIO</a>
         <a href="pagina_publicacion.php">CREAR PUBLICACIÓN</a>
-        <a href="logout.php" style="color:red;">SALIR</a>
+
+        <!-- ✅ SALIR con confirmación -->
+        <a href="../backend/logout.php"
+           style="color:red;"
+           onclick="return confirm('¿Seguro que quieres cerrar sesión?');">
+            SALIR
+        </a>
     </nav>
 
 </div>
