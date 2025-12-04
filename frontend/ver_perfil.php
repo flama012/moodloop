@@ -2,7 +2,6 @@
 // -------------------------------------------------------------
 // ver_perfil.php
 // Página para ver el perfil de OTROS usuarios.
-// NO permite editar nada.
 // -------------------------------------------------------------
 
 require_once "../backend/UsuarioBBDD.php";

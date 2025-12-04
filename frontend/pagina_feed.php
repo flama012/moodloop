@@ -1,10 +1,10 @@
 <?php
+require_once "../backend/PublicacionBBDD.php";
+require_once "../backend/UsuarioBBDD.php";
+
 if (!isset($_SESSION)) {
     session_start();
 }
-
-require_once "../backend/PublicacionBBDD.php";
-require_once "../backend/UsuarioBBDD.php";
 
 // Verificar sesión
 if (!isset($_SESSION["usuario"])) {

@@ -1,5 +1,12 @@
 <!-- cabecera.php -->
 
+<?php
+if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
+    header("Location: ../index.php");
+    exit();
+}
+?>
+
 <!-- Contenedor principal de la cabecera -->
 <div style="display:flex; align-items:center; justify-content:space-between; padding:10px;">
 

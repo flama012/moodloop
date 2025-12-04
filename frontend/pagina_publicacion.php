@@ -1,15 +1,16 @@
 <?php
+// Incluimos las clases necesarias
+require_once "../backend/PublicacionBBDD.php";
+
 // Iniciamos sesión si no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// Incluimos las clases necesarias
-require_once "../backend/PublicacionBBDD.php";
-
-// Verificamos que el usuario esté logueado
-if (!isset($_SESSION["id_usuario"])) {
-    echo "Debes iniciar sesión para crear publicaciones.";
+// ✅ Verificamos que el usuario esté logueado (versión correcta)
+if (!isset($_SESSION["usuario"])) {
+    $_SESSION["error"] = "Debes iniciar sesión para crear publicaciones.";
+    header("Location: ../index.php");
     exit();
 }
 
@@ -38,19 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Procesamos las etiquetas separadas por #
     $etiquetas = [];
     if (!empty($etiquetasTexto)) {
-        // Partimos el texto por "#" y limpiamos espacios
         $etiquetas = array_filter(array_map('trim', explode('#', $etiquetasTexto)));
-        // Limitamos a máximo 5 etiquetas
         $etiquetas = array_slice($etiquetas, 0, 5);
     }
 
     // Validamos que mensaje y emoción no estén vacíos
     if ($mensaje != "" && $estado != "") {
-        // Creamos la publicación y obtenemos su ID
         $idPublicacion = $publicacion->crearPublicacion($_SESSION["id_usuario"], $mensaje, $estado);
 
         if ($idPublicacion !== false) {
-            // Si hay etiquetas, las asociamos a la publicación
             if (!empty($etiquetas)) {
                 $publicacion->agregarEtiquetasAPublicacion($idPublicacion, $etiquetas);
             }
@@ -80,11 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- Formulario para crear publicación -->
 <form method="POST">
-    <!-- Campo de texto para el mensaje -->
     <label>Mensaje:</label><br>
     <textarea name="mensaje" rows="4" cols="50"></textarea><br><br>
 
-    <!-- Desplegable de emociones -->
     <label>Estado emocional:</label><br>
     <select name="estado_emocional" required>
         <option value="">Selecciona...</option>
@@ -96,11 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </select>
     <br><br>
 
-    <!-- Campo para etiquetas -->
     <label>Etiquetas (máx 5, separadas por #):</label><br>
     <input type="text" name="etiquetas" placeholder="#motivacion#felicidad"><br><br>
 
-    <!-- Botón para enviar -->
     <button type="submit">Publicar</button>
 </form>
 

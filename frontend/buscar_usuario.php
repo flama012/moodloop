@@ -10,6 +10,12 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+if (!isset($_SESSION["usuario"])) {
+    $_SESSION["error"] = "No has iniciado sesión.";
+    header("Location: ../index.php");
+    exit();
+}
+
 // Incluimos la clase que se encarga de hablar con la base de datos
 require_once "../backend/UsuarioBBDD.php";
 
