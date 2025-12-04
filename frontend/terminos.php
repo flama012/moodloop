@@ -1,10 +1,16 @@
 <?php
+// Este archivo simplemente imprime una página HTML completa.
+// Se usa echo con comillas dobles para poder escribir HTML directamente.
+// No contiene lógica de PHP, solo sirve como página informativa.
+
 echo "
 <!DOCTYPE html>
 <html lang='es'>
 <head>
     <meta charset='UTF-8'>
     <title>Información Legal</title>
+
+    <!-- Estilos básicos para mejorar la presentación -->
     <style>
         body { font-family: Arial, sans-serif; margin: 30px; line-height: 1.6; }
         h1, h2 { color: #333; }
@@ -16,6 +22,7 @@ echo "
 
 <h1>Información Legal</h1>
 
+<!-- Sección de Términos y Condiciones -->
 <section>
     <h2>Términos y Condiciones</h2>
     <p>El uso de este sitio web implica la aceptación de estas condiciones. El usuario se compromete a realizar
@@ -24,6 +31,7 @@ echo "
     Nos reservamos el derecho de modificar estas condiciones en cualquier momento.</p>
 </section>
 
+<!-- Sección de Política de Privacidad -->
 <section>
     <h2>Política de Privacidad</h2>
     <p>Este sitio recopila los datos necesarios para el funcionamiento del servicio, como nombre, correo
@@ -32,6 +40,7 @@ echo "
     de sus datos escribiendo a nuestro correo de contacto.</p>
 </section>
 
+<!-- Sección de Política de Cookies -->
 <section>
     <h2>Política de Cookies</h2>
     <p>Este sitio utiliza cookies técnicas para el funcionamiento básico y cookies analíticas para mejorar
@@ -39,12 +48,12 @@ echo "
     la aceptación de esta política de cookies.</p>
 </section>
 
-   <p>
-        <a href='./registro.php'>Volver al registro</a>
-    </p>
+<!-- Enlace para volver al registro -->
+<p>
+    <a href='./registro.php'>Volver al registro</a>
+</p>
 
 </body>
 </html>
-
 ";
 ?>

@@ -1,33 +1,53 @@
 <?php
 require_once "Config_ConexionDB.php";
 
-//Clase que usa el patrón de diseño Singleton
-//Garantiza que solo va a existir una única conexión a la BBDD por cada base de datos diferente
-class ConexionDB{
+/*
+    Clase que gestiona conexiones a la base de datos.
+    Usa Singleton para que solo exista una conexión por base de datos.
+*/
+class ConexionDB {
+
+    // Aquí se guardan las conexiones creadas
     private static $instancia;
-    private function __construct(){
 
-    }
-    private function __clone(){
-    }
+    // Constructor privado para evitar crear objetos manualmente
+    private function __construct() {}
 
-    public static function getConexion($nombreBD){
+    // Evita clonar el objeto
+    private function __clone() {}
 
-        if(!isset(self::$instancia[$nombreBD])){
+    /*
+        Devuelve la conexión a una base de datos.
+        Si no existe, la crea y la guarda.
+    */
+    public static function getConexion($nombreBD) {
+
+        // Si no existe conexión para esta BD, la creamos
+        if (!isset(self::$instancia[$nombreBD])) {
+
             try {
-                $option=SGBD.":host=".SERVIDOR.";dbname=".$nombreBD;
+                $option = SGBD . ":host=" . SERVIDOR . ";dbname=" . $nombreBD;
+
+                // Creamos la conexión PDO
                 self::$instancia[$nombreBD] = new PDO($option, USERDB, PASSWORDDB);
-            }catch(PDOException $e){
-                self::$instancia[$nombreBD]=null;
+
+            } catch (PDOException $e) {
+
+                // Si falla, guardamos null
+                self::$instancia[$nombreBD] = null;
             }
         }
+
+        // Devolvemos la conexión guardada
         return self::$instancia[$nombreBD];
     }
 
-    public static function cerrarConexion($nombreBD){
-        self::$instancia[$nombreBD]=null;
-        //con esto es suficiente para cerrar la conexión
-        // si no se llama a este método, igualmente se cierra la conexión
-        //cuando cerremos el script de php
+    /*
+        Cierra la conexión poniendo su valor a null.
+        PHP también la cierra automáticamente al terminar el script.
+    */
+    public static function cerrarConexion($nombreBD) {
+        self::$instancia[$nombreBD] = null;
     }
 }
+?>

@@ -1,25 +1,29 @@
 <?php
+// Cargamos las clases necesarias para obtener publicaciones y usuarios
 require_once "../backend/PublicacionBBDD.php";
 require_once "../backend/UsuarioBBDD.php";
 
+// Iniciamos la sesión si aún no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// Verificar sesión
+// Si el usuario no ha iniciado sesión, lo enviamos al inicio
 if (!isset($_SESSION["usuario"])) {
     $_SESSION["error"] = "No has iniciado sesión.";
     header("Location: ../index.php");
     exit();
 }
 
+// Guardamos datos del usuario actual
 $idUsuario = $_SESSION["id_usuario"];
 $estadoUsuario = $_SESSION["estado_emocional"] ?? null;
 
+// Creamos los objetos para acceder a la base de datos
 $publiBBDD = new PublicacionBBDD();
 $usuarioBBDD = new UsuarioBBDD();
 
-// Lista fija de emociones
+// Lista fija de emociones disponibles
 $listaEmociones = [
         "Feliz","Triste","Enojado","Ansioso","Motivado","Agradecido","Cansado","Estresado","Enfadado",
         "Sorprendido","Confundido","Esperanzado","Orgulloso","Relajado","Nostálgico","Melancólico",
@@ -27,19 +31,30 @@ $listaEmociones = [
         "Decepcionado","Inspirado","Resignado","Aliviado","Preocupado"
 ];
 
-// Elegir modo de visualización
+// ============================================================
+// 1. LEER PARÁMETROS DE FILTRO (GET)
+// ============================================================
+
+// Modo de visualización del feed
 $modo = $_GET["modo"] ?? "seguidos";
+
+// Emoción seleccionada por el usuario
 $emocionGet = $_GET["emocion"] ?? "";
+
+// Texto de etiquetas introducido por el usuario
 $etiquetasTexto = $_GET["etiquetas"] ?? "";
 
-// Procesar etiquetas separadas por #
+// Convertimos el texto "#ejemplo#prueba" en un array ["ejemplo", "prueba"]
 $etiquetasArray = [];
 if ($etiquetasTexto !== "") {
     $etiquetasArray = array_filter(array_map('trim', explode('#', $etiquetasTexto)));
-    $etiquetasArray = array_slice($etiquetasArray, 0, 5);
+    $etiquetasArray = array_slice($etiquetasArray, 0, 5); // Máximo 5 etiquetas
 }
 
-// Cargar publicaciones según el modo elegido
+// ============================================================
+// 2. CARGAR PUBLICACIONES SEGÚN EL MODO ELEGIDO
+// ============================================================
+
 $publicaciones = [];
 
 if ($modo === "seguidos") {
@@ -64,7 +79,10 @@ if ($modo === "seguidos") {
     $publicaciones = $publiBBDD->obtenerPublicaciones(20);
 }
 
-// Top emociones y etiquetas
+// ============================================================
+// 3. OBTENER TOP EMOCIONES Y TOP ETIQUETAS
+// ============================================================
+
 $topEmociones = $publiBBDD->obtenerTopEmociones();
 $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 ?>
@@ -75,12 +93,16 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     <title>Feed</title>
 </head>
 <body>
+
 <?php include "cabecera.php"; ?>
 
 <h1>FEED</h1>
 
-<!-- Formulario para elegir cómo quieres ver las publicaciones -->
+<!-- ============================================================
+     FORMULARIO DE FILTROS DEL FEED
+============================================================ -->
 <form method="get" action="pagina_feed.php">
+
     <label>Mostrar publicaciones por:</label><br>
     <select name="modo" required>
         <option value="seguidos" <?= ($modo === "seguidos" ? "selected" : "") ?>>Personas que sigo</option>
@@ -91,7 +113,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     </select>
     <br><br>
 
-    <!-- Desplegable de emociones -->
+    <!-- Selector de emociones -->
     <label>Emoción:</label><br>
     <select name="emocion">
         <option value="">Todas</option>
@@ -104,7 +126,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     </select>
     <br><br>
 
-    <!-- Campo para etiquetas -->
+    <!-- Campo de etiquetas -->
     <label>Etiquetas (máx 5, separadas por #):</label><br>
     <input type="text" name="etiquetas" placeholder="#motivacion#felicidad" value="<?= $etiquetasTexto ?>">
     <br><br>
@@ -114,7 +136,9 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
 <hr>
 
-<!-- Título según el modo -->
+<!-- ============================================================
+     TÍTULO SEGÚN EL MODO SELECCIONADO
+============================================================ -->
 <?php
 if ($modo === "seguidos") {
     echo "<h2>Publicaciones de personas que sigues</h2>";
@@ -129,20 +153,33 @@ if ($modo === "seguidos") {
 }
 ?>
 
-<!-- Lista de publicaciones -->
+<!-- ============================================================
+     LISTA DE PUBLICACIONES
+============================================================ -->
 <?php
 if (!empty($publicaciones)) {
+
     foreach ($publicaciones as $pub) {
+
         echo "<p>";
+
+        // Nombre del autor
         echo "<strong>" . $pub["nombre_usuario"] . "</strong><br>";
+
+        // Emoción
         echo "Emoción: " . $pub["estado_emocional"] . "<br>";
+
+        // Mensaje (nl2br convierte saltos de línea en <br>)
         echo nl2br($pub["mensaje"]) . "<br>";
+
+        // Fecha
         echo "<em>" . $pub["fecha_hora"] . "</em><br>";
 
         // Me gusta
         $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
         echo "<strong>Me gusta:</strong> " . $likes . "<br>";
 
+        // Botón de "Me gusta"
         echo '<form action="../backend/procesar_like.php" method="post">
                 <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                 <button type="submit">Me gusta</button>
@@ -174,6 +211,7 @@ if (!empty($publicaciones)) {
 
         echo "</p>";
     }
+
 } else {
     echo "<p>No hay publicaciones para este modo.</p>";
 }
@@ -181,6 +219,9 @@ if (!empty($publicaciones)) {
 
 <hr>
 
+<!-- ============================================================
+     TOP EMOCIONES
+============================================================ -->
 <h3>Emociones populares</h3>
 <?php
 if (!empty($topEmociones)) {
@@ -192,6 +233,9 @@ if (!empty($topEmociones)) {
 }
 ?>
 
+<!-- ============================================================
+     TOP ETIQUETAS
+============================================================ -->
 <h3>Etiquetas populares</h3>
 <?php
 if (!empty($topEtiquetas)) {

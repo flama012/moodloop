@@ -7,46 +7,60 @@
 require_once "../backend/UsuarioBBDD.php";
 require_once "../backend/PublicacionBBDD.php";
 
+// Iniciar sesión si no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// Si no estás logueado, no puedes ver perfiles
+// Si el usuario no ha iniciado sesión, no puede ver perfiles
 if (!isset($_SESSION["usuario"])) {
     $_SESSION["error"] = "No has iniciado sesión.";
     header("Location: ../index.php");
     exit();
 }
 
+// Creamos los objetos para acceder a la base de datos
 $bbdd = new UsuarioBBDD();
 $publiBBDD = new PublicacionBBDD();
 
-// 1. Comprobamos que llega un ID por la URL
+// ============================================================
+// 1. COMPROBAR QUE SE HA RECIBIDO UN ID POR LA URL
+// ============================================================
 if (!isset($_GET["id"])) {
     die("No se ha especificado ningún usuario.");
 }
 
-$idPerfil = intval($_GET["id"]); // ID del usuario que queremos ver
-$idLogueado = $_SESSION["id_usuario"];   // ID del usuario conectado
+$idPerfil = intval($_GET["id"]);        // ID del usuario que queremos ver
+$idLogueado = $_SESSION["id_usuario"];  // ID del usuario conectado
 
-// 2. Obtenemos los datos del usuario que queremos ver
+// ============================================================
+// 2. OBTENER DATOS DEL USUARIO A VISUALIZAR
+// ============================================================
 $usuario = $bbdd->getUsuarioPorId($idPerfil);
 
 if (!$usuario) {
     die("El usuario no existe.");
 }
 
-// 3. Obtenemos estadísticas del usuario
+// ============================================================
+// 3. OBTENER ESTADÍSTICAS DEL PERFIL
+// ============================================================
 $seguidores = $bbdd->contarSeguidores($idPerfil);
-$seguidos = $bbdd->contarSeguidos($idPerfil);
+$seguidos   = $bbdd->contarSeguidos($idPerfil);
 
-// 4. Obtenemos sus publicaciones
+// ============================================================
+// 4. OBTENER PUBLICACIONES DEL USUARIO
+// ============================================================
 $publicaciones = $publiBBDD->obtenerPublicacionesPorUsuario($idPerfil);
 
-// 5. Saber si YA lo sigo
+// ============================================================
+// 5. COMPROBAR SI EL USUARIO LOGUEADO YA SIGUE A ESTE PERFIL
+// ============================================================
 $yaLoSigo = $bbdd->existeRelacionSeguimiento($idLogueado, $idPerfil);
 
-// 6. Procesar botón de seguir / dejar de seguir
+// ============================================================
+// 6. PROCESAR BOTONES SEGUIR / DEJAR DE SEGUIR
+// ============================================================
 if (isset($_POST["seguir"])) {
     $bbdd->seguirUsuario($idLogueado, $idPerfil);
     header("Location: ver_perfil.php?id=$idPerfil");
@@ -72,18 +86,26 @@ if (isset($_POST["dejar_seguir"])) {
 
 <h1>Perfil de <?= $usuario->nombre_usuario ?></h1>
 
+<!-- ============================================================
+     BIOGRAFÍA Y ESTADO EMOCIONAL
+============================================================ -->
 <h3>Biografía</h3>
 <p><?= $usuario->biografia ?></p>
 
 <h3>Estado emocional</h3>
 <p><?= $usuario->estado_emocional ?></p>
 
+<!-- ============================================================
+     ESTADÍSTICAS DEL USUARIO
+============================================================ -->
 <h3>Estadísticas</h3>
 <p><strong>Seguidores:</strong> <?= $seguidores ?></p>
 <p><strong>Seguidos:</strong> <?= $seguidos ?></p>
 <p><strong>Publicaciones:</strong> <?= count($publicaciones) ?></p>
 
-<!-- BOTÓN SEGUIR / DEJAR DE SEGUIR -->
+<!-- ============================================================
+     BOTÓN SEGUIR / DEJAR DE SEGUIR
+============================================================ -->
 <?php if ($idPerfil != $idLogueado): ?>
     <form action="ver_perfil.php?id=<?= $idPerfil ?>" method="post">
         <?php if ($yaLoSigo): ?>
@@ -96,10 +118,14 @@ if (isset($_POST["dejar_seguir"])) {
 
 <hr>
 
+<!-- ============================================================
+     PUBLICACIONES DEL USUARIO
+============================================================ -->
 <h3>Publicaciones de <?= $usuario->nombre_usuario ?></h3>
 
 <?php
 if (!empty($publicaciones)) {
+
     foreach ($publicaciones as $pub) {
 
         echo "<div style='border:1px solid #ccc; padding:10px; margin-bottom:10px;'>";
@@ -146,6 +172,7 @@ if (!empty($publicaciones)) {
 
         echo "</div>";
     }
+
 } else {
     echo "<p>Este usuario no tiene publicaciones todavía.</p>";
 }

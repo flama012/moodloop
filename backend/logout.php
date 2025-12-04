@@ -1,14 +1,15 @@
 <?php
+// Iniciamos la sesión si aún no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// Eliminar todas las variables de sesión
+// Borramos todas las variables de la sesión
 $_SESSION = [];
 
-// Destruir la sesión
+// Cerramos la sesión completamente
 session_destroy();
 
-// Redirigir al inicio
+// Enviamos al usuario a la página de inicio
 header("Location: ../index.php");
 exit();

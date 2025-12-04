@@ -1,38 +1,50 @@
 <?php
+// Cargamos las clases necesarias
 require_once "../backend/UsuarioBBDD.php";
 require_once "../backend/PublicacionBBDD.php";
 
+// Iniciamos sesión si aún no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
 
+// Si el usuario no ha iniciado sesión, lo enviamos al inicio
 if (!isset($_SESSION["usuario"])) {
     $_SESSION["error"] = "No has iniciado sesión.";
     header("Location: ../index.php");
     exit();
 }
 
+// Creamos el objeto para trabajar con usuarios
 $bbdd = new UsuarioBBDD();
 
-// Cargar datos del usuario desde BD
+// ============================================================
+// CARGAR DATOS DEL USUARIO DESDE LA BASE DE DATOS
+// ============================================================
+
 $infoUsuario = $bbdd->obtenerUsuario($_SESSION["correo"]);
-$nombreUsuario = $infoUsuario->__get("nombre_usuario");
+
+$nombreUsuario   = $infoUsuario->__get("nombre_usuario");
 $biografiaActual = $infoUsuario->__get("biografia");
-$idUsuario = $infoUsuario->__get("id_usuario");
-$estadoActual = $infoUsuario->__get("estado_emocional");
+$idUsuario       = $infoUsuario->__get("id_usuario");
+$estadoActual    = $infoUsuario->__get("estado_emocional");
 
+// Contadores de seguidores y seguidos
 $seguidores = $bbdd->contarSeguidores($idUsuario);
-$seguidos = $bbdd->contarSeguidos($idUsuario);
+$seguidos   = $bbdd->contarSeguidos($idUsuario);
 
+// Creamos el objeto para trabajar con publicaciones
 $publiBBDD = new PublicacionBBDD();
+
+// Contadores y lista de publicaciones del usuario
 $totalPublicaciones = $publiBBDD->contarPublicacionesPorUsuario($idUsuario);
-$misPublicaciones = $publiBBDD->obtenerPublicacionesPorUsuario($idUsuario);
+$misPublicaciones   = $publiBBDD->obtenerPublicacionesPorUsuario($idUsuario);
 
 // ============================================================
-// LISTA UNIFICADA DE EMOCIONES
+// LISTA DE EMOCIONES DISPONIBLES
 // ============================================================
 
-$emociones =  [
+$emociones = [
         "Feliz","Triste","Enojado","Ansioso","Motivado","Agradecido","Cansado","Estresado","Enfadado",
         "Sorprendido","Confundido","Esperanzado","Orgulloso","Relajado","Nostálgico","Melancólico",
         "Entusiasmado","Frustrado","Optimista","Pesimista","Aburrido","Curioso","Apático","Satisfecho",
@@ -44,30 +56,38 @@ $emociones =  [
 // ============================================================
 
 if (isset($_POST["guardar_biografia"])) {
+
     $nuevaBio = $_POST["biografia"];
 
     if ($bbdd->actualizarBiografia($idUsuario, $nuevaBio)) {
+
         $_SESSION["mensaje"] = "Biografía actualizada correctamente.";
         $_SESSION["biografia"] = $nuevaBio;
+
         header("Location: pagina_usuario.php");
         exit;
+
     } else {
         $_SESSION["error"] = "Error al actualizar la biografía.";
     }
 }
 
 // ============================================================
-// PROCESAR ESTADO EMOCIONAL
+// PROCESAR FORMULARIO DE ESTADO EMOCIONAL
 // ============================================================
 
 if (isset($_POST['submit'])) {
+
     $estado = $_POST["estado_emocional"];
 
     if ($bbdd->actualizarEstadoEmocional($idUsuario, $estado)) {
+
         $_SESSION["estado_emocional"] = $estado;
         $_SESSION["mensaje"] = "Estado emocional actualizado correctamente.";
+
         header("Location: pagina_usuario.php");
         exit;
+
     } else {
         $_SESSION["error"] = "No se pudo actualizar el estado emocional.";
     }
@@ -83,6 +103,7 @@ if (isset($_POST['submit'])) {
 
 <?php require_once "cabecera.php"; ?>
 
+<!-- Mostrar mensajes de error o éxito -->
 <?php
 if (isset($_SESSION["error"])) {
     echo "<p style='color:red;'>" . $_SESSION["error"] . "</p>";
@@ -96,8 +117,12 @@ if (isset($_SESSION["mensaje"])) {
 ?>
 
 <h1>PERFIL DE USUARIO</h1>
+
 <p><strong>Nombre de usuario:</strong> <?= $nombreUsuario ?></p>
 
+<!-- ============================================================
+     ESTADÍSTICAS DEL USUARIO
+============================================================ -->
 <h3>Estadísticas</h3>
 
 <p>
@@ -116,22 +141,34 @@ if (isset($_SESSION["mensaje"])) {
 
 <p><strong>Publicaciones:</strong> <?= $totalPublicaciones ?></p>
 
-<!-- FORMULARIO DE BIOGRAFÍA -->
+<!-- ============================================================
+     FORMULARIO PARA EDITAR BIOGRAFÍA
+============================================================ -->
 <h3>Biografía</h3>
+
 <form action="pagina_usuario.php" method="post">
     <textarea name="biografia" rows="4" cols="40"><?= $biografiaActual ?></textarea>
     <br><br>
     <button type="submit" name="guardar_biografia">Guardar biografía</button>
 </form>
 
-<!-- FORMULARIO ESTADO EMOCIONAL -->
+<!-- ============================================================
+     FORMULARIO PARA ACTUALIZAR ESTADO EMOCIONAL
+============================================================ -->
 <h3>Estado emocional</h3>
+
 <form action="pagina_usuario.php" method="post">
+
     <label for="estado_emocional">Estado emocional</label>
+
     <select id="estado_emocional" name="estado_emocional" required>
 
-        <option value="" disabled <?= $estadoActual ? "" : "selected" ?>>Selecciona tu estado…</option>
+        <!-- Opción por defecto -->
+        <option value="" disabled <?= $estadoActual ? "" : "selected" ?>>
+            Selecciona tu estado…
+        </option>
 
+        <!-- Lista de emociones -->
         <?php foreach ($emociones as $emo): ?>
             <option value="<?= $emo ?>" <?= ($emo == $estadoActual) ? "selected" : "" ?>>
                 <?= $emo ?>
@@ -139,15 +176,24 @@ if (isset($_SESSION["mensaje"])) {
         <?php endforeach; ?>
 
     </select>
+
     <br><br>
     <button type="submit" name="submit">Actualizar estado</button>
+
 </form>
 
+<!-- ============================================================
+     LISTA DE PUBLICACIONES DEL USUARIO
+============================================================ -->
 <h3>Mis publicaciones</h3>
+
 <?php
 if (!empty($misPublicaciones)) {
+
     foreach ($misPublicaciones as $pub) {
+
         echo "<p>";
+
         echo "<strong>Estado emocional:</strong> " . $pub["estado_emocional"] . "<br>";
         echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
         echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
@@ -156,6 +202,7 @@ if (!empty($misPublicaciones)) {
         $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
         echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
 
+        // Botón de me gusta
         echo '<form action="../backend/procesar_like.php" method="post">
                 <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                 <button type="submit">👍 Me gusta</button>
@@ -196,6 +243,7 @@ if (!empty($misPublicaciones)) {
 
         echo "</p>";
     }
+
 } else {
     echo "<p>No tienes publicaciones todavía.</p>";
 }

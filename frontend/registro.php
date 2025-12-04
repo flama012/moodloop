@@ -1,62 +1,65 @@
 <?php
-// Cargamos la clase de conexión desde el backend
+// Cargamos las clases necesarias del backend
 require_once "../backend/ConexionDB.php";
 require_once "../backend/UsuarioBBDD.php";
 require_once "../backend/Correo.php";
 
-// Iniciamos sesión si no está iniciada
+// Iniciamos sesión si aún no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// Establecemos la conexión con la base de datos 'moodloop'
+// Obtenemos la conexión a la base de datos
 $db = ConexionDB::getConexion("moodloop");
 
-// Procesar registro
+// ============================================================
+// PROCESAR FORMULARIO DE REGISTRO
+// ============================================================
 if (isset($_POST['registrarse'])) {
 
-    // recoger datos
+    // Recogemos los datos del formulario
     $nombre     = trim($_POST["nombre"]);
     $correo     = trim($_POST["correo"]);
     $password   = $_POST["password"];
     $confirmar  = $_POST["confirmar"];
 
-    // Validar contraseñas
+    // 1. Validar que las contraseñas coinciden
     if ($password != $confirmar) {
         $_SESSION["error"] = "Las contraseñas no coinciden.";
         header("Location: registro.php");
         exit();
     }
 
+    // Creamos el objeto para trabajar con usuarios
     $usuBD = new UsuarioBBDD();
 
-    // Verificar si existe ya ese correo
+    // 2. Comprobar si el correo ya está registrado
     if ($usuBD->existeEmail($correo)) {
         $_SESSION["error"] = "El correo ya está registrado.";
         header("Location: registro.php");
         exit();
     }
 
-    // Preparar datos
-    $token = hash('sha256', rand(1, 15000));
-    $passwordHaseada = password_hash($password, PASSWORD_DEFAULT);
+    // 3. Preparar datos para insertar
+    $token = hash('sha256', rand(1, 15000)); // Token único para confirmar el correo
+    $passwordHaseada = password_hash($password, PASSWORD_DEFAULT); // Cifrar contraseña
 
-    // Insertar usuario
+    // 4. Insertar usuario en la base de datos
     $insertar = $usuBD->insertarUsuario(
             null,                       // id_usuario autoincrement
             $nombre,                    // nombre_usuario
             $correo,                    // correo
-            $passwordHaseada,           // contraseña_hash
+            $passwordHaseada,           // contraseña cifrada
             "",                         // biografia
             "",                         // estado_emocional
-            2,                          // id_rol (usuario)
-            0,                          // confirmado
+            2,                          // id_rol (usuario normal)
+            0,                          // confirmado (0 = no confirmado)
             0,                          // baneado
             date("Y-m-d H:i:s"),        // fecha_registro
-            $token                      // token
+            $token                      // token de verificación
     );
 
-    // Manejo de errores del método insertarUsuario()
+    // 5. Manejo de errores del método insertarUsuario()
     if ($insertar === "duplicado_usuario") {
         $_SESSION["error"] = "El nombre de usuario ya está en uso. Elige otro.";
         header("Location: registro.php");
@@ -69,10 +72,11 @@ if (isset($_POST['registrarse'])) {
         exit();
     }
 
-    // Registro correcto
+    // 6. Registro correcto → guardar datos para reenviar correo si hace falta
     $_SESSION["correoRegistro"] = $correo;
     $_SESSION["tokenRegistro"] = $token;
 
+    // 7. Enviar correo de verificación
     $objetoCorreo = new Correo();
     $resultado = $objetoCorreo->enviarCorreoRegistro($correo, $token);
 
@@ -82,11 +86,14 @@ if (isset($_POST['registrarse'])) {
         $_SESSION["MensajeCorreoFallo"] = "No se pudo enviar el correo. Inténtalo más tarde.";
     }
 
+    // Redirigimos a la página que explica que debe confirmar el correo
     header("Location: confirmarCorreo.php");
     exit();
 }
 
-// Mostrar errores
+// ============================================================
+// MOSTRAR ERRORES SI EXISTEN
+// ============================================================
 if (isset($_SESSION["error"])) {
     echo "<h1 style='color:red;'>" . $_SESSION["error"] . "</h1>";
     unset($_SESSION["error"]);
@@ -105,7 +112,11 @@ if (isset($_SESSION["error"])) {
 
 <h2>Regístrate</h2>
 
+<!-- ============================================================
+     FORMULARIO DE REGISTRO
+============================================================ -->
 <form name="formRegistro" method="post" action="#">
+
     <p>
         <label for="nombre">Nombre de usuario:</label>
         <input type="text" id="nombre" required name="nombre">
@@ -138,6 +149,7 @@ if (isset($_SESSION["error"])) {
     <p>
         <a href="login.php">Volver al login</a>
     </p>
+
 </form>
 
 </body>

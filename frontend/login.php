@@ -1,43 +1,46 @@
 <?php
-// Cargamos la clase de conexión desde el backend
+// Cargamos las clases necesarias del backend
 require_once "../backend/ConexionDB.php";
 require_once "../backend/UsuarioBBDD.php";
 
-// Iniciamos sesión si no está iniciada
+// Iniciamos la sesión si aún no está iniciada
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// Establecemos la conexión con la base de datos 'moodloop'
+// Obtenemos la conexión a la base de datos
 $db = ConexionDB::getConexion("moodloop");
 
+// Si el usuario pulsa el botón de "Registrarse"
 if (isset($_POST["irARegistro"])) {
     header("location: registro.php");
     exit;
 }
 
+// Si el usuario pulsa el botón de "Iniciar sesión"
 if (isset($_POST["iniciar"])) {
 
-    // Recoger datos
+    // Recogemos los datos del formulario
     $correo = trim($_POST["emailLogin"]);
     $password = $_POST["passwordLogin"];
 
+    // Creamos el objeto que maneja los usuarios en la BD
     $usuarioBD = new UsuarioBBDD();
 
-    //Comprobar si existe el email
+    // 1. Comprobar si el correo existe
     if (!$usuarioBD->existeEmail($correo)) {
         $_SESSION["error"] = "Este correo no está registrado.";
         header("Location: login.php");
         exit();
     }
 
-    //Obtener datos del usuario
+    // 2. Obtener el usuario completo desde la base de datos
     $usuario = $usuarioBD->obtenerUsuario($correo);
 
-    //Comprobar confirmación del correo
+    // 3. Comprobar si el correo está verificado
     if ($usuario->__get('confirmado') != 1) {
 
-        // Guardamos correo y token para reenviar
+        // Guardamos datos para poder reenviar el correo de verificación
         $_SESSION["correoNoVerificado"] = $usuario->__get("correo");
         $_SESSION["tokenNoVerificado"]  = $usuario->__get("token");
 
@@ -46,35 +49,42 @@ if (isset($_POST["iniciar"])) {
         exit();
     }
 
-    //Comprobar contraseña
+    // 4. Comprobar contraseña
+    // password_verify compara la contraseña escrita con la contraseña cifrada
     if (!password_verify($password, $usuario->__get('password'))) {
         $_SESSION["error"] = "La contraseña es incorrecta.";
         header("location: login.php");
         exit();
     }
 
-    //Login correcto → guardar sesión
+    // 5. Login correcto → guardamos datos en la sesión
     $_SESSION["usuario"] = $usuario->__get("id_usuario");
     $_SESSION["nombre"]  = $usuario->__get("nombre_usuario");
     $_SESSION["correo"]  = $usuario->__get("correo");
     $_SESSION["id_usuario"] = $usuario->__get("id_usuario");
 
+    // Redirigimos al feed
     header("Location: pagina_feed.php");
     exit();
 }
 
-// Mostrar errores
+// ============================================================
+// MOSTRAR MENSAJES DE ERROR O ÉXITO
+// ============================================================
+
+// Mostrar error si existe
 if (isset($_SESSION["error"])) {
     echo "<h1 style='color:red;'>" . $_SESSION["error"] . "</h1>";
     unset($_SESSION["error"]);
 }
 
+// Mostrar mensaje si existe
 if (isset($_SESSION["mensaje"])) {
     echo "<h3 style='color:green;'>" . $_SESSION["mensaje"] . "</h3>";
     unset($_SESSION["mensaje"]);
 }
 
-// Si el usuario no está verificado, mostrar botón de reenvío
+// Si el usuario no está verificado, mostramos un botón para reenviar el correo
 if (isset($_SESSION["correoNoVerificado"])) {
     echo "<form method='post' action='reenviar_confirmacion.php'>
             <p style='color:blue;'>¿No recibiste el correo de verificación?</p>
@@ -92,6 +102,7 @@ if (isset($_SESSION["correoNoVerificado"])) {
     <title>Formulario de inicio de sesión</title>
 </head>
 <body>
+
 <h2>Inicia sesión</h2>
 
 <!-- Formulario de inicio de sesión -->
@@ -109,7 +120,7 @@ if (isset($_SESSION["correoNoVerificado"])) {
     </p>
 </form>
 
-<!-- Formulario de redirección al registro -->
+<!-- Formulario para ir al registro -->
 <form name="formRegistro" method="post" action="#">
     <p>
         <label>¿No tienes cuenta? Regístrate aquí:</label>

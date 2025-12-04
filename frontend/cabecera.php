@@ -1,6 +1,7 @@
 <!-- cabecera.php -->
 
 <?php
+// Evita que alguien abra este archivo directamente en el navegador
 if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
     header("Location: ../index.php");
     exit();
@@ -10,7 +11,7 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
 <!-- Contenedor principal de la cabecera -->
 <div style="display:flex; align-items:center; justify-content:space-between; padding:10px;">
 
-    <!-- 1. LOGO -->
+    <!-- 1. LOGO: al hacer clic lleva al feed -->
     <div>
         <a href="pagina_feed.php">
             <img src="logo_moodloop.png" alt="MoodLoop" style="height:50px;">
@@ -25,13 +26,13 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
         </form>
     </div>
 
-    <!-- 3. MENÚ -->
+    <!-- 3. MENÚ DE NAVEGACIÓN -->
     <nav style="display:flex; gap:15px;">
         <a href="pagina_feed.php">FEED</a>
         <a href="pagina_usuario.php">USUARIO</a>
         <a href="pagina_publicacion.php">CREAR PUBLICACIÓN</a>
 
-        <!-- ✅ SALIR con confirmación -->
+        <!-- Enlace para cerrar sesión con confirmación -->
         <a href="../backend/logout.php"
            style="color:red;"
            onclick="return confirm('¿Seguro que quieres cerrar sesión?');">
