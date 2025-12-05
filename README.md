@@ -84,3 +84,136 @@ El sistema adapta el feed según emociones y etiquetas frecuentes, fomentando la
 Antes de clonar el repositorio, asegúrate de hacerlo dentro de una carpeta vacía.  
 Si lo haces en un proyecto abierto, todos los archivos y recursos de MoodLoop se mezclarán con los existentes, lo que puede provocar errores o conflictos en la estructura.
 
+---
+
+## ✅ Funcionalidades principales
+
+- Registro con verificación por correo  
+- Inicio de sesión  
+- Feed filtrable por:
+  - Seguidos  
+  - Emoción del día  
+  - Emoción específica  
+  - Etiquetas  
+  - Todas las publicaciones  
+- Sistema de seguidores  
+- Likes y comentarios  
+- Perfil editable  
+- Buscador de usuarios  
+
+---
+
+## ✅ Backend (visión general)
+
+### UsuarioBBDD
+Gestión de usuarios:
+- Registro  
+- Login  
+- Seguidores y seguidos  
+- Biografía  
+- Estado emocional  
+
+### PublicacionBBDD
+Gestión de publicaciones:
+- Crear publicaciones  
+- Asignar etiquetas  
+- Gestionar likes  
+- Gestionar comentarios  
+- Obtener publicaciones con distintos filtros  
+
+### Correo
+- Envío de email de verificación de cuenta  
+
+---
+
+## ✅ Frontend (páginas principales)
+
+### login.php
+Formulario de inicio de sesión.
+
+### registro.php
+Formulario de registro y envío de correo de verificación.
+
+### pagina_feed.php
+Feed principal con filtros por emoción, etiquetas, seguidos, etc.
+
+### pagina_usuario.php
+Perfil del usuario logueado (biografía, estado emocional, publicaciones propias).
+
+### pagina_publicacion.php
+Formulario para crear nuevas publicaciones.
+
+### ver_perfil.php
+Visualizar el perfil de otros usuarios y seguir/dejar de seguir.
+
+---
+
+## ✅ Flujo de verificación
+
+1. El usuario se registra.  
+2. Se genera un token único.  
+3. Se envía un email con el enlace de verificación.  
+4. El usuario accede a `verificar.php`.  
+5. La cuenta queda activada.  
+
+---
+
+## ✅ Manual de uso
+
+### Registro
+1. Accede a la página de registro.  
+2. Introduce nombre, correo y contraseña.  
+3. Acepta los términos.  
+4. Revisa tu correo y confirma tu cuenta.  
+
+### Inicio de sesión
+1. Introduce tu correo y contraseña.  
+2. Si tu correo no está verificado, el sistema te avisará.  
+
+### Feed
+Puedes ver publicaciones de:
+- Personas que sigues  
+- Tu emoción del día  
+- Una emoción específica  
+- Determinadas etiquetas  
+- Todas las publicaciones  
+
+### Crear publicación
+1. Escribe un mensaje.  
+2. Selecciona tu emoción.  
+3. Añade etiquetas opcionales.  
+
+### Perfil
+- Edita tu biografía.  
+- Cambia tu estado emocional.  
+- Consulta tus publicaciones.  
+
+### Seguir usuarios
+- Entra en su perfil.  
+- Pulsa “Seguir”.  
+
+---
+
+## ✅ Documentación técnica (resumen)
+
+### Arquitectura
+- PHP + MySQL  
+- Backend orientado a objetos  
+- Frontend basado en plantillas PHP  
+- Sesiones para autenticación  
+
+### Clases principales
+- `UsuarioBBDD`: usuarios, seguidores, perfil  
+- `PublicacionBBDD`: publicaciones, likes, comentarios  
+- `Correo`: verificación por email  
+
+### Flujo de autenticación
+1. Registro → token → correo  
+2. Verificación → activar cuenta  
+3. Login → sesiones  
+
+### Flujo de publicaciones
+1. Crear publicación  
+2. Insertar etiquetas  
+3. Mostrar en feed  
+4. Likes y comentarios  
