@@ -1,0 +1,128 @@
+/* ============================
+   RESET Y BASE
+   ============================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", Arial, sans-serif;
+    background: linear-gradient(135deg, #6a5acd 0%, #0bddbe 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ============================
+   CONTENEDOR PRINCIPAL
+   ============================ */
+.terms-wrapper {
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.terms-box {
+    background: #fff;
+    width: 100%;
+    max-width: 700px;
+    padding: 40px 35px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    text-align: left;
+}
+
+/* ============================
+   LOGO
+   ============================ */
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 90px;
+    margin-bottom: 10px;
+}
+
+.logo h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #6a6a6a;
+}
+
+/* ============================
+   TEXTOS
+   ============================ */
+.intro {
+    font-size: 15px;
+    margin-bottom: 25px;
+    color: #555;
+}
+
+h3 {
+    font-size: 20px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #6a5acd;
+}
+
+p {
+    font-size: 14px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* ============================
+   LISTA DE ACEPTACIÓN
+   ============================ */
+.accept-list {
+    list-style: none;
+    margin: 15px 0 25px 0;
+    padding-left: 0;
+}
+
+.accept-list li {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* ============================
+   BOTÓN
+   ============================ */
+.btn-principal {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: opacity 0.3s ease;
+}
+
+.btn-principal:hover {
+    opacity: 0.9;
+}
+
+/* ============================
+   RESPONSIVO
+   ============================ */
+@media (max-width: 480px) {
+    .terms-box {
+        padding: 30px 20px;
+    }
+
+    .emoji-wall {
+        font-size: 28px;
+    }
+}

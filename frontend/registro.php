@@ -149,7 +149,7 @@ if (isset($_POST['registrarse'])) {
                 <div class="terminos">
                     <input type="checkbox" required name="terminos" id="terminos" value="Enviar">
                     <label for="terminos">
-                        Acepto los <a href="terminos.php">Términos y Condiciones</a> y la <a href="terminos.php">Política de Privacidad</a>.
+                        Acepto los <a href="terminos.html">Términos y Condiciones</a> y la <a href="terminos.html">Política de Privacidad</a>.
                     </label>
                 </div>
 

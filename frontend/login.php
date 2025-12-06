@@ -137,7 +137,7 @@ if (isset($_POST["iniciar"])) {
             </form>
 
             <footer>
-                <p>© 2024 MoodLoop. <a href="terminos.php">Insights</a>. <a href="terminos.php">Términos de Servicio</a> y <a href="terminos.php">Política de Privacidad</a></p>
+                <p>© 2024 MoodLoop. <a href="terminos.html">Insights</a>. <a href="terminos.html">Términos de Servicio</a> y <a href="terminos.html">Política de Privacidad</a></p>
             </footer>
 
         </div>
