@@ -92,10 +92,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     <meta charset="UTF-8">
     <title>Feed</title>
 
-    <!-- ✅ CSS de la cabecera -->
     <link rel="stylesheet" href="css/cabecera.css">
-
-    <!-- ✅ CSS del feed -->
     <link rel="stylesheet" href="css/feed.css">
 </head>
 <body>
