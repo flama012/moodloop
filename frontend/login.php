@@ -11,20 +11,20 @@ if (!isset($_SESSION)) {
 // Obtenemos la conexión a la base de datos
 $db = ConexionDB::getConexion("moodloop");
 
-// Si el usuario pulsa el botón de "Registrarse"
+// Si el usuario pulsa "Registrarse"
 if (isset($_POST["irARegistro"])) {
     header("location: registro.php");
     exit;
 }
 
-// Si el usuario pulsa el botón de "Iniciar sesión"
+// Si el usuario pulsa "Iniciar sesión"
 if (isset($_POST["iniciar"])) {
 
     // Recogemos los datos del formulario
     $correo = trim($_POST["emailLogin"]);
     $password = $_POST["passwordLogin"];
 
-    // Creamos el objeto que maneja los usuarios en la BD
+    // Clase que maneja los usuarios en la BD
     $usuarioBD = new UsuarioBBDD();
 
     // 1. Comprobar si el correo existe
@@ -34,99 +34,141 @@ if (isset($_POST["iniciar"])) {
         exit();
     }
 
-    // 2. Obtener el usuario completo desde la base de datos
+    // 2. Obtener el usuario
     $usuario = $usuarioBD->obtenerUsuario($correo);
 
-    // 3. Comprobar si el correo está verificado
+    // 3. Comprobar si está verificado
     if ($usuario->__get('confirmado') != 1) {
-
-        // Guardamos datos para poder reenviar el correo de verificación
         $_SESSION["correoNoVerificado"] = $usuario->__get("correo");
         $_SESSION["tokenNoVerificado"]  = $usuario->__get("token");
-
         $_SESSION["error"] = "Tu cuenta no está verificada.";
         header("location: login.php");
         exit();
     }
 
     // 4. Comprobar contraseña
-    // password_verify compara la contraseña escrita con la contraseña cifrada
     if (!password_verify($password, $usuario->__get('password'))) {
         $_SESSION["error"] = "La contraseña es incorrecta.";
         header("location: login.php");
         exit();
     }
 
-    // 5. Login correcto → guardamos datos en la sesión
+    // 5. Guardar datos en sesión
     $_SESSION["usuario"] = $usuario->__get("id_usuario");
     $_SESSION["nombre"]  = $usuario->__get("nombre_usuario");
     $_SESSION["correo"]  = $usuario->__get("correo");
     $_SESSION["id_usuario"] = $usuario->__get("id_usuario");
 
-    // Redirigimos al feed
+    // Redirigir al feed
     header("Location: pagina_feed.php");
     exit();
-}
-
-// ============================================================
-// MOSTRAR MENSAJES DE ERROR O ÉXITO
-// ============================================================
-
-// Mostrar error si existe
-if (isset($_SESSION["error"])) {
-    echo "<h1 style='color:red;'>" . $_SESSION["error"] . "</h1>";
-    unset($_SESSION["error"]);
-}
-
-// Mostrar mensaje si existe
-if (isset($_SESSION["mensaje"])) {
-    echo "<h3 style='color:green;'>" . $_SESSION["mensaje"] . "</h3>";
-    unset($_SESSION["mensaje"]);
-}
-
-// Si el usuario no está verificado, mostramos un botón para reenviar el correo
-if (isset($_SESSION["correoNoVerificado"])) {
-    echo "<form method='post' action='reenviar_confirmacion.php'>
-            <p style='color:blue;'>¿No recibiste el correo de verificación?</p>
-            <input type='submit' value='Reenviar correo de verificación'>
-          </form>";
 }
 ?>
 <!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Formulario de inicio de sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - MoodLoop</title>
+
+    <!-- CSS del login -->
+    <link rel="stylesheet" href="css/login.css">
+
+    <!-- JS del login -->
+    <script src="js/login.js" defer></script>
 </head>
 <body>
 
-<h2>Inicia sesión</h2>
+<div class="login-wrapper">
 
-<!-- Formulario de inicio de sesión -->
-<form name="formLogin" method="post" action="#">
-    <p>
-        <label for="emailLogin">Email:</label>
-        <input type="email" id="emailLogin" required name="emailLogin">
-    </p>
-    <p>
-        <label for="passwordLogin">Contraseña:</label>
-        <input type="password" id="passwordLogin" required name="passwordLogin">
-    </p>
-    <p>
-        <input type="submit" name="iniciar" id="iniciar" value="Iniciar sesión">
-    </p>
-</form>
+    <!-- Columna izquierda -->
+    <div class="login-left">
 
-<!-- Formulario para ir al registro -->
-<form name="formRegistro" method="post" action="#">
-    <p>
-        <label>¿No tienes cuenta? Regístrate aquí:</label>
-    </p>
-    <input type="submit" name="irARegistro" id="registro" value="Registrarse">
-</form>
+        <!-- Contenedor interno para centrar y limitar el ancho -->
+        <div class="content-box">
+
+            <!-- Logo y frase -->
+            <div class="logo">
+                <img src="../assets/logo.PNG" alt="MoodLoop">
+                <h2>Conecta con tus emociones</h2>
+            </div>
+
+            <h3>Iniciar sesión</h3>
+
+            <!-- Mensajes del sistema -->
+            <?php if (isset($_SESSION["error"])): ?>
+                <div class="alert-error"><?= $_SESSION["error"] ?></div>
+                <?php unset($_SESSION["error"]); ?>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION["mensaje"])): ?>
+                <div class="alert-success"><?= $_SESSION["mensaje"] ?></div>
+                <?php unset($_SESSION["mensaje"]); ?>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION["correoNoVerificado"])): ?>
+                <form method="post" action="reenviar_confirmacion.php">
+                    <p class="alert-info">¿No recibiste el correo de verificación?</p>
+                    <input type="submit" value="Reenviar correo de verificación">
+                </form>
+            <?php endif; ?>
+
+            <!-- Formulario de login -->
+            <form method="post" id="form-login">
+
+                <!-- Campo email -->
+                <label for="emailLogin">Correo electrónico</label>
+                <input type="email" id="emailLogin" name="emailLogin" placeholder="tu@email.com" required>
+
+                <!-- Campo contraseña -->
+                <label for="passwordLogin">Contraseña</label>
+                <input type="password" id="passwordLogin" name="passwordLogin" placeholder="••••••••" required>
+
+                <!-- Botón de login -->
+                <button type="submit" name="iniciar" id="btn-login">Iniciar sesión</button>
+            </form>
+
+            <!-- Botón para ir al registro (formulario separado) -->
+            <form method="post">
+                <p class="login-register">
+                    ¿No tienes cuenta?
+                    <button type="submit" name="irARegistro" class="link-registro">Regístrate aquí</button>
+                </p>
+            </form>
+
+            <footer>
+                <p>© 2024 MoodLoop. <a href="terminos.php">Insights</a>. <a href="terminos.php">Términos de Servicio</a> y <a href="terminos.php">Política de Privacidad</a></p>
+            </footer>
+
+        </div>
+
+    </div>
+
+    <!-- Columna derecha -->
+    <div class="login-right">
+
+        <!-- Emojis primero -->
+        <div class="emoji-wall">😊 😢 😡 😍 🤯 😴</div>
+
+        <!-- Contenedor interno igual que en la izquierda -->
+        <div class="right-box">
+
+            <h2>Comparte tu estado de ánimo</h2>
+            <p>Únete a MoodLoop y conecta con personas que entienden tus emociones. Comparte, descubre y celebra cada emoción.</p>
+
+            <!-- Estadísticas en horizontal -->
+            <div class="stats-row">
+                <div class="stat"><strong>10K+</strong><span>Usuarios activos</span></div>
+                <div class="stat"><strong>50K+</strong><span>Momentos compartidos</span></div>
+                <div class="stat"><strong>100+</strong><span>Comunidades</span></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
 
 </body>
 </html>
