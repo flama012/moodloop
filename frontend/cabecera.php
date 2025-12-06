@@ -27,16 +27,16 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
     <!-- MENÚ DE NAVEGACIÓN CON ICONOS -->
     <nav class="cabecera-nav">
         <a href="pagina_feed.php" title="Feed">
-            <img src="../assets/icon_feed.png" alt="Feed">
+            <img src="../assets/house.svg" alt="Feed">
         </a>
         <a href="pagina_usuario.php" title="Usuario">
-            <img src="../assets/icon_usuario.png" alt="Usuario">
+            <img src="../assets/user.svg" alt="Usuario">
         </a>
         <a href="pagina_publicacion.php" title="Crear publicación">
-            <img src="../assets/icon_crear.png" alt="Crear">
+            <img src="../assets/create.svg" alt="Crear">
         </a>
         <a href="../backend/logout.php" title="Salir" onclick="return confirm('¿Seguro que quieres cerrar sesión?');">
-            <img src="../assets/icon_salir.png" alt="Salir">
+            <img src="../assets/exit.svg" alt="Salir">
         </a>
     </nav>
 

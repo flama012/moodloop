@@ -213,7 +213,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                 echo '<form action="../backend/procesar_like.php" method="post" class="like-form">
                         <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                         <button type="submit" class="like-button">
-                            <img src="../assets/icon_like.png" alt="Me gusta">
+                            <img src="../assets/like-heart2.svg" alt="Me gusta">
                         </button>
                       </form>';
                 echo "<span class='like-count'>$likes</span>";
@@ -225,7 +225,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                     echo "<div class='pub-comentarios'>";
                     echo "<strong>Comentarios:</strong><br>";
                     foreach ($comentarios as $c) {
-                        echo "<p class='comentario'>- " . $c["texto"] . " <em>por " . $c["nombre_usuario"] . "</em></p>";
+                        echo "<p class='comentario'>- " . $c["texto"] . " <em>@" . $c["nombre_usuario"] . "</em></p>";
                     }
                     echo "</div>";
                 } else {

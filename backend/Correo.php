@@ -60,7 +60,7 @@ class Correo {
             $this->mailer->isHTML(true);
 
             // Asunto del correo
-            $this->mailer->Subject = "Verifíca tu cuenta de Moodloop.";
+            $this->mailer->Subject = "Verificar tu cuenta de Moodloop.";
 
             // Cuerpo del mensaje con el enlace de verificación
             $this->mailer->Body = 'Pulsa <a href="http://aula2gs.edu/moodloop/backend/verificar.php?email='
