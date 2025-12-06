@@ -103,7 +103,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 <?php include "cabecera.php"; ?>
 
 <!-- ============================================================
-     NUEVA ESTRUCTURA DEL FEED EN 3 COLUMNAS (como el prototipo)
+     ESTRUCTURA DEL FEED EN 3 COLUMNAS
 ============================================================ -->
 <div class="feed-layout">
 
@@ -141,7 +141,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
             <br><br>
 
             <!-- Campo de etiquetas -->
-            <label>Filtrar por Etiquetas (máx 5 #):</label><br>
+            <label>Filtrar por Etiquetas (máx 5):</label><br>
             <input type="text" name="etiquetas" placeholder="#motivacion#felicidad" value="<?= $etiquetasTexto ?>">
             <br><br>
 
@@ -193,17 +193,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                 // Fecha
                 echo "<div class='pub-footer'>";
                 echo "<em>" . $pub["fecha_hora"] . "</em>";
-
-                // Me gusta
-                $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
-                echo "<span class='likes'>❤️ $likes</span>";
                 echo "</div>";
-
-                // Botón de "Me gusta"
-                echo '<form action="../backend/procesar_like.php" method="post">
-                        <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                        <button type="submit" class="btn-secundario">Me gusta</button>
-                      </form>';
 
                 // Etiquetas
                 $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
@@ -212,6 +202,21 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                     echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis);
                     echo "</div>";
                 }
+
+                // ============================================================
+                // BLOQUE DE ME GUSTA (imagen + contador)
+                // ============================================================
+                $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
+
+                echo "<div class='pub-likes-block'>";
+                echo '<form action="../backend/procesar_like.php" method="post" class="like-form">
+                        <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                        <button type="submit" class="like-button">
+                            <img src="../assets/icon_like.png" alt="Me gusta">
+                        </button>
+                      </form>';
+                echo "<span class='like-count'>$likes</span>";
+                echo "</div>";
 
                 // Comentarios
                 $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
@@ -226,12 +231,16 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                     echo "<p class='comentario-vacio'>Sin comentarios.</p>";
                 }
 
-                // Formulario para comentar
-                echo '<form action="../backend/procesar_comentario.php" method="post" class="pub-comentar">
+                // Formulario para comentar (responsivo: textarea 75%, botón 25%)
+                echo '<form action="../backend/procesar_comentario.php" method="post" class="pub-comentar-flex">
                         <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                        <textarea name="comentario" rows="2" placeholder="Escribe un comentario..."></textarea>
-                        <button type="submit" class="btn-principal">Comentar</button>
+                        <div class="comentar-contenedor">
+                            <textarea name="comentario" class="comentario-input" placeholder="Escribe un comentario..."></textarea>
+                            <button type="submit" class="btn-principal btn-comentar">Comentar</button>
+                        </div>
                       </form>';
+
+
 
                 echo "</div>";
             }

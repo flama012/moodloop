@@ -1,5 +1,5 @@
 <?php
-// Evita acceso directo
+// Evita que alguien abra este archivo directamente en el navegador
 if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
     header("Location: ../index.php");
     exit();
@@ -9,14 +9,14 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
 <!-- CABECERA MOODLOOP -->
 <header class="cabecera-moodloop">
 
-    <!-- 1. Logo -->
+    <!-- LOGO: clic para volver al feed -->
     <div class="cabecera-logo">
         <a href="pagina_feed.php">
             <img src="../assets/logo.PNG" alt="MoodLoop">
         </a>
     </div>
 
-    <!-- 2. Buscador -->
+    <!-- BUSCADOR DE USUARIOS -->
     <div class="cabecera-buscador">
         <form action="buscar_usuario.php" method="GET">
             <input type="text" name="q" placeholder="Buscar usuarios...">
@@ -24,12 +24,20 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
         </form>
     </div>
 
-    <!-- 3. Navegación -->
+    <!-- MENÚ DE NAVEGACIÓN CON ICONOS -->
     <nav class="cabecera-nav">
-        <a href="pagina_feed.php">Feed</a>
-        <a href="pagina_usuario.php">Usuario</a>
-        <a href="pagina_publicacion.php">Crear publicación</a>
-        <a href="../backend/logout.php" class="btn-salir" onclick="return confirm('¿Seguro que quieres cerrar sesión?');">Salir</a>
+        <a href="pagina_feed.php" title="Feed">
+            <img src="../assets/icon_feed.png" alt="Feed">
+        </a>
+        <a href="pagina_usuario.php" title="Usuario">
+            <img src="../assets/icon_usuario.png" alt="Usuario">
+        </a>
+        <a href="pagina_publicacion.php" title="Crear publicación">
+            <img src="../assets/icon_crear.png" alt="Crear">
+        </a>
+        <a href="../backend/logout.php" title="Salir" onclick="return confirm('¿Seguro que quieres cerrar sesión?');">
+            <img src="../assets/icon_salir.png" alt="Salir">
+        </a>
     </nav>
 
 </header>

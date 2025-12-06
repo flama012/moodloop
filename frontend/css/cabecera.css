@@ -1,6 +1,15 @@
-/* ============================
-   CABECERA MOODLOOP
-   ============================ */
+/* ============================================================
+   CABECERA.CSS — Estilos para la cabecera MoodLoop
+============================================================ */
+
+/* Tipografía moderna */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Contenedor principal */
 .cabecera-moodloop {
     display: flex;
     align-items: center;
@@ -45,28 +54,18 @@
     opacity: 0.9;
 }
 
-/* Navegación */
+/* Menú con iconos */
 .cabecera-nav {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
-.cabecera-nav a {
-    font-size: 14px;
-    color: #333;
-    text-decoration: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    transition: background 0.2s ease;
+.cabecera-nav a img {
+    height: 28px;
+    transition: transform 0.2s ease;
 }
 
-.cabecera-nav a:hover {
-    background-color: #f0f0f0;
-}
-
-/* Botón salir */
-.btn-salir {
-    color: #b30000;
-    font-weight: bold;
+.cabecera-nav a:hover img {
+    transform: scale(1.1);
 }
