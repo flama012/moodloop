@@ -104,6 +104,7 @@ form[name="formRegistro"] input:focus {
 .terminos a {
     color: #6a5acd;
     text-decoration: underline;
+    font-size: 13px;
 }
 
 /* Botón principal */
