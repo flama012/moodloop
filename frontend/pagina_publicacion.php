@@ -77,41 +77,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Crear publicación</title>
 </head>
+<link href="css/cabecera.css" rel="stylesheet">
+<link href="css/crear_publicacion.css" rel="stylesheet">
 <body>
 
 <?php require_once "cabecera.php"; ?>
 
-<h1>CREAR NUEVA PUBLICACIÓN</h1>
+<div class="crear-publicacion-contenedor">
 
-<!-- Mensajes de éxito o error -->
-<?php if ($mensaje_exito != "") echo "<p style='color:green'>$mensaje_exito</p>"; ?>
-<?php if ($mensaje_error != "") echo "<p style='color:red'>$mensaje_error</p>"; ?>
+    <div class="crear-header">
+        <h2>Crear publicación</h2>
+        <button type="submit" form="form-publicacion" class="btn-publicar">Publicar</button>
+    </div>
 
-<!-- ============================================================
-     FORMULARIO PARA CREAR UNA PUBLICACIÓN
-============================================================ -->
-<form method="POST">
+    <!-- Mensajes de éxito o error -->
+    <?php if ($mensaje_exito != "") echo "<p class='mensaje-exito'>$mensaje_exito</p>"; ?>
+    <?php if ($mensaje_error != "") echo "<p class='mensaje-error'>$mensaje_error</p>"; ?>
 
-    <label>Mensaje:</label><br>
-    <textarea name="mensaje" rows="4" cols="50"></textarea><br><br>
+    <form method="POST" id="form-publicacion" class="form-publicacion">
 
-    <label>Estado emocional:</label><br>
-    <select name="estado_emocional" required>
-        <option value="">Selecciona...</option>
-        <?php
-        // Mostramos todas las emociones disponibles
-        foreach ($listaEmociones as $emo) {
-            echo "<option value='$emo'>$emo</option>";
-        }
-        ?>
-    </select>
-    <br><br>
+        <!-- Selector de emoción -->
+        <label for="estado_emocional">¿Cómo te sientes?</label>
+        <select name="estado_emocional" id="estado_emocional" required>
+            <option value="">Selecciona...</option>
+            <?php foreach ($listaEmociones as $emo) {
+                echo "<option value='$emo'>$emo</option>";
+            } ?>
+        </select>
 
-    <label>Etiquetas (máx 5, separadas por #):</label><br>
-    <input type="text" name="etiquetas" placeholder="#motivacion#felicidad"><br><br>
+        <!-- Textarea con contador -->
+        <label for="mensaje">Comparte cómo te sientes...</label>
+        <textarea name="mensaje" id="mensaje" maxlength="500" placeholder="Comparte cómo te sientes..."></textarea>
+        <div class="contador-caracteres"><span id="contador">0</span> / 500</div>
 
-    <button type="submit">Publicar</button>
-</form>
+        <!-- Etiquetas -->
+        <label for="etiquetas">Añadir etiquetas (máx. 5)</label>
+        <input type="text" name="etiquetas" id="etiquetas" placeholder="#motivacion#felicidad">
+    </form>
+</div>
+
+<script>
+    // Contador de caracteres
+    const mensaje = document.getElementById("mensaje");
+    const contador = document.getElementById("contador");
+    mensaje.addEventListener("input", () => {
+        contador.textContent = mensaje.value.length;
+    });
+</script>
 
 </body>
+
 </html>
