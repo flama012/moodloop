@@ -152,6 +152,29 @@ body {
 }
 
 /* ============================
+   BOTÓN SECUNDARIO (REENVIAR CORREO)
+   ============================ */
+.btn-secundario {
+    width: 100%;
+    padding: 12px;
+    background-color: #6a5acd;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px auto 18px auto;
+    transition: background 0.3s ease;
+    display: block;
+}
+
+.btn-secundario:hover {
+    background-color: #0bddbe;
+}
+
+
+
+/* ============================
    FOOTER
    ============================ */
 footer {

@@ -6,30 +6,22 @@ session_start();
 // ============================================================
 if (isset($_POST["reenviarCorreo"])) {
 
-    // Cargamos la clase que envía correos
     require_once("../backend/Correo.php");
-
     $objetoCorreo = new Correo();
 
-    // Recuperamos el correo y token guardados en la sesión
     $email = $_SESSION["correoRegistro"];
     $token = $_SESSION["tokenRegistro"];
 
-    // Intentamos reenviar el correo
     $resultado = $objetoCorreo->enviarCorreoRegistro($email, $token);
 
-    // Si se envió correctamente
     if ($resultado) {
-        $_SESSION["MensajeCorreoExitoso"] = "Reenvio del correo exitoso. Por favor, verifique la bandeja de email.";
+        $_SESSION["MensajeCorreoExitoso"] = "Reenvío del correo exitoso. Revisa tu bandeja.";
         unset($_SESSION["MensajeCorreoFallo"]);
-    }
-    // Si falló
-    else {
-        $_SESSION["MensajeCorreoFallo"] = "No se pudo reenviar el correo. Por favor, vuelva a intentarlo más tarde.";
+    } else {
+        $_SESSION["MensajeCorreoFallo"] = "No se pudo reenviar el correo. Inténtalo más tarde.";
         unset($_SESSION["MensajeCorreoExitoso"]);
     }
 
-    // Recargamos la página para mostrar el mensaje
     header("location: confirmarCorreo.php");
     exit();
 }
@@ -39,53 +31,69 @@ if (isset($_POST["reenviarCorreo"])) {
 // ============================================================
 if (isset($_POST["volverAlLogin"])) {
 
-    // Eliminamos los datos temporales del registro
     unset($_SESSION["correoRegistro"]);
     unset($_SESSION["tokenRegistro"]);
 
     header("location: login.php");
     exit();
 }
-
-// ============================================================
-// 3. MOSTRAR MENSAJES (si existen)
-// ============================================================
-if (isset($_SESSION["MensajeCorreoExitoso"])) {
-    echo "<h1 style='color:green;'>" . $_SESSION["MensajeCorreoExitoso"] . "</h1>";
-}
-
-if (isset($_SESSION["MensajeCorreoFallo"])) {
-    echo "<h1 style='color:red;'>" . $_SESSION["MensajeCorreoFallo"] . "</h1>";
-}
-
-// Limpiamos posibles errores previos
-unset($_SESSION["error"]);
 ?>
-
 <!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Confirmación del correo.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar correo - MoodLoop</title>
+
+    <link rel="stylesheet" href="css/confirmarCorreo.css">
 </head>
 <body>
 
-<!-- Formulario para reenviar el correo -->
-<form name="formReenviarCorreo" method="post" action="#">
-    <p>
-        <input type="submit" name="reenviarCorreo" id="reenviarCorreo" value="Reenviar Correo">
-    </p>
-</form>
+<div class="confirm-wrapper">
 
-<!-- Formulario para volver al login -->
-<form name="formVolverAlLogin" method="post" action="#">
-    <p>
-        <input type="submit" name="volverAlLogin" id="volverAlLogin" value="Volver al Login">
-    </p>
-</form>
+    <div class="confirm-box">
+
+        <!-- Logo -->
+        <div class="logo">
+            <img src="../assets/logo.PNG" alt="MoodLoop">
+            <h2>Verifica tu correo</h2>
+        </div>
+
+        <!-- Título -->
+        <h3>Revisa tu bandeja</h3>
+
+        <!-- ============================
+             MENSAJES DE ESTADO
+        ============================ -->
+        <?php if (isset($_SESSION["MensajeCorreoExitoso"])): ?>
+            <div class="alert-success"><?= $_SESSION["MensajeCorreoExitoso"] ?></div>
+            <?php unset($_SESSION["MensajeCorreoExitoso"]); ?>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION["MensajeCorreoFallo"])): ?>
+            <div class="alert-error"><?= $_SESSION["MensajeCorreoFallo"] ?></div>
+            <?php unset($_SESSION["MensajeCorreoFallo"]); ?>
+        <?php endif; ?>
+
+        <!-- Texto informativo -->
+        <p class="texto-info">
+            Te hemos enviado un correo con un enlace para confirmar tu cuenta.
+            Si no lo encuentras, revisa la carpeta de spam o vuelve a enviarlo.
+        </p>
+
+        <!-- Botón reenviar -->
+        <form method="post" action="#">
+            <button type="submit" name="reenviarCorreo" class="btn-principal">Reenviar correo</button>
+        </form>
+
+        <!-- Botón volver al login -->
+        <form method="post" action="#">
+            <button type="submit" name="volverAlLogin" class="btn-secundario">Volver al login</button>
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>

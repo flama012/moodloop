@@ -109,7 +109,7 @@ if (isset($_POST["iniciar"])) {
             <?php if (isset($_SESSION["correoNoVerificado"])): ?>
                 <form method="post" action="reenviar_confirmacion.php">
                     <p class="alert-info">¿No recibiste el correo de verificación?</p>
-                    <input type="submit" value="Reenviar correo de verificación">
+                    <button type="submit" class="btn-secundario">Reenviar correo</button>
                 </form>
             <?php endif; ?>
 
