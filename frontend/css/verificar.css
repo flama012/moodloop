@@ -1,0 +1,136 @@
+/* ============================
+   RESET Y BASE
+   ============================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", Arial, sans-serif;
+    background: linear-gradient(135deg, #6a5acd 0%, #0bddbe 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ============================
+   CONTENEDOR PRINCIPAL
+   ============================ */
+.verify-wrapper {
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.verify-box {
+    background: #fff;
+    width: 100%;
+    max-width: 430px;
+    padding: 40px 35px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* ============================
+   LOGO
+   ============================ */
+.logo img {
+    width: 90px;
+    margin-bottom: 10px;
+}
+
+.logo h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #6a6a6a;
+    margin-bottom: 20px;
+}
+
+/* ============================
+   MENSAJES
+   ============================ */
+.alert-error,
+.alert-success,
+.alert-info {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.alert-error {
+    background: #ffe0e0;
+    color: #b30000;
+}
+
+.alert-success {
+    background: #e0ffe7;
+    color: #0f8a3b;
+}
+
+.alert-info {
+    background: #e0f0ff;
+    color: #004a99;
+}
+
+/* ============================
+   TEXTO
+   ============================ */
+.texto-info {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* ============================
+   BOTÓN
+   ============================ */
+.btn-principal {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.btn-principal:hover {
+    opacity: 0.9;
+}
+
+/* ============================
+   EMOJIS
+   ============================ */
+.emoji-wall {
+    font-size: 32px;
+    opacity: 0.3;
+    margin-top: 30px;
+    letter-spacing: 6px;
+}
+
+/* ============================
+   RESPONSIVO
+   ============================ */
+@media (max-width: 480px) {
+.verify-box {
+        padding: 30px 20px;
+    }
+
+.emoji-wall {
+        font-size: 28px;
+    }
+}
