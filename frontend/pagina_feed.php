@@ -91,161 +91,188 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 <head>
     <meta charset="UTF-8">
     <title>Feed</title>
+
+    <!-- ✅ CSS de la cabecera -->
+    <link rel="stylesheet" href="css/cabecera.css">
+
+    <!-- ✅ CSS del feed -->
+    <link rel="stylesheet" href="css/feed.css">
 </head>
 <body>
 
 <?php include "cabecera.php"; ?>
 
-<h1>FEED</h1>
-
 <!-- ============================================================
-     FORMULARIO DE FILTROS DEL FEED
+     NUEVA ESTRUCTURA DEL FEED EN 3 COLUMNAS (como el prototipo)
 ============================================================ -->
-<form method="get" action="pagina_feed.php">
+<div class="feed-layout">
 
-    <label>Mostrar publicaciones por:</label><br>
-    <select name="modo" required>
-        <option value="seguidos" <?= ($modo === "seguidos" ? "selected" : "") ?>>Personas que sigo</option>
-        <option value="emocion" <?= ($modo === "emocion" ? "selected" : "") ?>>Mi emoción del día</option>
-        <option value="filtro_emocion" <?= ($modo === "filtro_emocion" ? "selected" : "") ?>>Emoción específica</option>
-        <option value="filtro_etiquetas" <?= ($modo === "filtro_etiquetas" ? "selected" : "") ?>>Etiquetas (#)</option>
-        <option value="todas" <?= ($modo === "todas" ? "selected" : "") ?>>Todas las publicaciones</option>
-    </select>
-    <br><br>
+    <!-- ============================================================
+         COLUMNA IZQUIERDA: FILTROS
+    ============================================================ -->
+    <aside class="feed-col filtros">
 
-    <!-- Selector de emociones -->
-    <label>Emoción:</label><br>
-    <select name="emocion">
-        <option value="">Todas</option>
+        <!-- ============================================================
+             FORMULARIO DE FILTROS DEL FEED
+        ============================================================ -->
+        <form method="get" action="pagina_feed.php" class="filtros-card">
+
+            <label>Mostrar publicaciones por:</label><br>
+            <select name="modo" required>
+                <option value="seguidos" <?= ($modo === "seguidos" ? "selected" : "") ?>>Personas que sigo</option>
+                <option value="emocion" <?= ($modo === "emocion" ? "selected" : "") ?>>Mi emoción del día</option>
+                <option value="filtro_emocion" <?= ($modo === "filtro_emocion" ? "selected" : "") ?>>Emoción específica</option>
+                <option value="filtro_etiquetas" <?= ($modo === "filtro_etiquetas" ? "selected" : "") ?>>Etiquetas (#)</option>
+                <option value="todas" <?= ($modo === "todas" ? "selected" : "") ?>>Todas las publicaciones</option>
+            </select>
+            <br><br>
+
+            <!-- Selector de emociones -->
+            <label>Emoción:</label><br>
+            <select name="emocion">
+                <option value="">Todas</option>
+                <?php
+                foreach ($listaEmociones as $emo) {
+                    $selected = ($emocionGet === $emo) ? "selected" : "";
+                    echo "<option value='$emo' $selected>$emo</option>";
+                }
+                ?>
+            </select>
+            <br><br>
+
+            <!-- Campo de etiquetas -->
+            <label>Etiquetas (máx 5, separadas por #):</label><br>
+            <input type="text" name="etiquetas" placeholder="#motivacion#felicidad" value="<?= $etiquetasTexto ?>">
+            <br><br>
+
+            <button type="submit" class="btn-principal">Aplicar</button>
+        </form>
+    </aside>
+
+    <!-- ============================================================
+         COLUMNA CENTRAL: PUBLICACIONES
+    ============================================================ -->
+    <main class="feed-col publicaciones">
+
+        <!-- ============================================================
+             TÍTULO SEGÚN EL MODO SELECCIONADO
+        ============================================================ -->
         <?php
-        foreach ($listaEmociones as $emo) {
-            $selected = ($emocionGet === $emo) ? "selected" : "";
-            echo "<option value='$emo' $selected>$emo</option>";
+        if ($modo === "seguidos") {
+            echo "<h2>Publicaciones de personas que sigues</h2>";
+        } elseif ($modo === "emocion") {
+            echo "<h2>Publicaciones según tu emoción del día</h2>";
+        } elseif ($modo === "filtro_emocion") {
+            echo "<h2>Publicaciones por emoción específica</h2>";
+        } elseif ($modo === "filtro_etiquetas") {
+            echo "<h2>Publicaciones por etiquetas</h2>";
+        } elseif ($modo === "todas") {
+            echo "<h2>Todas las publicaciones</h2>";
         }
         ?>
-    </select>
-    <br><br>
 
-    <!-- Campo de etiquetas -->
-    <label>Etiquetas (máx 5, separadas por #):</label><br>
-    <input type="text" name="etiquetas" placeholder="#motivacion#felicidad" value="<?= $etiquetasTexto ?>">
-    <br><br>
+        <!-- ============================================================
+             LISTA DE PUBLICACIONES
+        ============================================================ -->
+        <?php
+        if (!empty($publicaciones)) {
 
-    <button type="submit">Aplicar</button>
-</form>
+            foreach ($publicaciones as $pub) {
 
-<hr>
+                echo "<div class='card-publicacion'>";
 
-<!-- ============================================================
-     TÍTULO SEGÚN EL MODO SELECCIONADO
-============================================================ -->
-<?php
-if ($modo === "seguidos") {
-    echo "<h2>Publicaciones de personas que sigues</h2>";
-} elseif ($modo === "emocion") {
-    echo "<h2>Publicaciones según tu emoción del día</h2>";
-} elseif ($modo === "filtro_emocion") {
-    echo "<h2>Publicaciones por emoción específica</h2>";
-} elseif ($modo === "filtro_etiquetas") {
-    echo "<h2>Publicaciones por etiquetas</h2>";
-} elseif ($modo === "todas") {
-    echo "<h2>Todas las publicaciones</h2>";
-}
-?>
+                // Nombre del autor
+                echo "<div class='pub-header'>";
+                echo "<strong>" . $pub["nombre_usuario"] . "</strong>";
+                echo "<span class='pub-emocion'>" . $pub["estado_emocional"] . "</span>";
+                echo "</div>";
 
-<!-- ============================================================
-     LISTA DE PUBLICACIONES
-============================================================ -->
-<?php
-if (!empty($publicaciones)) {
+                // Mensaje (nl2br convierte saltos de línea en <br>)
+                echo "<p class='pub-mensaje'>" . nl2br($pub["mensaje"]) . "</p>";
 
-    foreach ($publicaciones as $pub) {
+                // Fecha
+                echo "<div class='pub-footer'>";
+                echo "<em>" . $pub["fecha_hora"] . "</em>";
 
-        echo "<p>";
+                // Me gusta
+                $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
+                echo "<span class='likes'>❤️ $likes</span>";
+                echo "</div>";
 
-        // Nombre del autor
-        echo "<strong>" . $pub["nombre_usuario"] . "</strong><br>";
+                // Botón de "Me gusta"
+                echo '<form action="../backend/procesar_like.php" method="post">
+                        <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                        <button type="submit" class="btn-secundario">Me gusta</button>
+                      </form>';
 
-        // Emoción
-        echo "Emoción: " . $pub["estado_emocional"] . "<br>";
+                // Etiquetas
+                $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
+                if (!empty($etis)) {
+                    echo "<div class='pub-etiquetas'>";
+                    echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis);
+                    echo "</div>";
+                }
 
-        // Mensaje (nl2br convierte saltos de línea en <br>)
-        echo nl2br($pub["mensaje"]) . "<br>";
+                // Comentarios
+                $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
+                if (!empty($comentarios)) {
+                    echo "<div class='pub-comentarios'>";
+                    echo "<strong>Comentarios:</strong><br>";
+                    foreach ($comentarios as $c) {
+                        echo "<p class='comentario'>- " . $c["texto"] . " <em>por " . $c["nombre_usuario"] . "</em></p>";
+                    }
+                    echo "</div>";
+                } else {
+                    echo "<p class='comentario-vacio'>Sin comentarios.</p>";
+                }
 
-        // Fecha
-        echo "<em>" . $pub["fecha_hora"] . "</em><br>";
+                // Formulario para comentar
+                echo '<form action="../backend/procesar_comentario.php" method="post" class="pub-comentar">
+                        <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
+                        <textarea name="comentario" rows="2" placeholder="Escribe un comentario..."></textarea>
+                        <button type="submit" class="btn-principal">Comentar</button>
+                      </form>';
 
-        // Me gusta
-        $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
-        echo "<strong>Me gusta:</strong> " . $likes . "<br>";
+                echo "</div>";
+            }
 
-        // Botón de "Me gusta"
-        echo '<form action="../backend/procesar_like.php" method="post">
-                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                <button type="submit">Me gusta</button>
-              </form><br><br>';
-
-        // Etiquetas
-        $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
-        if (!empty($etis)) {
-            echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis) . "<br>";
+        } else {
+            echo "<p>No hay publicaciones para este modo.</p>";
         }
+        ?>
 
-        // Comentarios
-        $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
-        if (!empty($comentarios)) {
-            echo "<strong>Comentarios:</strong><br>";
-            foreach ($comentarios as $c) {
-                echo "- " . $c["texto"] . " <em>por " . $c["nombre_usuario"] . "</em><br>";
+    </main>
+
+    <!-- ============================================================
+         COLUMNA DERECHA: ESTADÍSTICAS
+    ============================================================ -->
+    <aside class="feed-col estadisticas">
+
+        <h3>Emociones populares</h3>
+        <?php
+        if (!empty($topEmociones)) {
+            foreach ($topEmociones as $e) {
+                echo "<p>" . $e["estado_emocional"] . " (" . $e["total"] . ")</p>";
             }
         } else {
-            echo "Sin comentarios.<br>";
+            echo "<p>No hay datos de emociones populares.</p>";
         }
+        ?>
 
-        // Formulario para comentar
-        echo '<form action="../backend/procesar_comentario.php" method="post">
-                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>
-                <button type="submit">Comentar</button>
-              </form>';
+        <h3>Etiquetas populares</h3>
+        <?php
+        if (!empty($topEtiquetas)) {
+            foreach ($topEtiquetas as $et) {
+                echo "<p>" . $et["nombre_etiqueta"] . " (" . $et["total"] . ")</p>";
+            }
+        } else {
+            echo "<p>No hay datos de etiquetas populares.</p>";
+        }
+        ?>
 
-        echo "</p>";
-    }
+    </aside>
 
-} else {
-    echo "<p>No hay publicaciones para este modo.</p>";
-}
-?>
-
-<hr>
-
-<!-- ============================================================
-     TOP EMOCIONES
-============================================================ -->
-<h3>Emociones populares</h3>
-<?php
-if (!empty($topEmociones)) {
-    foreach ($topEmociones as $e) {
-        echo "<p>" . $e["estado_emocional"] . " (" . $e["total"] . ")</p>";
-    }
-} else {
-    echo "<p>No hay datos de emociones populares.</p>";
-}
-?>
-
-<!-- ============================================================
-     TOP ETIQUETAS
-============================================================ -->
-<h3>Etiquetas populares</h3>
-<?php
-if (!empty($topEtiquetas)) {
-    foreach ($topEtiquetas as $et) {
-        echo "<p>" . $et["nombre_etiqueta"] . " (" . $et["total"] . ")</p>";
-    }
-} else {
-    echo "<p>No hay datos de etiquetas populares.</p>";
-}
-?>
+</div>
 
 </body>
 </html>

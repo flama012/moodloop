@@ -1,45 +1,35 @@
-<!-- cabecera.php -->
-
 <?php
-// Evita que alguien abra este archivo directamente en el navegador
+// Evita acceso directo
 if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
     header("Location: ../index.php");
     exit();
 }
 ?>
 
-<!-- Contenedor principal de la cabecera -->
-<div style="display:flex; align-items:center; justify-content:space-between; padding:10px;">
+<!-- CABECERA MOODLOOP -->
+<header class="cabecera-moodloop">
 
-    <!-- 1. LOGO: al hacer clic lleva al feed -->
-    <div>
+    <!-- 1. Logo -->
+    <div class="cabecera-logo">
         <a href="pagina_feed.php">
-            <img src="logo_moodloop.png" alt="MoodLoop" style="height:50px;">
+            <img src="../assets/logo.PNG" alt="MoodLoop">
         </a>
     </div>
 
-    <!-- 2. BUSCADOR DE USUARIOS -->
-    <div>
-        <form action="buscar_usuario.php" method="GET" style="display:flex; gap:5px;">
-            <input type="text" name="q" placeholder="Buscar usuarios..." style="padding:5px;">
+    <!-- 2. Buscador -->
+    <div class="cabecera-buscador">
+        <form action="buscar_usuario.php" method="GET">
+            <input type="text" name="q" placeholder="Buscar usuarios...">
             <button type="submit">Buscar</button>
         </form>
     </div>
 
-    <!-- 3. MENÚ DE NAVEGACIÓN -->
-    <nav style="display:flex; gap:15px;">
-        <a href="pagina_feed.php">FEED</a>
-        <a href="pagina_usuario.php">USUARIO</a>
-        <a href="pagina_publicacion.php">CREAR PUBLICACIÓN</a>
-
-        <!-- Enlace para cerrar sesión con confirmación -->
-        <a href="../backend/logout.php"
-           style="color:red;"
-           onclick="return confirm('¿Seguro que quieres cerrar sesión?');">
-            SALIR
-        </a>
+    <!-- 3. Navegación -->
+    <nav class="cabecera-nav">
+        <a href="pagina_feed.php">Feed</a>
+        <a href="pagina_usuario.php">Usuario</a>
+        <a href="pagina_publicacion.php">Crear publicación</a>
+        <a href="../backend/logout.php" class="btn-salir" onclick="return confirm('¿Seguro que quieres cerrar sesión?');">Salir</a>
     </nav>
 
-</div>
-
-<hr>
+</header>

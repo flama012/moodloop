@@ -1,0 +1,72 @@
+/* ============================
+   CABECERA MOODLOOP
+   ============================ */
+.cabecera-moodloop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 25px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Logo */
+.cabecera-logo img {
+    height: 48px;
+}
+
+/* Buscador */
+.cabecera-buscador form {
+    display: flex;
+    gap: 8px;
+}
+
+.cabecera-buscador input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.cabecera-buscador button {
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.cabecera-buscador button:hover {
+    opacity: 0.9;
+}
+
+/* Navegación */
+.cabecera-nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.cabecera-nav a {
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.cabecera-nav a:hover {
+    background-color: #f0f0f0;
+}
+
+/* Botón salir */
+.btn-salir {
+    color: #b30000;
+    font-weight: bold;
+}
