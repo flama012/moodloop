@@ -3,7 +3,7 @@
 session_start();
 
 // Cargamos la clase que envía correos
-require_once "../backend/Correo.php";
+require_once "Correo.php";
 
 // ============================================================
 // 1. COMPROBAR QUE TENEMOS LOS DATOS NECESARIOS
@@ -11,7 +11,7 @@ require_once "../backend/Correo.php";
 // Si no tenemos el correo o el token guardados en la sesión,
 // significa que el usuario no debería estar aquí.
 if (!isset($_SESSION["correoNoVerificado"]) || !isset($_SESSION["tokenNoVerificado"])) {
-    header("Location: login.php");
+    header("Location: ../frontend/login.php");
     exit();
 }
 
@@ -37,5 +37,5 @@ if ($resultado) {
 // 3. REDIRIGIR AL LOGIN
 // ============================================================
 
-header("Location: login.php");
+header("Location: ../frontend/login.php");
 exit();
