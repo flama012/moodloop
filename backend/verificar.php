@@ -1,11 +1,11 @@
 <?php
 // -------------------------------------------------------------
 // verificar.php
-// Página que valida el correo del usuario usando email + token.
+// Valida el correo del usuario usando email + token.
 // Se accede desde el enlace enviado al correo de registro.
 // -------------------------------------------------------------
 
-require_once "../backend/UsuarioBBDD.php";
+require_once "UsuarioBBDD.php";
 
 // Comprobamos si llega el parámetro 'email' en la URL
 if (isset($_GET['email'])) {
@@ -22,7 +22,7 @@ if (isset($_GET['email'])) {
     if ($usuario->__get('confirmado') == 1) {
 
         echo "Error, tu correo ya ha sido verificado";
-        echo "<br><a href='login.php'>Volver al login</a>";
+        echo "<br><a href='../frontend/login.php'>Volver al login</a>";
         exit;
     }
 
@@ -36,12 +36,12 @@ if (isset($_GET['email'])) {
 
             echo "<h2 style='color: green;'>¡Tu cuenta ha sido verificada correctamente!</h2>";
             echo "<p>Ahora puedes iniciar sesión haciendo clic aquí:</p>";
-            echo "<br><a href='login.php'>Volver al login</a>";
+            echo "<br><a href='../frontend/login.php'>Volver al login</a>";
 
         } else {
 
             echo "<p style='color:red;'>Error al actualizar tu verificación. Inténtalo de nuevo.</p>";
-            echo "<br><a href='login.php'>Volver al login</a>";
+            echo "<br><a href='../frontend/login.php'>Volver al login</a>";
         }
 
     } else {
