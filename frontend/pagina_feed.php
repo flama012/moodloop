@@ -128,9 +128,9 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
             <br><br>
 
             <!-- Selector de emociones -->
-            <label>Emoción:</label><br>
+            <label>Filtrar por Emoción:</label><br>
             <select name="emocion">
-                <option value="">Todas</option>
+                <option value="">Seleccionar</option>
                 <?php
                 foreach ($listaEmociones as $emo) {
                     $selected = ($emocionGet === $emo) ? "selected" : "";
@@ -141,7 +141,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
             <br><br>
 
             <!-- Campo de etiquetas -->
-            <label>Etiquetas (máx 5, separadas por #):</label><br>
+            <label>Filtrar por Etiquetas (máx 5 #):</label><br>
             <input type="text" name="etiquetas" placeholder="#motivacion#felicidad" value="<?= $etiquetasTexto ?>">
             <br><br>
 
