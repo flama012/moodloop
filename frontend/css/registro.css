@@ -192,14 +192,14 @@ form[name="formRegistro"] input:focus {
 
 /* Contenedor interno */
 .right-box {
-    max-width: 420px;
+    max-width: 480px;
     width: 100%;
     text-align: left;
 }
 
 /* Título principal */
 .login-right h2 {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 700;
     margin-bottom: 20px;
     line-height: 1.2;
@@ -207,7 +207,7 @@ form[name="formRegistro"] input:focus {
 
 /* Texto descriptivo */
 .login-right p {
-    font-size: 18px;
+    font-size: 15px;
     line-height: 1.5;
     margin-bottom: 40px;
     opacity: 0.95;
