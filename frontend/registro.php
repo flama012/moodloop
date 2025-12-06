@@ -17,7 +17,6 @@ $db = ConexionDB::getConexion("moodloop");
 // ============================================================
 if (isset($_POST['registrarse'])) {
 
-    // Recogemos los datos del formulario
     $nombre     = trim($_POST["nombre"]);
     $correo     = trim($_POST["correo"]);
     $password   = $_POST["password"];
@@ -30,7 +29,6 @@ if (isset($_POST['registrarse'])) {
         exit();
     }
 
-    // Creamos el objeto para trabajar con usuarios
     $usuBD = new UsuarioBBDD();
 
     // 2. Comprobar si el correo ya está registrado
@@ -40,26 +38,26 @@ if (isset($_POST['registrarse'])) {
         exit();
     }
 
-    // 3. Preparar datos para insertar
-    $token = hash('sha256', rand(1, 15000)); // Token único para confirmar el correo
-    $passwordHaseada = password_hash($password, PASSWORD_DEFAULT); // Cifrar contraseña
+    // 3. Preparar datos
+    $token = hash('sha256', rand(1, 15000));
+    $passwordHaseada = password_hash($password, PASSWORD_DEFAULT);
 
-    // 4. Insertar usuario en la base de datos
+    // 4. Insertar usuario
     $insertar = $usuBD->insertarUsuario(
-            null,                       // id_usuario autoincrement
-            $nombre,                    // nombre_usuario
-            $correo,                    // correo
-            $passwordHaseada,           // contraseña cifrada
-            "",                         // biografia
-            "",                         // estado_emocional
-            2,                          // id_rol (usuario normal)
-            0,                          // confirmado (0 = no confirmado)
-            0,                          // baneado
-            date("Y-m-d H:i:s"),        // fecha_registro
-            $token                      // token de verificación
+            null,
+            $nombre,
+            $correo,
+            $passwordHaseada,
+            "",
+            "",
+            2,
+            0,
+            0,
+            date("Y-m-d H:i:s"),
+            $token
     );
 
-    // 5. Manejo de errores del método insertarUsuario()
+    // 5. Manejo de errores
     if ($insertar === "duplicado_usuario") {
         $_SESSION["error"] = "El nombre de usuario ya está en uso. Elige otro.";
         header("Location: registro.php");
@@ -72,11 +70,11 @@ if (isset($_POST['registrarse'])) {
         exit();
     }
 
-    // 6. Registro correcto → guardar datos para reenviar correo si hace falta
+    // 6. Guardar datos para reenviar correo
     $_SESSION["correoRegistro"] = $correo;
     $_SESSION["tokenRegistro"] = $token;
 
-    // 7. Enviar correo de verificación
+    // 7. Enviar correo
     $objetoCorreo = new Correo();
     $resultado = $objetoCorreo->enviarCorreoRegistro($correo, $token);
 
@@ -86,71 +84,110 @@ if (isset($_POST['registrarse'])) {
         $_SESSION["MensajeCorreoFallo"] = "No se pudo enviar el correo. Inténtalo más tarde.";
     }
 
-    // Redirigimos a la página que explica que debe confirmar el correo
     header("Location: confirmarCorreo.php");
     exit();
-}
-
-// ============================================================
-// MOSTRAR ERRORES SI EXISTEN
-// ============================================================
-if (isset($_SESSION["error"])) {
-    echo "<h1 style='color:red;'>" . $_SESSION["error"] . "</h1>";
-    unset($_SESSION["error"]);
 }
 ?>
 <!doctype html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Formulario de registro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta - MoodLoop</title>
+
+    <!-- CSS del registro -->
+    <link rel="stylesheet" href="css/registro.css">
 </head>
 <body>
 
-<h2>Regístrate</h2>
+<div class="login-wrapper">
 
-<!-- ============================================================
-     FORMULARIO DE REGISTRO
-============================================================ -->
-<form name="formRegistro" method="post" action="#">
+    <!-- ============================
+         COLUMNA IZQUIERDA (FORMULARIO)
+    ============================ -->
+    <div class="login-left">
 
-    <p>
-        <label for="nombre">Nombre de usuario:</label>
-        <input type="text" id="nombre" required name="nombre">
-    </p>
+        <div class="content-box">
 
-    <p>
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" required name="correo">
-    </p>
+            <div class="logo">
+                <img src="../assets/logo.PNG" alt="MoodLoop">
+                <h2>Conecta con tus emociones</h2>
+            </div>
 
-    <p>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" required name="password">
-    </p>
+            <h3>Crear cuenta</h3>
 
-    <p>
-        <label for="confirmar">Confirmar contraseña:</label>
-        <input type="password" id="confirmar" required name="confirmar">
-    </p>
+            <!-- ============================
+                 MENSAJES DE ERROR / ÉXITO
+            ============================ -->
+            <?php if (isset($_SESSION["error"])): ?>
+                <div class="alert-error"><?= $_SESSION["error"] ?></div>
+                <?php unset($_SESSION["error"]); ?>
+            <?php endif; ?>
 
-    <p>
-        <a href="terminos.php">Acepto los Términos y Condiciones y la Política de Privacidad.</a>
-        <input type="checkbox" required name="terminos" id="terminos" value="Enviar">
-    </p>
+            <?php if (isset($_SESSION["mensaje"])): ?>
+                <div class="alert-success"><?= $_SESSION["mensaje"] ?></div>
+                <?php unset($_SESSION["mensaje"]); ?>
+            <?php endif; ?>
 
-    <p>
-        <input type="submit" name="registrarse" id="registrarse" value="Registrarse">
-    </p>
+            <!-- ============================================================
+                 FORMULARIO DE REGISTRO
+            ============================================================ -->
+            <form name="formRegistro" method="post" action="#">
 
-    <p>
-        <a href="login.php">Volver al login</a>
-    </p>
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" required name="nombre" placeholder="Tu nombre">
 
-</form>
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" required name="correo" placeholder="tu@email.com">
+
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" required name="password" placeholder="••••••••">
+
+                <label for="confirmar">Confirmar contraseña</label>
+                <input type="password" id="confirmar" required name="confirmar" placeholder="••••••••">
+
+                <div class="terminos">
+                    <input type="checkbox" required name="terminos" id="terminos" value="Enviar">
+                    <label for="terminos">
+                        Acepto los <a href="terminos.php">Términos y Condiciones</a> y la <a href="terminos.php">Política de Privacidad</a>.
+                    </label>
+                </div>
+
+                <button type="submit" name="registrarse" id="btn-login">Crear cuenta</button>
+            </form>
+
+            <form method="post" action="login.php">
+                <p class="login-register">
+                    ¿Ya tienes cuenta?
+                    <button type="submit" class="link-registro">Inicia sesión aquí</button>
+                </p>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ============================
+         COLUMNA DERECHA (EMOCIONES)
+    ============================ -->
+    <div class="login-right">
+
+        <div class="emoji-wall">😊 😢 😡 😍 🤯 😴</div>
+
+        <div class="right-box">
+            <h2>Comparte tu estado de ánimo</h2>
+            <p>Únete a MoodLoop y conecta con personas que entienden tus emociones. Comparte, descubre y celebra cada emoción.</p>
+
+            <div class="stats-row">
+                <div class="stat"><strong>10K+</strong><span>Usuarios activos</span></div>
+                <div class="stat"><strong>50K+</strong><span>Momentos compartidos</span></div>
+                <div class="stat"><strong>100+</strong><span>Comunidades</span></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

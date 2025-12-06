@@ -1,0 +1,284 @@
+/* ============================
+   RESET Y BASE
+   ============================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", Arial, sans-serif;
+    background-color: #f5f7fb;
+    color: #333;
+    height: 100vh;
+}
+
+/* ============================
+   CONTENEDOR PRINCIPAL
+   ============================ */
+.login-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* ============================
+   COLUMNA IZQUIERDA (FORMULARIO)
+   ============================ */
+.login-left {
+    width: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+}
+
+/* Contenedor interno para centrar y limitar el ancho */
+.content-box {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Logo y frase */
+.logo {
+    margin-bottom: 10px;
+}
+
+.logo img {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.logo h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: #6a6a6a;
+}
+
+/* Título del formulario */
+.login-left h3 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+/* ============================
+   FORMULARIO
+   ============================ */
+form[name="formRegistro"] {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+form[name="formRegistro"] label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+form[name="formRegistro"] input[type="text"],
+form[name="formRegistro"] input[type="email"],
+form[name="formRegistro"] input[type="password"] {
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.2s ease;
+}
+
+form[name="formRegistro"] input:focus {
+    border-color: #6a5acd;
+}
+
+/* Checkbox de términos */
+.terminos {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.terminos a {
+    color: #6a5acd;
+    text-decoration: underline;
+}
+
+/* Botón principal */
+#btn-login {
+    padding: 12px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: opacity 0.3s ease;
+}
+
+#btn-login:hover {
+    opacity: 0.9;
+}
+
+/* Enlace a login */
+.login-register {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.link-registro {
+    background: none;
+    border: none;
+    color: #6a5acd;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+/* ============================
+   MENSAJES DE ERROR / ÉXITO
+   ============================ */
+.alert-error,
+.alert-success,
+.alert-info {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.alert-error {
+    background: #ffe0e0;
+    color: #b30000;
+}
+
+.alert-success {
+    background: #e0ffe7;
+    color: #0f8a3b;
+}
+
+.alert-info {
+    background: #e0f0ff;
+    color: #004a99;
+}
+
+
+/* ============================
+   COLUMNA DERECHA (EMOCIONES)
+   ============================ */
+.login-right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 70px;
+    background: linear-gradient(135deg, #6a5acd 0%, #0bddbe 100%);
+    color: white;
+}
+
+/* Emojis decorativos */
+.emoji-wall {
+    font-size: 45px;
+    opacity: 0.25;
+    margin-bottom: 40px;
+    letter-spacing: 8px;
+}
+
+/* Contenedor interno */
+.right-box {
+    max-width: 420px;
+    width: 100%;
+    text-align: left;
+}
+
+/* Título principal */
+.login-right h2 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+/* Texto descriptivo */
+.login-right p {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-bottom: 40px;
+    opacity: 0.95;
+}
+
+/* Estadísticas en horizontal */
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat strong {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.stat span {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* ============================
+   RESPONSIVO
+   ============================ */
+@media (max-width: 900px) {
+    .login-wrapper {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .login-left,
+    .login-right {
+        width: 100%;
+        padding: 40px 20px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .content-box,
+    .right-box {
+        max-width: 90%;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .emoji-wall {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .stats-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .stat {
+        align-items: center;
+    }
+
+    .login-right h2 {
+        font-size: 28px;
+    }
+
+    .login-right p {
+        font-size: 15px;
+    }
+}
