@@ -159,16 +159,17 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
         ============================================================ -->
         <?php
         if ($modo === "seguidos") {
-            echo "<h2>Publicaciones de personas que sigues</h2>";
+            echo "<h2 class='tituloAnimado'>Publicaciones de personas que sigues</h2>";
         } elseif ($modo === "emocion") {
-            echo "<h2>Publicaciones según tu emoción del día</h2>";
+            echo "<h2 class='tituloAnimado'>Publicaciones según tu emoción del día</h2>";
         } elseif ($modo === "filtro_emocion") {
-            echo "<h2>Publicaciones por emoción específica</h2>";
+            echo "<h2 class='tituloAnimado'>Publicaciones por emoción específica</h2>";
         } elseif ($modo === "filtro_etiquetas") {
-            echo "<h2>Publicaciones por etiquetas</h2>";
+            echo "<h2 class='tituloAnimado'>Publicaciones por etiquetas</h2>";
         } elseif ($modo === "todas") {
-            echo "<h2>Todas las publicaciones</h2>";
+            echo "<h2 class='tituloAnimado'>Todas las publicaciones</h2>";
         }
+
         ?>
 
         <!-- ============================================================
@@ -184,7 +185,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                 // Nombre del autor
                 echo "<div class='pub-header'>";
                 echo "<strong>" . $pub["nombre_usuario"] . "</strong>";
-                echo "<span class='pub-emocion'>" . $pub["estado_emocional"] . "</span>";
+                echo "<span class='pub-emocion emocion-animada'>" . $pub["estado_emocional"] . "</span>";
                 echo "</div>";
 
                 // Mensaje (nl2br convierte saltos de línea en <br>)

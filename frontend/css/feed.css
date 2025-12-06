@@ -118,6 +118,45 @@
 }
 
 /* ============================================================
+   ANIMACIÓN DE COLOR EN BUCLE PARA EL TÍTULO
+============================================================ */
+
+.tituloAnimado {
+    animation: cambioColor 15s infinite alternate ease-in-out;
+    font-weight: 700;
+}
+
+/* Colores que irán rotando */
+@keyframes cambioColor {
+    0%   { color: #6a5acd; }   /* morado */
+    50%  { color: #0bbd8c; }   /* verde turquesa */
+    100% { color: #1d3557; }   /* azul oscuro */
+}
+
+/* ============================================================
+   ANIMACIÓN DE FONDO PARA LA EMOCIÓN DE CADA PUBLICACIÓN
+============================================================ */
+
+.emocion-animada {
+    animation: bgColorLoop 15s infinite alternate ease-in-out;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Colores que irán rotando */
+@keyframes bgColorLoop {
+    0%   { background-color: #6a5acd; }  /* morado */
+    25%  { background-color: #0bbd8c; }  /* verde turquesa */
+    50%  { background-color: #ff8c42; }  /* naranja */
+    75%  { background-color: #e63946; }  /* rojo coral */
+    100% { background-color: #1d3557; }  /* azul oscuro */
+}
+
+
+/* ============================================================
    BLOQUE DE ME GUSTA CON IMAGEN Y CONTADOR
 ============================================================ */
 .pub-likes-block {
