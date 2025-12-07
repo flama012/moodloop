@@ -330,6 +330,7 @@ body {
         grid-template-columns: 1fr;
     }
     .feed-col.filtros {
+        position: static;
         order: 1;
     }
     .feed-col.publicaciones {
