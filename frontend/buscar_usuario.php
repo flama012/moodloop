@@ -35,48 +35,55 @@ if ($busqueda != "") {
 <head>
     <meta charset="UTF-8">
     <title>Buscar usuario</title>
+
+    <link rel="stylesheet" href="css/cabecera.css">
+    <link rel="stylesheet" href="css/buscar_usuario.css">
 </head>
 <body>
 
-<!-- Cabecera con el buscador -->
 <?php include "cabecera.php"; ?>
 
-<h1>Resultados de la búsqueda</h1>
-<hr>
+<div class="resultados-contenedor">
 
-<?php
+    <h1 class="resultados-titulo">Resultados de la búsqueda</h1>
+    <hr class="resultados-hr">
 
-// Si no se escribió nada
-if ($busqueda == "") {
+    <?php
 
-    echo "<p>No has escrito nada en el buscador.</p>";
+    // Si no se escribió nada
+    if ($busqueda == "") {
 
-}
-// Si no hay coincidencias
-else if (empty($resultados)) {
+        echo "<p class='msg-info'>No has escrito nada en el buscador.</p>";
 
-    echo "<p>No se encontraron usuarios con el nombre <strong>$busqueda</strong>.</p>";
-
-}
-// Si hay resultados
-else {
-
-    echo "<p>Mostrando resultados para: <strong>$busqueda</strong></p><br>";
-
-    // Recorremos los usuarios encontrados
-    foreach ($resultados as $u) {
-
-        $nombre = $u["nombre_usuario"];
-        $id = $u["id_usuario"];
-
-        echo "<div style='margin-bottom: 10px;'>";
-        echo "<strong>$nombre</strong><br>";
-        echo "<a href='ver_perfil.php?id=$id'>Ver perfil</a>";
-        echo "</div>";
     }
-}
+// Si no hay coincidencias
+    else if (empty($resultados)) {
 
-?>
+        echo "<p class='msg-error'>No se encontraron usuarios con el nombre <strong>$busqueda</strong>.</p>";
+
+    }
+// Si hay resultados
+    else {
+
+        echo "<p class='msg-info'>Mostrando resultados para: <strong>$busqueda</strong></p>";
+
+        // Recorremos los usuarios encontrados
+        foreach ($resultados as $u) {
+
+            $nombre = $u["nombre_usuario"];
+            $id = $u["id_usuario"];
+
+            echo "<div class='usuario-card'>";
+            echo "<div class='usuario-nombre'>$nombre</div>";
+            echo "<a class='btn-ver-perfil' href='ver_perfil.php?id=$id'>Ver perfil</a>";
+            echo "</div>";
+        }
+    }
+
+    ?>
+
+</div>
 
 </body>
+
 </html>

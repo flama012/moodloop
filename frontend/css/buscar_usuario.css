@@ -1,0 +1,111 @@
+/* ============================================================
+   BASE
+============================================================ */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+}
+
+/* Contenedor principal */
+.resultados-contenedor {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* ============================================================
+   TÍTULO
+============================================================ */
+.resultados-titulo {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Línea separadora */
+.resultados-hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, #6a5acd, #0bddbe);
+    margin-bottom: 30px;
+}
+
+/* ============================================================
+   MENSAJES
+============================================================ */
+.msg-info,
+.msg-error {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.msg-info {
+    background: #2a2a2a;
+    color: #cfcfcf;
+}
+
+.msg-error {
+    background: #fdecea;
+    color: #d93025;
+}
+
+/* ============================================================
+   TARJETAS DE USUARIO
+============================================================ */
+.usuario-card {
+    background: #ffffff;
+    color: #333;
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.usuario-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* Nombre del usuario */
+.usuario-nombre {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+/* Botón ver perfil */
+.btn-ver-perfil {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-ver-perfil:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 600px) {
+    .resultados-contenedor {
+        padding: 10px;
+    }
+}
