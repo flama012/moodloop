@@ -116,11 +116,11 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
             <label>Mostrar publicaciones por:</label><br>
             <select name="modo" required>
+                <option value="todas" <?= ($modo === "todas" ? "selected" : "") ?>>Todas las publicaciones</option>
                 <option value="seguidos" <?= ($modo === "seguidos" ? "selected" : "") ?>>Personas que sigo</option>
                 <option value="emocion" <?= ($modo === "emocion" ? "selected" : "") ?>>Mi emoción del día</option>
                 <option value="filtro_emocion" <?= ($modo === "filtro_emocion" ? "selected" : "") ?>>Emoción específica</option>
                 <option value="filtro_etiquetas" <?= ($modo === "filtro_etiquetas" ? "selected" : "") ?>>Etiquetas (#)</option>
-                <option value="todas" <?= ($modo === "todas" ? "selected" : "") ?>>Todas las publicaciones</option>
             </select>
             <br><br>
 
@@ -138,7 +138,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
             <br><br>
 
             <!-- Campo de etiquetas -->
-            <label>Filtrar por Etiquetas (máx 5):</label><br>
+            <label>Filtrar por Etiquetas:</label><br>
             <input type="text" name="etiquetas" placeholder="#motivacion#felicidad" value="<?= $etiquetasTexto ?>">
             <br><br>
 
@@ -229,7 +229,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                     echo "<p class='comentario-vacio'>Sin comentarios.</p>";
                 }
 
-                // Formulario para comentar (responsivo: textarea 75%, botón 25%)
+                // Formulario para comentar
                 echo '<form action="../backend/procesar_comentario.php" method="post" class="pub-comentar-flex">
                         <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                         <div class="comentar-contenedor">
@@ -244,7 +244,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
             }
 
         } else {
-            echo "<p>No hay publicaciones para este modo.</p>";
+            echo "<p class='feed-mensaje'>No hay publicaciones para este modo.</p>";
         }
         ?>
 

@@ -131,7 +131,7 @@ if (isset($_POST['submit'])) {
     <div class="perfil-header">
 
         <!-- Nombre del usuario -->
-        <h2 class="perfil-nombre, nombreAnimado"><?= $nombreUsuario ?></h2>
+        <h2 class="perfil-nombre"><?= $nombreUsuario ?></h2>
 
         <!-- ESTADÍSTICAS -->
         <div class="perfil-estadisticas">

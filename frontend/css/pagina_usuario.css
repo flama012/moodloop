@@ -5,6 +5,7 @@
 body {
     margin: 0;
     padding: 0;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
 }
 
 /* ============================================================
@@ -61,22 +62,6 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
-}
-
-/* ============================================================
-   ANIMACIÓN DE COLOR EN BUCLE PARA EL NOMBRE
-============================================================ */
-
-.nombreAnimado {
-    animation: cambioColor 15s infinite alternate ease-in-out;
-    font-weight: 700;
-}
-
-/* Colores que irán rotando */
-@keyframes cambioColor {
-    0%   { color: #6a5acd; }   /* morado */
-    50%  { color: #0bbd8c; }   /* verde turquesa */
-    100% { color: #1d3557; }   /* azul oscuro */
 }
 
 /* ============================================================
@@ -155,7 +140,7 @@ body {
 }
 
 /* ============================================================
-   TÍTULO PUBLICACIONES
+   TÍTULO PUBLICACIONES CON ANIMACIÓN
 ============================================================ */
 
 .titulo-publicaciones {
@@ -164,9 +149,18 @@ body {
     font-size: 22px;
     font-weight: 700;
     margin: 30px 0 20px 0;
-    background: linear-gradient(135deg, #6a5acd, #0bddbe);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    animation: cambioColor 15s infinite alternate ease-in-out;
+}
+
+/* Colores que irán rotando */
+@keyframes cambioColor {
+    0%  { color: #bcfa02; }  /* pistacho */
+    100%  { color: #ffcc00; }  /* naranja */
+}
+
+/* Mensaje sin publicaciones */
+.perfil-sin-publicaciones {
+    color: white;
 }
 
 /* ============================================================
