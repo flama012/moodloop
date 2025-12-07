@@ -29,11 +29,11 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
         <a href="pagina_feed.php" title="Feed">
             <img src="../assets/house.svg" alt="Feed">
         </a>
-        <a href="pagina_usuario.php" title="Usuario">
-            <img src="../assets/user.svg" alt="Usuario">
-        </a>
         <a href="pagina_publicacion.php" title="Crear publicación">
             <img src="../assets/create.svg" alt="Crear">
+        </a>
+        <a href="pagina_usuario.php" title="Usuario">
+            <img src="../assets/user.svg" alt="Usuario">
         </a>
         <a href="../backend/logout.php" title="Salir" onclick="return confirm('¿Seguro que quieres cerrar sesión?');">
             <img src="../assets/exit.svg" alt="Salir">
