@@ -135,10 +135,31 @@ if (isset($_POST['submit'])) {
 
         <!-- ESTADÍSTICAS -->
         <div class="perfil-estadisticas">
-            <div><strong><?= $totalPublicaciones ?></strong><span>Publicaciones</span></div>
-            <div><strong><?= $seguidores ?></strong><span>Seguidores</span></div>
-            <div><strong><?= $seguidos ?></strong><span>Seguidos</span></div>
+
+            <!-- Publicaciones SIN enlace -->
+            <div>
+                <strong><?= $totalPublicaciones ?></strong>
+                <span>Publicaciones</span>
+            </div>
+
+            <!-- Seguidores CON enlace -->
+            <div>
+                <a href="ver_seguidores.php?id=<?= $_SESSION['id_usuario'] ?>" class="perfil-link-bloque">
+                    <strong><?= $seguidores ?></strong>
+                    <span>Seguidores</span>
+                </a>
+            </div>
+
+            <!-- Seguidos CON enlace -->
+            <div>
+                <a href="ver_seguidos.php?id=<?= $_SESSION['id_usuario'] ?>" class="perfil-link-bloque">
+                    <strong><?= $seguidos ?></strong>
+                    <span>Seguidos</span>
+                </a>
+            </div>
+
         </div>
+
 
         <!-- ESTADO EMOCIONAL -->
         <div class="perfil-estado-bloque">
@@ -183,8 +204,8 @@ if (isset($_POST['submit'])) {
 
 
     <!-- ============================================================
-         LISTADO DE PUBLICACIONES (idéntico al feed)
-    ============================================================ -->
+         LISTADO DE PUBLICACIONES
+============================================================ -->
     <div class="perfil-publicaciones">
 
         <?php if (!empty($misPublicaciones)): ?>
@@ -192,13 +213,11 @@ if (isset($_POST['submit'])) {
             <?php foreach ($misPublicaciones as $pub): ?>
                 <div class="card-publicacion">
 
-                    <!-- CABECERA: fecha a la izquierda, emoción + eliminar a la derecha -->
+                    <!-- CABECERA -->
                     <div class="pub-header">
 
-                        <!-- Fecha -->
                         <span class="pub-fecha"><?= $pub["fecha_hora"] ?></span>
 
-                        <!-- Emoción + botón eliminar -->
                         <div class="pub-header-right">
                             <span class="pub-emocion emocion-animada"><?= $pub["estado_emocional"] ?></span>
 
@@ -213,10 +232,8 @@ if (isset($_POST['submit'])) {
 
                     </div>
 
-                    <!-- MENSAJE -->
                     <p class="pub-mensaje"><?= nl2br($pub["mensaje"]) ?></p>
 
-                    <!-- ETIQUETAS -->
                     <?php $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]); ?>
                     <?php if (!empty($etis)): ?>
                         <div class="pub-etiquetas">
@@ -224,7 +241,6 @@ if (isset($_POST['submit'])) {
                         </div>
                     <?php endif; ?>
 
-                    <!-- BLOQUE MG (idéntico al feed) -->
                     <?php $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]); ?>
 
                     <div class="pub-likes-block">
@@ -237,7 +253,6 @@ if (isset($_POST['submit'])) {
                         <span class="like-count"><?= $likes ?></span>
                     </div>
 
-                    <!-- COMENTARIOS -->
                     <?php $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]); ?>
 
                     <?php if (!empty($comentarios)): ?>
@@ -251,7 +266,6 @@ if (isset($_POST['submit'])) {
                         <p class="comentario-vacio">Sin comentarios.</p>
                     <?php endif; ?>
 
-                    <!-- FORMULARIO COMENTAR -->
                     <form action="../backend/procesar_comentario.php" method="post" class="pub-comentar-flex">
                         <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
                         <div class="comentar-contenedor">
@@ -273,7 +287,7 @@ if (isset($_POST['submit'])) {
 
 
 <!-- ============================================================
-     SCRIPTS PARA MOSTRAR/OCULTAR FORMULARIOS
+     SCRIPTS
 ============================================================ -->
 <script>
     function toggleBio() {
@@ -286,6 +300,7 @@ if (isset($_POST['submit'])) {
 </script>
 
 </body>
+
 
 
 </html>

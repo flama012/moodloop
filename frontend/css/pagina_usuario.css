@@ -6,6 +6,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #1c1c1c;
+    font-family: 'Inter', sans-serif;
 }
 
 /* ============================================================
@@ -40,7 +41,6 @@ body {
     max-width: 900px;
     margin: 40px auto;
     padding: 20px;
-    font-family: 'Inter', sans-serif;
 }
 
 /* ============================================================
@@ -55,6 +55,7 @@ body {
     margin-bottom: 30px;
 }
 
+/* Nombre del usuario con degradado MoodLoop */
 .perfil-nombre {
     font-size: 26px;
     font-weight: 700;
@@ -65,7 +66,42 @@ body {
 }
 
 /* ============================================================
-   BIOGRAFÍA Y ESTADO (MODIFICADO)
+   ESTADÍSTICAS — BLOQUES CLICABLES
+============================================================ */
+
+.perfil-estadisticas {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.perfil-estadisticas strong {
+    display: block;
+    font-size: 18px;
+    color: #6a5acd;
+}
+
+/* Solo seguidores/seguidos son clicables */
+.perfil-link-bloque {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.2s ease;
+}
+
+.perfil-link-bloque:hover {
+    opacity: 0.8;
+}
+
+.perfil-link-bloque:hover span {
+    text-decoration: underline;
+}
+
+/* ============================================================
+   BIOGRAFÍA Y ESTADO — TÍTULOS Y RECUADROS
 ============================================================ */
 
 .perfil-bio-bloque,
@@ -81,7 +117,7 @@ body {
     margin-bottom: 8px;
 }
 
-/* Recuadros con fondo degradado */
+/* Recuadros con fondo degradado MoodLoop */
 .perfil-bio-texto,
 .perfil-estado-texto {
     background: linear-gradient(135deg, #6a5acd, #0bddbe);
@@ -94,7 +130,7 @@ body {
     box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
-/* Botón editar en morado sólido */
+/* Botón editar en morado */
 .btn-editar {
     margin-top: 10px;
     padding: 8px 14px;
@@ -112,6 +148,7 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
+/* Formularios desplegables */
 .oculto {
     display: none;
 }
@@ -120,7 +157,7 @@ body {
     margin-top: 12px;
 }
 
-/* Textareas y selects SIN CAMBIOS */
+/* Textareas y selects */
 .perfil-textarea,
 .perfil-select {
     width: 100%;
@@ -131,7 +168,7 @@ body {
     font-size: 14px;
 }
 
-/* Botón guardar con degradado */
+/* Botón guardar — color #0bddbe */
 .btn-guardar {
     margin-top: 10px;
     padding: 8px 16px;
@@ -140,23 +177,13 @@ body {
     border: none;
     border-radius: 8px;
     font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* ============================================================
-   ESTADÍSTICAS
-============================================================ */
-
-.perfil-estadisticas {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 25px;
-    text-align: center;
-}
-
-.perfil-estadisticas strong {
-    display: block;
-    font-size: 18px;
-    color: #6a5acd;
+.btn-guardar:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 /* ============================================================
@@ -172,10 +199,9 @@ body {
     animation: cambioColor 15s infinite alternate ease-in-out;
 }
 
-/* Colores que irán rotando */
 @keyframes cambioColor {
-    0%  { color: #bcfa02; }  /* pistacho */
-    100%  { color: #ffcc00; }  /* naranja */
+    0%  { color: #bcfa02; }
+    100%  { color: #ffcc00; }
 }
 
 /* Mensaje sin publicaciones */
@@ -184,7 +210,7 @@ body {
 }
 
 /* ============================================================
-   PUBLICACIONES
+   PUBLICACIONES (SIN CAMBIOS)
 ============================================================ */
 
 .card-publicacion {
@@ -213,6 +239,7 @@ body {
     gap: 10px;
 }
 
+/* Emoción */
 .pub-emocion {
     background: #6a5acd;
     color: white;
@@ -222,32 +249,22 @@ body {
     font-weight: 600;
 }
 
-/* ============================================================
-   ANIMACIÓN DE FONDO PARA LA EMOCIÓN DE CADA PUBLICACIÓN
-============================================================ */
-
+/* Animación emoción */
 .emocion-animada {
     animation: bgColorLoop 15s infinite alternate ease-in-out;
-    color: white;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
 }
 
-/* Colores que irán rotando */
 @keyframes bgColorLoop {
-    0%   { background-color: #6a5acd; }  /* morado */
-    25%  { background-color: #0bbd8c; }  /* verde turquesa */
-    50%  { background-color: #ff8c42; }  /* naranja */
-    75%  { background-color: #e63946; }  /* rojo coral */
-    100% { background-color: #1d3557; }  /* azul oscuro */
+    0%   { background-color: #6a5acd; }
+    25%  { background-color: #0bbd8c; }
+    50%  { background-color: #ff8c42; }
+    75%  { background-color: #e63946; }
+    100% { background-color: #1d3557; }
 }
 
-/* BOTÓN ELIMINAR */
+/* BOTÓN ELIMINAR — FIX DEFINITIVO */
 .btn-eliminar {
-    display: flex;
-    align-items: center;
+    display: inline-block;
 }
 
 .btn-eliminar button {
@@ -255,9 +272,6 @@ body {
     border: none;
     cursor: pointer;
     padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-eliminar img {
@@ -286,7 +300,14 @@ body {
     color: #444;
 }
 
-/* MG */
+/* MG — igual que feed */
+.like-count {
+    font-size: 16px;
+    color: #6a5acd;
+    font-weight: bold;
+}
+
+/* MG contenedor */
 .pub-likes-block {
     display: flex;
     align-items: center;
@@ -303,12 +324,6 @@ body {
 .like-button img {
     width: 24px;
     height: 24px;
-}
-
-.like-count {
-    font-size: 16px;
-    color: #6a5acd;
-    font-weight: bold;
 }
 
 /* COMENTARIOS */
