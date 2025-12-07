@@ -301,6 +301,14 @@ body {
     font-size: 14px;
 }
 
+.feed-col.filtros,
+.feed-col.estadisticas {
+    position: sticky;
+    top: 110px; /* distancia desde arriba */
+    height: fit-content;
+}
+
+
 /* ============================================================
    RESPONSIVE
 ============================================================ */
