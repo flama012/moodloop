@@ -36,7 +36,7 @@ $listaEmociones = [
 // ============================================================
 
 // Modo de visualización del feed
-$modo = $_GET["modo"] ?? "seguidos";
+$modo = $_GET["modo"] ?? "todas";
 
 // Emoción seleccionada por el usuario
 $emocionGet = $_GET["emocion"] ?? "";
