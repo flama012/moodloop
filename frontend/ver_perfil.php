@@ -79,104 +79,165 @@ if (isset($_POST["dejar_seguir"])) {
 <head>
     <meta charset="UTF-8">
     <title>Perfil de <?= $usuario->nombre_usuario ?></title>
+
+    <link rel="stylesheet" href="css/cabecera.css">
+    <link rel="stylesheet" href="css/ver_perfil.css">
 </head>
 <body>
 
 <?php require_once "cabecera.php"; ?>
 
-<h1>Perfil de <?= $usuario->nombre_usuario ?></h1>
-
 <!-- ============================================================
-     BIOGRAFÍA Y ESTADO EMOCIONAL
+     MENSAJES DE ÉXITO / ERROR
 ============================================================ -->
-<h3>Biografía</h3>
-<p><?= $usuario->biografia ?></p>
-
-<h3>Estado emocional</h3>
-<p><?= $usuario->estado_emocional ?></p>
-
-<!-- ============================================================
-     ESTADÍSTICAS DEL USUARIO
-============================================================ -->
-<h3>Estadísticas</h3>
-<p><strong>Seguidores:</strong> <?= $seguidores ?></p>
-<p><strong>Seguidos:</strong> <?= $seguidos ?></p>
-<p><strong>Publicaciones:</strong> <?= count($publicaciones) ?></p>
-
-<!-- ============================================================
-     BOTÓN SEGUIR / DEJAR DE SEGUIR
-============================================================ -->
-<?php if ($idPerfil != $idLogueado): ?>
-    <form action="ver_perfil.php?id=<?= $idPerfil ?>" method="post">
-        <?php if ($yaLoSigo): ?>
-            <button type="submit" name="dejar_seguir">Dejar de seguir</button>
-        <?php else: ?>
-            <button type="submit" name="seguir">Seguir</button>
-        <?php endif; ?>
-    </form>
+<?php if (isset($_SESSION["error"])): ?>
+    <div class="mensaje-error"><?= $_SESSION["error"] ?></div>
+    <?php unset($_SESSION["error"]); ?>
 <?php endif; ?>
 
-<hr>
+<?php if (isset($_SESSION["mensaje"])): ?>
+    <div class="mensaje-exito"><?= $_SESSION["mensaje"] ?></div>
+    <?php unset($_SESSION["mensaje"]); ?>
+<?php endif; ?>
+
 
 <!-- ============================================================
-     PUBLICACIONES DEL USUARIO
+     CONTENEDOR PRINCIPAL DEL PERFIL
 ============================================================ -->
-<h3>Publicaciones de <?= $usuario->nombre_usuario ?></h3>
+<div class="perfil-contenedor">
 
-<?php
-if (!empty($publicaciones)) {
+    <!-- ============================================================
+         CABECERA DEL PERFIL (versión para OTROS usuarios)
+    ============================================================= -->
+    <div class="perfil-header">
 
-    foreach ($publicaciones as $pub) {
+        <!-- Nombre del usuario -->
+        <h2 class="perfil-nombre"><?= $usuario->nombre_usuario ?></h2>
 
-        echo "<div style='border:1px solid #ccc; padding:10px; margin-bottom:10px;'>";
+        <!-- ESTADÍSTICAS -->
+        <div class="perfil-estadisticas">
+            <div><strong><?= count($publicaciones) ?></strong><span>Publicaciones</span></div>
+            <div><strong><?= $seguidores ?></strong><span>Seguidores</span></div>
+            <div><strong><?= $seguidos ?></strong><span>Seguidos</span></div>
+        </div>
 
-        echo "<strong>Estado emocional:</strong> " . $pub["estado_emocional"] . "<br>";
-        echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
-        echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
+        <!-- ESTADO EMOCIONAL -->
+        <div class="perfil-estado-bloque">
+            <h3>Estado emocional</h3>
+            <p class="perfil-estado-texto"><?= $usuario->estado_emocional ?></p>
+        </div>
 
-        // Número de me gusta
-        $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
-        echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
+        <!-- BIOGRAFÍA -->
+        <div class="perfil-bio-bloque">
+            <h3>Biografía</h3>
+            <p class="perfil-bio-texto"><?= nl2br($usuario->biografia) ?></p>
+        </div>
 
-        // Botón Me gusta
-        echo '<form action="../backend/procesar_like.php" method="post">
-                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                <button type="submit">👍 Me gusta</button>
-              </form><br>';
+        <!-- BOTÓN SEGUIR / DEJAR DE SEGUIR -->
+        <?php if ($idPerfil != $idLogueado): ?>
+            <form action="ver_perfil.php?id=<?= $idPerfil ?>" method="post">
+                <?php if ($yaLoSigo): ?>
+                    <button type="submit" name="dejar_seguir" class="btn-guardar" style="background: linear-gradient(135deg,#e63946,#ff8c42);">
+                        Dejar de seguir
+                    </button>
+                <?php else: ?>
+                    <button type="submit" name="seguir" class="btn-guardar">
+                        Seguir
+                    </button>
+                <?php endif; ?>
+            </form>
+        <?php endif; ?>
 
-        // Etiquetas
-        $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
-        if (!empty($etis)) {
-            echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis) . "<br>";
-        }
+    </div>
 
-        // Comentarios
-        $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
-        if (!empty($comentarios)) {
-            echo "<strong>Comentarios:</strong><br>";
-            foreach ($comentarios as $c) {
-                echo "- " . $c["texto"] . " <em>por "
-                        . $c["nombre_usuario"] . " ("
-                        . $c["fecha_hora"] . ")</em><br>";
-            }
-        } else {
-            echo "Sin comentarios.<br>";
-        }
 
-        // Formulario para comentar
-        echo '<form action="../backend/procesar_comentario.php" method="post">
-                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>
-                <button type="submit">Comentar</button>
-              </form>';
+    <!-- ============================================================
+         TÍTULO DE PUBLICACIONES
+    ============================================================ -->
+    <h2 class="titulo-publicaciones">Publicaciones de <?= $usuario->nombre_usuario ?></h2>
 
-        echo "</div>";
-    }
 
-} else {
-    echo "<p>Este usuario no tiene publicaciones todavía.</p>";
-}
-?>
+    <!-- ============================================================
+         LISTADO DE PUBLICACIONES (idéntico al feed)
+    ============================================================ -->
+    <div class="perfil-publicaciones">
+
+        <?php if (!empty($publicaciones)): ?>
+
+            <?php foreach ($publicaciones as $pub): ?>
+                <div class="card-publicacion">
+
+                    <!-- CABECERA: fecha a la izquierda, emoción a la derecha -->
+                    <div class="pub-header">
+
+                        <!-- Fecha -->
+                        <span class="pub-fecha"><?= $pub["fecha_hora"] ?></span>
+
+                        <!-- Emoción -->
+                        <div class="pub-header-right">
+                            <span class="pub-emocion emocion-animada"><?= $pub["estado_emocional"] ?></span>
+                        </div>
+
+                    </div>
+
+                    <!-- MENSAJE -->
+                    <p class="pub-mensaje"><?= nl2br($pub["mensaje"]) ?></p>
+
+                    <!-- ETIQUETAS -->
+                    <?php $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]); ?>
+                    <?php if (!empty($etis)): ?>
+                        <div class="pub-etiquetas">
+                            <strong>Etiquetas:</strong> #<?= implode(" #", $etis) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- BLOQUE MG -->
+                    <?php $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]); ?>
+
+                    <div class="pub-likes-block">
+                        <form action="../backend/procesar_like.php" method="post" class="like-form">
+                            <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
+                            <button type="submit" class="like-button">
+                                <img src="../assets/like-heart2.svg" alt="Me gusta">
+                            </button>
+                        </form>
+                        <span class="like-count"><?= $likes ?></span>
+                    </div>
+
+                    <!-- COMENTARIOS -->
+                    <?php $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]); ?>
+
+                    <?php if (!empty($comentarios)): ?>
+                        <div class="pub-comentarios">
+                            <strong>Comentarios:</strong><br>
+                            <?php foreach ($comentarios as $c): ?>
+                                <p class="comentario"><em><strong>@<?= $c["nombre_usuario"] ?>:</strong></em> <?= $c["texto"] ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p class="comentario-vacio">Sin comentarios.</p>
+                    <?php endif; ?>
+
+                    <!-- FORMULARIO COMENTAR -->
+                    <form action="../backend/procesar_comentario.php" method="post" class="pub-comentar-flex">
+                        <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
+                        <div class="comentar-contenedor">
+                            <textarea name="comentario" class="comentario-input" placeholder="Escribe un comentario..."></textarea>
+                            <button type="submit" class="btn-principal btn-comentar">Comentar</button>
+                        </div>
+                    </form>
+
+                </div>
+            <?php endforeach; ?>
+
+        <?php else: ?>
+            <p class="perfil-sin-publicaciones">Este usuario no tiene publicaciones todavía.</p>
+        <?php endif; ?>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>

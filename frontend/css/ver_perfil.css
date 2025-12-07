@@ -1,0 +1,304 @@
+/* ============================================================
+   BASE GENERAL
+============================================================ */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c;
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+}
+
+/* Contenedor principal */
+.perfil-contenedor {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* ============================================================
+   MENSAJES DE ÉXITO / ERROR
+============================================================ */
+.mensaje-exito,
+.mensaje-error {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 500;
+    margin: 20px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.mensaje-exito {
+    background-color: #e6f9f0;
+    color: #1b9a6b;
+}
+
+.mensaje-error {
+    background-color: #fdecea;
+    color: #d93025;
+}
+
+/* ============================================================
+   CABECERA DEL PERFIL
+============================================================ */
+.perfil-header {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+/* Nombre del usuario — degradado característico */
+.perfil-nombre {
+    font-size: 26px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+/* ============================================================
+   ESTADÍSTICAS
+============================================================ */
+.perfil-estadisticas {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.perfil-estadisticas strong {
+    display: block;
+    font-size: 18px;
+    color: #6a5acd;
+}
+
+.perfil-estadisticas span {
+    font-size: 14px;
+    color: #444;
+}
+
+/* ============================================================
+   TITULARES “Biografía” y “Estado emocional”
+   (color morado MoodLoop)
+============================================================ */
+.perfil-bio-bloque h3,
+.perfil-estado-bloque h3 {
+    color: #6a5acd;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+/* ============================================================
+   RECUADROS DE BIOGRAFÍA Y ESTADO EMOCIONAL
+   Fondo con el degradado característico MoodLoop
+============================================================ */
+.perfil-bio-texto,
+.perfil-estado-texto {
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    line-height: 1.5;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* ============================================================
+   BOTÓN SEGUIR / DEJAR DE SEGUIR
+============================================================ */
+.btn-guardar {
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-guardar:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ============================================================
+   TÍTULO PUBLICACIONES CON ANIMACIÓN
+============================================================ */
+
+.titulo-publicaciones {
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 30px 0 20px 0;
+    animation: cambioColor 15s infinite alternate ease-in-out;
+}
+
+/* Colores que irán rotando */
+@keyframes cambioColor {
+    0%  { color: #bcfa02; }  /* pistacho */
+    100%  { color: #ffcc00; }  /* naranja */
+}
+
+
+/* ============================================================
+   TARJETAS DE PUBLICACIÓN (idénticas al feed)
+============================================================ */
+.card-publicacion {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Cabecera */
+.pub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pub-fecha {
+    font-size: 13px;
+    color: #777;
+}
+
+.pub-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Emoción */
+.pub-emocion {
+    background: #6a5acd;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Animación emoción */
+.emocion-animada {
+    animation: bgColorLoop 15s infinite alternate ease-in-out;
+}
+
+@keyframes bgColorLoop {
+    0%   { background-color: #6a5acd; }
+    25%  { background-color: #0bbd8c; }
+    50%  { background-color: #ff8c42; }
+    75%  { background-color: #e63946; }
+    100% { background-color: #1d3557; }
+}
+
+/* Mensaje */
+.pub-mensaje {
+    margin: 15px 0;
+    line-height: 1.5;
+    font-size: 15px;
+}
+
+/* Etiquetas */
+.pub-etiquetas {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #444;
+}
+
+/* ============================================================
+   BLOQUE DE ME GUSTA
+============================================================ */
+.pub-likes-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.like-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.like-count {
+    font-size: 16px;
+    color: #6a5acd;
+    font-weight: bold;
+}
+
+/* ============================================================
+   COMENTARIOS
+============================================================ */
+.pub-comentarios {
+    margin-top: 15px;
+}
+
+.comentario {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.comentario-vacio {
+    font-size: 13px;
+    color: #777;
+}
+
+/* ============================================================
+   FORMULARIO COMENTAR
+============================================================ */
+.pub-comentar-flex {
+    margin-top: 12px;
+}
+
+.comentar-contenedor {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.comentario-input {
+    flex: 1;
+    height: 40px;
+    resize: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.btn-comentar {
+    padding: 8px 16px;
+    height: 40px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .comentar-contenedor {
+        flex-direction: column;
+    }
+    .comentario-input,
+    .btn-comentar {
+        width: 100%;
+    }
+}
