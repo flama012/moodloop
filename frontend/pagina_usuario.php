@@ -98,156 +98,194 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <title>Usuario</title>
+
+    <link rel="stylesheet" href="css/cabecera.css">
+    <link rel="stylesheet" href="css/pagina_usuario.css">
 </head>
 <body>
 
 <?php require_once "cabecera.php"; ?>
 
-<!-- Mostrar mensajes de error o éxito -->
-<?php
-if (isset($_SESSION["error"])) {
-    echo "<p style='color:red;'>" . $_SESSION["error"] . "</p>";
-    unset($_SESSION["error"]);
-}
+<!-- ============================================================
+     MENSAJES DE ÉXITO / ERROR
+============================================================ -->
+<?php if (isset($_SESSION["error"])): ?>
+    <div class="mensaje-error"><?= $_SESSION["error"] ?></div>
+    <?php unset($_SESSION["error"]); ?>
+<?php endif; ?>
 
-if (isset($_SESSION["mensaje"])) {
-    echo "<h3 style='color:green;'>" . $_SESSION["mensaje"] . "</h3>";
-    unset($_SESSION["mensaje"]);
-}
-?>
+<?php if (isset($_SESSION["mensaje"])): ?>
+    <div class="mensaje-exito"><?= $_SESSION["mensaje"] ?></div>
+    <?php unset($_SESSION["mensaje"]); ?>
+<?php endif; ?>
 
-<h1>PERFIL DE USUARIO</h1>
-
-<p><strong>Nombre de usuario:</strong> <?= $nombreUsuario ?></p>
 
 <!-- ============================================================
-     ESTADÍSTICAS DEL USUARIO
+     CONTENEDOR PRINCIPAL DEL PERFIL
 ============================================================ -->
-<h3>Estadísticas</h3>
+<div class="perfil-contenedor">
 
-<p>
-    <strong>Seguidores:</strong>
-    <a href="ver_seguidores.php?id=<?= $idUsuario ?>">
-        <?= $seguidores ?>
-    </a>
-</p>
+    <!-- ============================================================
+         CABECERA DEL PERFIL
+    ============================================================ -->
+    <div class="perfil-header">
 
-<p>
-    <strong>Seguidos:</strong>
-    <a href="ver_seguidos.php?id=<?= $idUsuario ?>">
-        <?= $seguidos ?>
-    </a>
-</p>
+        <!-- Nombre del usuario -->
+        <h2 class="perfil-nombre, nombreAnimado"><?= $nombreUsuario ?></h2>
 
-<p><strong>Publicaciones:</strong> <?= $totalPublicaciones ?></p>
+        <!-- ESTADÍSTICAS -->
+        <div class="perfil-estadisticas">
+            <div><strong><?= $totalPublicaciones ?></strong><span>Publicaciones</span></div>
+            <div><strong><?= $seguidores ?></strong><span>Seguidores</span></div>
+            <div><strong><?= $seguidos ?></strong><span>Seguidos</span></div>
+        </div>
+
+        <!-- ESTADO EMOCIONAL -->
+        <div class="perfil-estado-bloque">
+            <h3>Estado emocional</h3>
+            <p class="perfil-estado-texto"><?= $estadoActual ?></p>
+
+            <button class="btn-editar" onclick="toggleEstado()">Editar estado</button>
+
+            <form action="pagina_usuario.php" method="post" class="perfil-form oculto" id="formEstado">
+                <select name="estado_emocional" class="perfil-select" required>
+                    <option value="" disabled>Selecciona tu estado…</option>
+                    <?php foreach ($emociones as $emo): ?>
+                        <option value="<?= $emo ?>" <?= ($emo == $estadoActual) ? "selected" : "" ?>>
+                            <?= $emo ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit" name="submit" class="btn-guardar">Guardar</button>
+            </form>
+        </div>
+
+        <!-- BIOGRAFÍA -->
+        <div class="perfil-bio-bloque">
+            <h3>Biografía</h3>
+            <p class="perfil-bio-texto"><?= nl2br($biografiaActual) ?></p>
+
+            <button class="btn-editar" onclick="toggleBio()">Editar biografía</button>
+
+            <form action="pagina_usuario.php" method="post" class="perfil-form oculto" id="formBio">
+                <textarea name="biografia" class="perfil-textarea" maxlength="255"><?= $biografiaActual ?></textarea>
+                <button type="submit" name="guardar_biografia" class="btn-guardar">Guardar</button>
+            </form>
+        </div>
+
+    </div>
+
+
+    <!-- ============================================================
+         TÍTULO DE PUBLICACIONES
+    ============================================================ -->
+    <h2 class="titulo-publicaciones">Mis publicaciones</h2>
+
+
+    <!-- ============================================================
+         LISTADO DE PUBLICACIONES (idéntico al feed)
+    ============================================================ -->
+    <div class="perfil-publicaciones">
+
+        <?php if (!empty($misPublicaciones)): ?>
+
+            <?php foreach ($misPublicaciones as $pub): ?>
+                <div class="card-publicacion">
+
+                    <!-- CABECERA: fecha a la izquierda, emoción + eliminar a la derecha -->
+                    <div class="pub-header">
+
+                        <!-- Fecha -->
+                        <span class="pub-fecha"><?= $pub["fecha_hora"] ?></span>
+
+                        <!-- Emoción + botón eliminar -->
+                        <div class="pub-header-right">
+                            <span class="pub-emocion emocion-animada"><?= $pub["estado_emocional"] ?></span>
+
+                            <form action="../backend/eliminar_publicacion.php" method="post" class="btn-eliminar"
+                                  onsubmit="return confirm('¿Seguro que quieres eliminar esta publicación?');">
+                                <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
+                                <button type="submit">
+                                    <img src="../assets/delete.svg" alt="Eliminar">
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <!-- MENSAJE -->
+                    <p class="pub-mensaje"><?= nl2br($pub["mensaje"]) ?></p>
+
+                    <!-- ETIQUETAS -->
+                    <?php $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]); ?>
+                    <?php if (!empty($etis)): ?>
+                        <div class="pub-etiquetas">
+                            <strong>Etiquetas:</strong> #<?= implode(" #", $etis) ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- BLOQUE MG (idéntico al feed) -->
+                    <?php $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]); ?>
+
+                    <div class="pub-likes-block">
+                        <form action="../backend/procesar_like.php" method="post" class="like-form">
+                            <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
+                            <button type="submit" class="like-button">
+                                <img src="../assets/like-heart2.svg" alt="Me gusta">
+                            </button>
+                        </form>
+                        <span class="like-count"><?= $likes ?></span>
+                    </div>
+
+                    <!-- COMENTARIOS -->
+                    <?php $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]); ?>
+
+                    <?php if (!empty($comentarios)): ?>
+                        <div class="pub-comentarios">
+                            <strong>Comentarios:</strong><br>
+                            <?php foreach ($comentarios as $c): ?>
+                                <p class="comentario"><em><strong>@<?= $c["nombre_usuario"] ?>:</strong></em> <?= $c["texto"] ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <p class="comentario-vacio">Sin comentarios.</p>
+                    <?php endif; ?>
+
+                    <!-- FORMULARIO COMENTAR -->
+                    <form action="../backend/procesar_comentario.php" method="post" class="pub-comentar-flex">
+                        <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
+                        <div class="comentar-contenedor">
+                            <textarea name="comentario" class="comentario-input" placeholder="Escribe un comentario..."></textarea>
+                            <button type="submit" class="btn-principal btn-comentar">Comentar</button>
+                        </div>
+                    </form>
+
+                </div>
+            <?php endforeach; ?>
+
+        <?php else: ?>
+            <p class="perfil-sin-publicaciones">Todavía no has publicado nada.</p>
+        <?php endif; ?>
+
+    </div>
+
+</div>
+
 
 <!-- ============================================================
-     FORMULARIO PARA EDITAR BIOGRAFÍA
+     SCRIPTS PARA MOSTRAR/OCULTAR FORMULARIOS
 ============================================================ -->
-<h3>Biografía</h3>
-
-<form action="pagina_usuario.php" method="post">
-    <textarea name="biografia" rows="4" cols="40"><?= $biografiaActual ?></textarea>
-    <br><br>
-    <button type="submit" name="guardar_biografia">Guardar biografía</button>
-</form>
-
-<!-- ============================================================
-     FORMULARIO PARA ACTUALIZAR ESTADO EMOCIONAL
-============================================================ -->
-<h3>Estado emocional</h3>
-
-<form action="pagina_usuario.php" method="post">
-
-    <label for="estado_emocional">Estado emocional</label>
-
-    <select id="estado_emocional" name="estado_emocional" required>
-
-        <!-- Opción por defecto -->
-        <option value="" disabled <?= $estadoActual ? "" : "selected" ?>>
-            Selecciona tu estado…
-        </option>
-
-        <!-- Lista de emociones -->
-        <?php foreach ($emociones as $emo): ?>
-            <option value="<?= $emo ?>" <?= ($emo == $estadoActual) ? "selected" : "" ?>>
-                <?= $emo ?>
-            </option>
-        <?php endforeach; ?>
-
-    </select>
-
-    <br><br>
-    <button type="submit" name="submit">Actualizar estado</button>
-
-</form>
-
-<!-- ============================================================
-     LISTA DE PUBLICACIONES DEL USUARIO
-============================================================ -->
-<h3>Mis publicaciones</h3>
-
-<?php
-if (!empty($misPublicaciones)) {
-
-    foreach ($misPublicaciones as $pub) {
-
-        echo "<p>";
-
-        echo "<strong>Estado emocional:</strong> " . $pub["estado_emocional"] . "<br>";
-        echo "<strong>Mensaje:</strong> " . nl2br($pub["mensaje"]) . "<br>";
-        echo "<em>Publicado el " . $pub["fecha_hora"] . "</em><br>";
-
-        // Me gusta
-        $totalLikes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
-        echo "<strong>Me gusta:</strong> " . $totalLikes . "<br>";
-
-        // Botón de me gusta
-        echo '<form action="../backend/procesar_like.php" method="post">
-                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                <button type="submit">👍 Me gusta</button>
-              </form><br><br>';
-
-        // Etiquetas
-        $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
-        if (!empty($etis)) {
-            echo "<strong>Etiquetas:</strong> #" . implode(" #", $etis) . "<br>";
-        }
-
-        // Comentarios
-        $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
-        if (!empty($comentarios)) {
-            echo "<strong>Comentarios:</strong><br>";
-            foreach ($comentarios as $c) {
-                echo "- " . $c["texto"] . " <em>por "
-                        . $c["nombre_usuario"] . " ("
-                        . $c["fecha_hora"] . ")</em><br>";
-            }
-        } else {
-            echo "Sin comentarios.<br>";
-        }
-
-        // Formulario para comentar
-        echo '<form action="../backend/procesar_comentario.php" method="post">
-                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                <textarea name="comentario" rows="2" cols="40" placeholder="Escribe un comentario..."></textarea><br>
-                <button type="submit">Comentar</button>
-              </form><br>';
-
-        // Botón para eliminar publicación
-        echo '<form action="../backend/eliminar_publicacion.php" method="post"
-                onsubmit="return confirm(\'¿Seguro que quieres eliminar esta publicación? Esta acción no se puede deshacer.\');">
-                <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
-                <button type="submit" style="background:red; color:white;">🗑️ Eliminar publicación</button>
-              </form>';
-
-        echo "</p>";
+<script>
+    function toggleBio() {
+        document.getElementById("formBio").classList.toggle("oculto");
     }
 
-} else {
-    echo "<p>No tienes publicaciones todavía.</p>";
-}
-?>
+    function toggleEstado() {
+        document.getElementById("formEstado").classList.toggle("oculto");
+    }
+</script>
 
 </body>
+
+
 </html>

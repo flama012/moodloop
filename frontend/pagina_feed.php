@@ -185,13 +185,13 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                 echo "<span class='pub-emocion emocion-animada'>" . $pub["estado_emocional"] . "</span>";
                 echo "</div>";
 
-                // Mensaje (nl2br convierte saltos de línea en <br>)
-                echo "<p class='pub-mensaje'>" . nl2br($pub["mensaje"]) . "</p>";
-
                 // Fecha
                 echo "<div class='pub-footer'>";
                 echo "<em>" . $pub["fecha_hora"] . "</em>";
                 echo "</div>";
+
+                // Mensaje (nl2br convierte saltos de línea en <br>)
+                echo "<p class='pub-mensaje'>" . nl2br($pub["mensaje"]) . "</p>";
 
                 // Etiquetas
                 $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
@@ -222,7 +222,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                     echo "<div class='pub-comentarios'>";
                     echo "<strong>Comentarios:</strong><br>";
                     foreach ($comentarios as $c) {
-                        echo "<p class='comentario'>- " . $c["texto"] . " <em>@" . $c["nombre_usuario"] . "</em></p>";
+                        echo "<p class='comentario'><em><strong>@" . $c["nombre_usuario"] . ":</strong></em> " . $c["texto"] . "</p>";
                     }
                     echo "</div>";
                 } else {

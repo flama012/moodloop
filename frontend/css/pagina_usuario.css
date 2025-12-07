@@ -1,0 +1,346 @@
+/* ============================================================
+   RESET Y BASE
+============================================================ */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================================
+   MENSAJES
+============================================================ */
+
+.mensaje-exito,
+.mensaje-error {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 500;
+    margin: 20px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.mensaje-exito {
+    background-color: #e6f9f0;
+    color: #1b9a6b;
+}
+
+.mensaje-error {
+    background-color: #fdecea;
+    color: #d93025;
+}
+
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+============================================================ */
+
+.perfil-contenedor {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ============================================================
+   CABECERA DEL PERFIL
+============================================================ */
+
+.perfil-header {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.perfil-nombre {
+    font-size: 26px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+/* ============================================================
+   ANIMACIÓN DE COLOR EN BUCLE PARA EL NOMBRE
+============================================================ */
+
+.nombreAnimado {
+    animation: cambioColor 15s infinite alternate ease-in-out;
+    font-weight: 700;
+}
+
+/* Colores que irán rotando */
+@keyframes cambioColor {
+    0%   { color: #6a5acd; }   /* morado */
+    50%  { color: #0bbd8c; }   /* verde turquesa */
+    100% { color: #1d3557; }   /* azul oscuro */
+}
+
+/* ============================================================
+   BIOGRAFÍA Y ESTADO
+============================================================ */
+
+.perfil-bio-bloque,
+.perfil-estado-bloque {
+    margin-bottom: 25px;
+}
+
+.perfil-bio-texto,
+.perfil-estado-texto {
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.btn-editar {
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.oculto {
+    display: none;
+}
+
+.perfil-form {
+    margin-top: 12px;
+}
+
+.perfil-textarea,
+.perfil-select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    font-size: 14px;
+}
+
+.btn-guardar {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #6a5acd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   ESTADÍSTICAS
+============================================================ */
+
+.perfil-estadisticas {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.perfil-estadisticas strong {
+    display: block;
+    font-size: 18px;
+    color: #6a5acd;
+}
+
+/* ============================================================
+   TÍTULO PUBLICACIONES
+============================================================ */
+
+.titulo-publicaciones {
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 30px 0 20px 0;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ============================================================
+   PUBLICACIONES
+============================================================ */
+
+.card-publicacion {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* CABECERA */
+.pub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pub-fecha {
+    font-size: 13px;
+    color: #777;
+}
+
+.pub-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pub-emocion {
+    background: #6a5acd;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   ANIMACIÓN DE FONDO PARA LA EMOCIÓN DE CADA PUBLICACIÓN
+============================================================ */
+
+.emocion-animada {
+    animation: bgColorLoop 15s infinite alternate ease-in-out;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Colores que irán rotando */
+@keyframes bgColorLoop {
+    0%   { background-color: #6a5acd; }  /* morado */
+    25%  { background-color: #0bbd8c; }  /* verde turquesa */
+    50%  { background-color: #ff8c42; }  /* naranja */
+    75%  { background-color: #e63946; }  /* rojo coral */
+    100% { background-color: #1d3557; }  /* azul oscuro */
+}
+
+/* BOTÓN ELIMINAR */
+.btn-eliminar button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-eliminar img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.btn-eliminar img:hover {
+    opacity: 1;
+}
+
+/* MENSAJE */
+.pub-mensaje {
+    margin: 15px 0;
+    line-height: 1.5;
+    font-size: 15px;
+}
+
+/* ETIQUETAS */
+.pub-etiquetas {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #444;
+}
+
+/* MG */
+.pub-likes-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.like-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.like-count {
+    font-size: 14px;
+    color: #444;
+}
+
+/* COMENTARIOS */
+.pub-comentarios {
+    margin-top: 15px;
+}
+
+.comentario {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.comentario-vacio {
+    font-size: 13px;
+    color: #777;
+}
+
+/* FORMULARIO COMENTAR */
+.pub-comentar-flex {
+    margin-top: 12px;
+}
+
+.comentar-contenedor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comentario-input {
+    flex: 1;
+    height: 40px;
+    resize: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.btn-comentar {
+    padding: 8px 16px;
+    height: 40px;
+    background: linear-gradient(135deg, #6a5acd, #0bddbe);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* RESPONSIVO */
+@media (max-width: 700px) {
+    .comentar-contenedor {
+        flex-direction: column;
+    }
+
+    .comentario-input,
+    .btn-comentar {
+        width: 100%;
+    }
+}
