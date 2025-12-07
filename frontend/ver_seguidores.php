@@ -47,40 +47,57 @@ $seguidores = $bbdd->obtenerSeguidores($idUsuario);
 <head>
     <meta charset="UTF-8">
     <title>Seguidores</title>
+
+    <link rel="stylesheet" href="css/cabecera.css">
+    <link rel="stylesheet" href="css/ver_seguidores.css">
 </head>
 <body>
 
 <?php require_once "cabecera.php"; ?>
 
-<h1>Seguidores de <?= $infoUsuario->__get("nombre_usuario") ?></h1>
+<!-- ============================================================
+     TÍTULO PRINCIPAL
+============================================================ -->
+<h1>Seguidores</h1>
 
-<?php
-// ============================================================
-// 4. MOSTRAR LISTA DE SEGUIDORES
-// ============================================================
+<!-- ============================================================
+     LISTA DE SEGUIDORES
+============================================================ -->
+<div class="lista-seguidores">
 
-// Si no tiene seguidores
-if (count($seguidores) == 0) {
+    <?php
+    // ============================================================
+    // 4. MOSTRAR LISTA DE SEGUIDORES
+    // ============================================================
 
-    echo "<p>Este usuario no tiene seguidores.</p>";
+    // Si no tiene seguidores
+    if (count($seguidores) == 0): ?>
 
-} else {
+        <p class="sin-seguidores">No tienes seguidores.</p>
 
-    // Recorremos la lista de seguidores
-    foreach ($seguidores as $seg) {
+    <?php else:
 
-        echo "<div style='margin-bottom:10px;'>";
+        // Recorremos la lista de seguidores
+        foreach ($seguidores as $seg): ?>
 
-        // Nombre del seguidor
-        echo "<strong>" . $seg["nombre_usuario"] . "</strong><br>";
+            <div class="seguidor-card">
 
-        // Enlace para ver su perfil
-        echo "<a href='ver_perfil.php?id=" . $seg["id_usuario"] . "'>Ver perfil</a>";
+                <!-- Nombre del seguidor -->
+                <span class="seguidor-nombre"><?= $seg["nombre_usuario"] ?></span>
 
-        echo "</div>";
-    }
-}
-?>
+                <!-- Enlace para ver su perfil -->
+                <a href="ver_perfil.php?id=<?= $seg["id_usuario"] ?>" class="btn-ver-perfil">
+                    Ver perfil
+                </a>
+
+            </div>
+
+        <?php endforeach; ?>
+
+    <?php endif; ?>
+
+</div>
 
 </body>
+
 </html>

@@ -1,89 +1,72 @@
 /* ============================================================
    BASE
 ============================================================ */
+
 body {
     margin: 0;
     padding: 0;
     background-color: #1c1c1c;
     font-family: 'Inter', sans-serif;
-    color: #ffffff;
+    color: white;
 }
 
-/* Contenedor principal */
-.resultados-contenedor {
+/* ============================================================
+   TÍTULO PRINCIPAL CON ANIMACIÓN
+============================================================ */
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #bcfa02; /* color inicial */
+    animation: tituloColorLoop 15s infinite alternate ease-in-out;
+}
+
+/* Animación igual que “Mis publicaciones” */
+@keyframes tituloColorLoop {
+    0%   { color: #bcfa02; }  /* pistacho */
+    100% { color: #ffcc00; }  /* naranja */
+}
+
+/* ============================================================
+   CONTENEDOR DE LISTA
+============================================================ */
+
+.lista-seguidos {
     max-width: 900px;
-    margin: 40px auto;
+    margin: 0 auto;
     padding: 20px;
 }
 
 /* ============================================================
-   TÍTULO
+   BLOQUE DE USUARIO SEGUIDO
 ============================================================ */
-.resultados-titulo {
-    font-size: 28px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, #6a5acd, #0bddbe);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
 
-/* Línea separadora */
-.resultados-hr {
-    border: none;
-    height: 2px;
-    background: linear-gradient(90deg, #6a5acd, #0bddbe);
-    margin-bottom: 30px;
-}
-
-/* ============================================================
-   MENSAJES
-============================================================ */
-.msg-info,
-.msg-error {
-    padding: 14px 18px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-size: 15px;
-}
-
-.msg-info {
-    background: #2a2a2a;
-    color: #cfcfcf;
-}
-
-.msg-error {
-    background: #fdecea;
-    color: #d93025;
-}
-
-/* ============================================================
-   TARJETAS DE USUARIO
-============================================================ */
-.usuario-card {
+.seguido-card {
     background: #ffffff;
-    color: #333;
     padding: 18px 20px;
     border-radius: 14px;
-    margin-bottom: 18px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 
     /* ✅ Para colocar nombre izquierda y botón derecha */
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    /* ✅ Elevación suave al pasar el cursor */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover */
-.usuario-card:hover {
+.seguido-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.20);
 }
 
 /* Nombre del usuario */
-.usuario-nombre {
+.seguido-nombre {
     font-size: 18px;
     font-weight: 700;
     color: #333;
@@ -94,23 +77,36 @@ body {
     padding: 8px 14px;
     background: linear-gradient(135deg, #6a5acd, #0bddbe);
     color: white;
+    border: none;
     border-radius: 8px;
-    text-decoration: none;
     font-weight: 600;
+    text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-ver-perfil:hover {
     transform: scale(1.03);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 /* ============================================================
-   RESPONSIVE
+   MENSAJE CUANDO NO SIGUE A NADIE
 ============================================================ */
-@media (max-width: 600px) {
 
-    .usuario-card {
+.sin-seguidos {
+    text-align: center;
+    color: #ffffff;
+    opacity: 0.8;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+/* ============================================================
+   RESPONSIVO
+============================================================ */
+
+@media (max-width: 700px) {
+    .seguido-card {
         flex-direction: column;
         gap: 10px;
         text-align: center;

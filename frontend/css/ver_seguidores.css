@@ -1,89 +1,69 @@
 /* ============================================================
    BASE
 ============================================================ */
+
 body {
     margin: 0;
     padding: 0;
     background-color: #1c1c1c;
     font-family: 'Inter', sans-serif;
-    color: #ffffff;
+    color: white;
 }
 
-/* Contenedor principal */
-.resultados-contenedor {
+/* ============================================================
+   TÍTULO PRINCIPAL CON ANIMACIÓN
+============================================================ */
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #bcfa02;
+    animation: tituloColorLoop 15s infinite alternate ease-in-out;
+}
+
+@keyframes tituloColorLoop {
+    0%   { color: #bcfa02; }
+    100% { color: #ffcc00; }
+}
+
+/* ============================================================
+   CONTENEDOR DE LISTA
+============================================================ */
+
+.lista-seguidores {
     max-width: 900px;
-    margin: 40px auto;
+    margin: 0 auto;
     padding: 20px;
 }
 
 /* ============================================================
-   TÍTULO
+   TARJETA DE SEGUIDOR
 ============================================================ */
-.resultados-titulo {
-    font-size: 28px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, #6a5acd, #0bddbe);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
 
-/* Línea separadora */
-.resultados-hr {
-    border: none;
-    height: 2px;
-    background: linear-gradient(90deg, #6a5acd, #0bddbe);
-    margin-bottom: 30px;
-}
-
-/* ============================================================
-   MENSAJES
-============================================================ */
-.msg-info,
-.msg-error {
-    padding: 14px 18px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-size: 15px;
-}
-
-.msg-info {
-    background: #2a2a2a;
-    color: #cfcfcf;
-}
-
-.msg-error {
-    background: #fdecea;
-    color: #d93025;
-}
-
-/* ============================================================
-   TARJETAS DE USUARIO
-============================================================ */
-.usuario-card {
+.seguidor-card {
     background: #ffffff;
-    color: #333;
     padding: 18px 20px;
     border-radius: 14px;
-    margin-bottom: 18px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 
-    /* ✅ Para colocar nombre izquierda y botón derecha */
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Hover */
-.usuario-card:hover {
+.seguidor-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.20);
 }
 
-/* Nombre del usuario */
-.usuario-nombre {
+/* Nombre del seguidor */
+.seguidor-nombre {
     font-size: 18px;
     font-weight: 700;
     color: #333;
@@ -102,15 +82,27 @@ body {
 
 .btn-ver-perfil:hover {
     transform: scale(1.03);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 /* ============================================================
-   RESPONSIVE
+   MENSAJE CUANDO NO TIENE SEGUIDORES
 ============================================================ */
-@media (max-width: 600px) {
 
-    .usuario-card {
+.sin-seguidores {
+    text-align: center;
+    color: #ffffff;
+    opacity: 0.8;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+/* ============================================================
+   RESPONSIVO
+============================================================ */
+
+@media (max-width: 700px) {
+    .seguidor-card {
         flex-direction: column;
         gap: 10px;
         text-align: center;
