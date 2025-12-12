@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92150aaa-c892-418a-912b-311336dc5351" name="Changes" comment="">
-<<<<<<< HEAD
-      <change afterPath="$PROJECT_DIR$/backend/Correo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/confirmarCorreo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/send.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/send.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/registro.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/registro.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/UsuarioBBDD.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/UsuarioBBDD.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/pagina_usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pagina_usuario.php" afterDir="false" />
->>>>>>> pagina-usuario
+      <change beforePath="$PROJECT_DIR$/frontend/js/modal_publicacion.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/modal_publicacion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pagina_feed.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pagina_feed.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +21,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="PHP File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -51,15 +40,9 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/flama012/moodloop.git&quot;,
-    &quot;accountId&quot;: &quot;6fbdc6cc-17fd-42af-b1b6-7e873fd8381d&quot;
+    &quot;accountId&quot;: &quot;70375232-a2c1-474e-86de-b1995d2997c9&quot;
   }
 }</component>
-  <component name="PhpDebugGeneral" break_at_first_line="true" />
-  <component name="PhpServers">
-    <servers>
-      <server host="aula2gs.edu" id="72bc3739-a154-4d59-a9fa-cd39722c7463" name="aula2gs.edu" />
-    </servers>
-  </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -69,42 +52,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;JavaScript Debug.index.php.executor&quot;: &quot;Run&quot;,
-    &quot;JavaScript Debug.login.php.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#8 on organizar-vista-modelo&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/moodloop&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/Proyecto/moodloop&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-=======
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#9 on pagina-usuario",
-    "last_opened_file_path": "C:/xampp/htdocs/Proyecto/moodloop",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
->>>>>>> pagina-usuario
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -123,13 +86,36 @@
       <workItem from="1764163299681" duration="376000" />
       <workItem from="1764230155028" duration="5000" />
       <workItem from="1764345158654" duration="4406000" />
-<<<<<<< HEAD
-      <workItem from="1764592305188" duration="4918000" />
-      <workItem from="1764604511258" duration="4134000" />
-      <workItem from="1764661120321" duration="1217000" />
-=======
       <workItem from="1764592770735" duration="4264000" />
->>>>>>> pagina-usuario
+      <workItem from="1764611319670" duration="1643000" />
+      <workItem from="1764661176864" duration="3000" />
+      <workItem from="1764677559780" duration="3275000" />
+      <workItem from="1764833963127" duration="75000" />
+      <workItem from="1765134138348" duration="849000" />
+      <workItem from="1765146340098" duration="16000" />
+      <workItem from="1765209797398" duration="1008000" />
+      <workItem from="1765219544596" duration="16000" />
+      <workItem from="1765229440672" duration="11000" />
+      <workItem from="1765269178662" duration="400000" />
+      <workItem from="1765270255803" duration="2000" />
+      <workItem from="1765299697048" duration="383000" />
+      <workItem from="1765303153239" duration="182000" />
+      <workItem from="1765303701928" duration="199000" />
+      <workItem from="1765303986358" duration="53000" />
+      <workItem from="1765304250223" duration="6000" />
+      <workItem from="1765304263218" duration="15000" />
+      <workItem from="1765304305895" duration="16000" />
+      <workItem from="1765304353109" duration="30000" />
+      <workItem from="1765304469358" duration="21000" />
+      <workItem from="1765304509317" duration="57000" />
+      <workItem from="1765304662138" duration="49000" />
+      <workItem from="1765304746296" duration="72000" />
+      <workItem from="1765304926643" duration="79000" />
+      <workItem from="1765307101014" duration="11000" />
+      <workItem from="1765307558630" duration="9000" />
+      <workItem from="1765352453822" duration="41000" />
+      <workItem from="1765354015343" duration="143000" />
+      <workItem from="1765539380845" duration="1139000" />
     </task>
     <servers />
   </component>

@@ -94,6 +94,8 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/feed.css">
+
+    <script src="js/modal_publicacion.js" defer></script>
 </head>
 <body>
 

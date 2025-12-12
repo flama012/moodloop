@@ -1,4 +1,5 @@
 
+
 function abrirModal(pub) {
     document.querySelector(".modal-emocion").textContent = pub.estado;
     document.querySelector(".modal-fecha").textContent = pub.fecha;
