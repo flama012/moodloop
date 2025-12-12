@@ -97,6 +97,9 @@ if (isset($_POST['registrarse'])) {
 
     <!-- CSS del registro -->
     <link rel="stylesheet" href="css/registro.css">
+
+    <script src="js/validar_registro.js"></script>
+
 </head>
 <body>
 
@@ -155,6 +158,8 @@ if (isset($_POST['registrarse'])) {
 
                 <button type="submit" name="registrarse" id="btn-login">Crear cuenta</button>
             </form>
+
+            <div id="errorRegistro" class="alert-error" style="display:none;"></div>
 
             <form method="post" action="login.php">
                 <p class="login-register">
