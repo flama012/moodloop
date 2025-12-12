@@ -241,16 +241,23 @@ if (isset($_POST['submit'])) {
                         </div>
                     <?php endif; ?>
 
-                    <?php $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]); ?>
+                    <?php
+                    $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
+                    $yaLeDioMG = $publiBBDD->usuarioDioMG($_SESSION["id_usuario"], $pub["id_publicacion"]);
+                    ?>
 
                     <div class="pub-likes-block">
-                        <form action="../backend/procesar_like.php" method="post" class="like-form">
-                            <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
+
+                        <form action="../backend/procesar_like.php" method="post">
+                            <input type="hidden" name="id_publicacion" value="<?php echo $pub['id_publicacion']; ?>">
+
                             <button type="submit" class="like-button">
-                                <img src="../assets/like-heart2.svg" alt="Me gusta">
+                                <img src="../assets/<?php echo $yaLeDioMG ? 'like-heart.svg' : 'like-heart2.svg'; ?>">
                             </button>
                         </form>
-                        <span class="like-count"><?= $likes ?></span>
+
+                        <span class="like-count"><?php echo $likes; ?></span>
+
                     </div>
 
                     <?php $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]); ?>
