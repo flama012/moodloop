@@ -101,6 +101,8 @@ if (isset($_POST['submit'])) {
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/pagina_usuario.css">
+
+    <script src="js/pagina_usuario.js"></script>
 </head>
 <body>
 
@@ -291,20 +293,6 @@ if (isset($_POST['submit'])) {
     </div>
 
 </div>
-
-
-<!-- ============================================================
-     SCRIPTS
-============================================================ -->
-<script>
-    function toggleBio() {
-        document.getElementById("formBio").classList.toggle("oculto");
-    }
-
-    function toggleEstado() {
-        document.getElementById("formEstado").classList.toggle("oculto");
-    }
-</script>
 
 </body>
 
