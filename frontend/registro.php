@@ -113,7 +113,7 @@ if (isset($_POST['registrarse'])) {
         <div class="content-box">
 
             <div class="logo">
-                <img src="../assets/logo.PNG" alt="MoodLoop">
+                <img src="../assets/logo2.PNG" alt="MoodLoop">
                 <h2>Conecta con tus emociones</h2>
             </div>
 

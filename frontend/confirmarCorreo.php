@@ -55,7 +55,7 @@ if (isset($_POST["volverAlLogin"])) {
 
         <!-- Logo -->
         <div class="logo">
-            <img src="../assets/logo.PNG" alt="MoodLoop">
+            <img src="../assets/logo2.PNG" alt="MoodLoop">
             <h2>Verifica tu correo</h2>
         </div>
 

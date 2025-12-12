@@ -75,7 +75,7 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     <div class="verify-box">
 
         <div class="logo">
-            <img src="../assets/logo.PNG" alt="MoodLoop">
+            <img src="../assets/logo2.PNG" alt="MoodLoop">
             <h2>Verificación de cuenta</h2>
         </div>
 

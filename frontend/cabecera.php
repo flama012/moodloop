@@ -12,7 +12,7 @@ if (basename($_SERVER['PHP_SELF']) === basename(__FILE__)) {
     <!-- LOGO: clic para volver al feed -->
     <div class="cabecera-logo">
         <a href="pagina_feed.php">
-            <img src="../assets/logo.PNG" alt="MoodLoop">
+            <img src="../assets/logo2.PNG" alt="MoodLoop">
         </a>
     </div>
 

@@ -88,7 +88,7 @@ if (isset($_POST["iniciar"])) {
 
             <!-- Logo y frase -->
             <div class="logo">
-                <img src="../assets/logo.PNG" alt="MoodLoop">
+                <img src="../assets/logo2.PNG" alt="MoodLoop">
                 <h2>Conecta con tus emociones</h2>
             </div>
 
