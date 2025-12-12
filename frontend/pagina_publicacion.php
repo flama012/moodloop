@@ -79,6 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <link href="css/cabecera.css" rel="stylesheet">
 <link href="css/crear_publicacion.css" rel="stylesheet">
+
+<script src="js/pagina_publicacion.js" defer></script>
 <body>
 
 <?php require_once "cabecera.php"; ?>
@@ -115,15 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="etiquetas" id="etiquetas" placeholder="#motivacion#felicidad">
     </form>
 </div>
-
-<script>
-    // Contador de caracteres
-    const mensaje = document.getElementById("mensaje");
-    const contador = document.getElementById("contador");
-    mensaje.addEventListener("input", () => {
-        contador.textContent = mensaje.value.length;
-    });
-</script>
 
 </body>
 
