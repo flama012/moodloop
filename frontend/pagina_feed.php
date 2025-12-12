@@ -173,7 +173,10 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
                 // CABECERA
                 echo "<div class='pub-header'>";
-                echo "<strong>" . $pub["nombre_usuario"] . "</strong>";
+                echo '<a href="ver_perfil.php?id=' . $pub["id_usuario"] . '" class="pub-autor-link">';
+                echo '<strong>' . $pub["nombre_usuario"] . '</strong>';
+                echo '</a>';
+
                 echo "<span class='pub-emocion emocion-animada'>" . $pub["estado_emocional"] . "</span>";
                 echo "</div>";
 
