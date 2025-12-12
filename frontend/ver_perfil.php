@@ -83,6 +83,9 @@ if (isset($_POST["dejar_seguir"])) {
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/ver_perfil.css">
+    <link rel="stylesheet" href="css/comentarios.css">
+
+    <script src="js/toggle_comentarios.js" defer></script>
 </head>
 <body>
 
@@ -215,20 +218,35 @@ if (isset($_POST["dejar_seguir"])) {
 
 
                     <!-- COMENTARIOS -->
-                    <?php $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]); ?>
+                    <?php
+                    $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
+                    ?>
 
-                    <?php if (!empty($comentarios)): ?>
-                        <div class="pub-comentarios">
-                            <strong>Comentarios:</strong><br>
-                            <?php foreach ($comentarios as $c): ?>
-                                <p class="comentario"><em><strong>@<?= $c["nombre_usuario"] ?>:</strong></em> <?= $c["texto"] ?></p>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php else: ?>
-                        <p class="comentario-vacio">Sin comentarios.</p>
-                    <?php endif; ?>
+                    <!-- BOTÓN MOSTRAR/OCULTAR -->
+                    <button type="button" class="btn-toggle-comentarios">Mostrar comentarios</button>
 
-                    <!-- FORMULARIO COMENTAR -->
+                    <!-- CONTENEDOR OCULTO -->
+                    <div class="comentarios-contenedor">
+
+                        <?php if (!empty($comentarios)): ?>
+                            <div class="comentarios-scroll">
+                                <div class="pub-comentarios">
+
+                                    <?php foreach ($comentarios as $c): ?>
+                                        <p class="comentario">
+                                            <em><strong>@<?= $c["nombre_usuario"] ?>:</strong></em> <?= $c["texto"] ?>
+                                        </p>
+                                    <?php endforeach; ?>
+
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <p class="comentario-vacio">Sin comentarios.</p>
+                        <?php endif; ?>
+
+                    </div>
+
+                    <!-- FORMULARIO PARA COMENTAR -->
                     <form action="../backend/procesar_comentario.php" method="post" class="pub-comentar-flex">
                         <input type="hidden" name="id_publicacion" value="<?= $pub['id_publicacion'] ?>">
                         <div class="comentar-contenedor">
@@ -236,6 +254,7 @@ if (isset($_POST["dejar_seguir"])) {
                             <button type="submit" class="btn-principal btn-comentar">Comentar</button>
                         </div>
                     </form>
+
 
                 </div>
             <?php endforeach; ?>

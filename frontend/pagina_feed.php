@@ -96,16 +96,16 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/feed.css">
     <link rel="stylesheet" href="css/modal_publicacion.css">
+    <link rel="stylesheet" href="css/comentarios.css">
 
     <script src="js/modal_publicacion.js" defer></script>
+    <script src="js/toggle_comentarios.js"></script>
+
 </head>
 <body>
 
 <?php include "cabecera.php"; ?>
 
-<!-- ============================================================
-     ESTRUCTURA DEL FEED EN 3 COLUMNAS
-============================================================ -->
 <div class="feed-layout">
 
     <!-- ============================================================
@@ -113,9 +113,6 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     ============================================================ -->
     <aside class="feed-col filtros">
 
-        <!-- ============================================================
-             FORMULARIO DE FILTROS DEL FEED
-        ============================================================ -->
         <form method="get" action="pagina_feed.php" class="filtros-card">
 
             <label>Mostrar publicaciones por:</label><br>
@@ -128,7 +125,6 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
             </select>
             <br><br>
 
-            <!-- Selector de emociones -->
             <label>Filtrar por Emoción:</label><br>
             <select name="emocion">
                 <option value="">Seleccionar</option>
@@ -141,7 +137,6 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
             </select>
             <br><br>
 
-            <!-- Campo de etiquetas -->
             <label>Filtrar por Etiquetas:</label><br>
             <input type="text" name="etiquetas" placeholder="#motivacion#felicidad" value="<?= $etiquetasTexto ?>">
             <br><br>
@@ -155,9 +150,6 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     ============================================================ -->
     <main class="feed-col publicaciones">
 
-        <!-- ============================================================
-             TÍTULO SEGÚN EL MODO SELECCIONADO
-        ============================================================ -->
         <?php
         if ($modo === "seguidos") {
             echo "<h2 class='tituloAnimado'>Publicaciones de personas que sigues</h2>";
@@ -170,12 +162,8 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
         } elseif ($modo === "todas") {
             echo "<h2 class='tituloAnimado'>Todas las publicaciones</h2>";
         }
-
         ?>
 
-        <!-- ============================================================
-             LISTA DE PUBLICACIONES
-        ============================================================ -->
         <?php
         if (!empty($publicaciones)) {
 
@@ -183,21 +171,21 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
                 echo "<div class='card-publicacion'>";
 
-                // Nombre del autor
+                // CABECERA
                 echo "<div class='pub-header'>";
                 echo "<strong>" . $pub["nombre_usuario"] . "</strong>";
                 echo "<span class='pub-emocion emocion-animada'>" . $pub["estado_emocional"] . "</span>";
                 echo "</div>";
 
-                // Fecha
+                // FECHA
                 echo "<div class='pub-footer'>";
                 echo "<em>" . $pub["fecha_hora"] . "</em>";
                 echo "</div>";
 
-                // Mensaje (nl2br convierte saltos de línea en <br>)
+                // MENSAJE
                 echo "<p class='pub-mensaje'>" . nl2br($pub["mensaje"]) . "</p>";
 
-                // Etiquetas
+                // ETIQUETAS
                 $etis = $publiBBDD->obtenerEtiquetasPorPublicacion($pub["id_publicacion"]);
                 if (!empty($etis)) {
                     echo "<div class='pub-etiquetas'>";
@@ -206,7 +194,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                 }
 
                 // ============================================================
-                // BLOQUE DE ME GUSTA (imagen + contador)
+                // BLOQUE DE ME GUSTA
                 // ============================================================
                 $likes = $publiBBDD->contarMeGustaPorPublicacion($pub["id_publicacion"]);
                 $yaLeDioMG = $publiBBDD->usuarioDioMG($_SESSION["id_usuario"], $pub["id_publicacion"]);
@@ -223,21 +211,39 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                 echo "<span class='like-count'>$likes</span>";
                 echo "</div>";
 
-
-                // Comentarios
+                // ============================================================
+                // CARGAR COMENTARIOS (IMPORTANTE)
+                // ============================================================
                 $comentarios = $publiBBDD->obtenerComentariosPorPublicacion($pub["id_publicacion"]);
-                if (!empty($comentarios)) {
-                    echo "<div class='pub-comentarios'>";
-                    echo "<strong>Comentarios:</strong><br>";
-                    foreach ($comentarios as $c) {
-                        echo "<p class='comentario'><em><strong>@" . $c["nombre_usuario"] . ":</strong></em> " . $c["texto"] . "</p>";
-                    }
-                    echo "</div>";
-                } else {
-                    echo "<p class='comentario-vacio'>Sin comentarios.</p>";
-                }
+                ?>
 
-                // Formulario para comentar
+                <!-- BOTÓN MOSTRAR/OCULTAR -->
+                <button type="button" class="btn-toggle-comentarios">Mostrar comentarios</button>
+
+                <!-- CONTENEDOR OCULTO -->
+                <div class="comentarios-contenedor">
+
+                    <?php if (!empty($comentarios)): ?>
+                        <div class="modal-comentarios-scroll">
+                            <div class="pub-comentarios">
+                                <?php foreach ($comentarios as $c): ?>
+                                    <p class="comentario">
+                                        <em><strong>@<?= $c["nombre_usuario"] ?>:</strong></em> <?= $c["texto"] ?>
+                                    </p>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
+                    <?php else: ?>
+                        <p class="comentario-vacio">Sin comentarios.</p>
+                    <?php endif; ?>
+
+                </div>
+
+                <?php
+                // ============================================================
+                // FORMULARIO PARA COMENTAR
+                // ============================================================
                 echo '<form action="../backend/procesar_comentario.php" method="post" class="pub-comentar-flex">
                         <input type="hidden" name="id_publicacion" value="' . $pub['id_publicacion'] . '">
                         <div class="comentar-contenedor">
@@ -245,8 +251,6 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
                             <button type="submit" class="btn-principal btn-comentar">Comentar</button>
                         </div>
                       </form>';
-
-
 
                 echo "</div>";
             }
@@ -295,13 +299,10 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 <div id="modalPublicacion" class="modal">
     <div class="modal-contenido">
         <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
-
-        <!-- Aquí insertaremos la publicación completa -->
         <div id="modalPublicacionContenido"></div>
     </div>
 </div>
 
-
-
 </body>
+
 </html>

@@ -188,9 +188,29 @@ body {
 /* ============================================================
    COMENTARIOS
 ============================================================ */
-.pub-comentarios {
-    margin-top: 15px;
+/* Contenedor oculto por defecto */
+.comentarios-contenedor {
+    display: none;
+    margin-top: 10px;
 }
+
+/* Botón mostrar/ocultar comentarios */
+.btn-toggle-comentarios {
+    background: none;
+    border: none;
+    color: #6a5acd;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 0;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.btn-toggle-comentarios:hover {
+    color: #0bddbe;
+}
+
 
 .comentario {
     font-size: 14px;
