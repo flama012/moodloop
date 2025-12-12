@@ -117,6 +117,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
             <label>Mostrar publicaciones por:</label><br>
             <select name="modo" required>
+                <option value="" disabled>Seleccionar</option>
                 <option value="todas" <?= ($modo === "todas" ? "selected" : "") ?>>Todas las publicaciones</option>
                 <option value="seguidos" <?= ($modo === "seguidos" ? "selected" : "") ?>>Personas que sigo</option>
                 <option value="emocion" <?= ($modo === "emocion" ? "selected" : "") ?>>Mi emoción del día</option>
@@ -127,7 +128,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
             <label>Filtrar por Emoción:</label><br>
             <select name="emocion">
-                <option value="">Seleccionar</option>
+                <option value="" disabled>Seleccionar</option>
                 <?php
                 foreach ($listaEmociones as $emo) {
                     $selected = ($emocionGet === $emo) ? "selected" : "";
