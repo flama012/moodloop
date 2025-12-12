@@ -194,9 +194,15 @@ if (isset($_POST['submit'])) {
             <button class="btn-editar" onclick="toggleBio()">Editar biografía</button>
 
             <form action="pagina_usuario.php" method="post" class="perfil-form oculto" id="formBio">
-                <textarea name="biografia" class="perfil-textarea" maxlength="255"><?= $biografiaActual ?></textarea>
+                <textarea name="biografia" id="bioTextarea" class="perfil-textarea" placeholder="Comparte cómo te sientes..." maxlength="255"><?= $biografiaActual ?></textarea>
+
+                <div class="contador-bio">
+                    <span id="contadorBio">0</span>/255
+                </div>
+
                 <button type="submit" name="guardar_biografia" class="btn-guardar">Guardar</button>
             </form>
+
         </div>
 
     </div>
