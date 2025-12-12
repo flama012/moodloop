@@ -1,22 +1,28 @@
+// Seleccionar TODAS las publicaciones
+let cards = document.querySelectorAll(".card-publicacion");
 
+// Añadir evento a cada una
+cards.forEach(card => {
 
-function abrirModal(pub) {
-    document.querySelector(".modal-emocion").textContent = pub.estado;
-    document.querySelector(".modal-fecha").textContent = pub.fecha;
-    document.querySelector(".modal-mensaje").innerHTML = pub.mensaje;
-    document.querySelector(".modal-like-count").textContent = pub.likes;
+    card.addEventListener("click", () => {
 
-    // Comentarios
-    const cont = document.querySelector(".modal-comentarios");
-    cont.innerHTML = "";
-    pub.comentarios.forEach(c => {
-    cont.innerHTML += `<p><strong>@${c.usuario}:</strong> ${c.texto}</p>`;
+        // Clonar la tarjeta completa
+        let clon = card.cloneNode(true);
+
+        // Insertar en el modal
+        let cont = document.getElementById("modalPublicacionContenido");
+        cont.innerHTML = ""; // limpiar
+        cont.appendChild(clon);
+
+        // Mostrar modal
+        document.getElementById("modalPublicacion").style.display = "flex";
+    });
 });
 
-    document.getElementById("modalPublicacion").style.display = "flex";
-}
 
+// ============================================================
+// FUNCIÓN PARA CERRAR EL MODAL
+// ============================================================
 function cerrarModal() {
     document.getElementById("modalPublicacion").style.display = "none";
 }
-

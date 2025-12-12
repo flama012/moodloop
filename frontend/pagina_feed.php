@@ -94,6 +94,7 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/feed.css">
+    <link rel="stylesheet" href="css/modal_publicacion.css">
 
     <script src="js/modal_publicacion.js" defer></script>
 </head>
@@ -282,6 +283,20 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
     </aside>
 
 </div>
+
+<!-- ============================================================
+     MODAL DE PUBLICACIÓN
+============================================================ -->
+<div id="modalPublicacion" class="modal">
+    <div class="modal-contenido">
+        <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
+
+        <!-- Aquí insertaremos la publicación completa -->
+        <div id="modalPublicacionContenido"></div>
+    </div>
+</div>
+
+
 
 </body>
 </html>
