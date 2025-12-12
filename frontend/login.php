@@ -73,6 +73,8 @@ if (isset($_POST["iniciar"])) {
 
     <!-- CSS del login -->
     <link rel="stylesheet" href="css/login.css">
+
+    <script src="js/validar_login.js"></script>
 </head>
 <body>
 
@@ -124,6 +126,8 @@ if (isset($_POST["iniciar"])) {
                 <!-- Botón de login -->
                 <button type="submit" name="iniciar" id="btn-login">Iniciar sesión</button>
             </form>
+
+            <div id="errorLogin" class="alert-error" style="display:none;"></div>
 
             <!-- Botón para ir al registro (formulario separado) -->
             <form method="post">
