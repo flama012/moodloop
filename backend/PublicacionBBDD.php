@@ -7,11 +7,11 @@ require_once "Publicacion.php";
 class PublicacionBBDD {
 
     // Guardamos la conexión para usarla en todos los métodos
-    private $conn;
+    private $conexion;
 
     public function __construct() {
         // Obtenemos la conexión desde el Singleton
-        $this->conn = ConexionDB::getConexion("moodloop");
+        $this->conexion = ConexionDB::getConexion("moodloop");
     }
 
     // ============================================================
@@ -23,14 +23,14 @@ class PublicacionBBDD {
             $sql = "INSERT INTO publicaciones (id_usuario, mensaje, estado_emocional, fecha_hora)
                     VALUES (:id_usuario, :mensaje, :estado_emocional, NOW())";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
 
             $consulta->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
             $consulta->bindParam(":mensaje", $mensaje, PDO::PARAM_STR);
             $consulta->bindParam(":estado_emocional", $estado_emocional, PDO::PARAM_STR);
 
             if ($consulta->execute()) {
-                return $this->conn->lastInsertId();
+                return $this->conexion->lastInsertId();
             }
             return false;
 
@@ -53,7 +53,7 @@ class PublicacionBBDD {
 
                 // Buscar etiqueta
                 $sqlBuscar = "SELECT id_etiqueta FROM etiquetas WHERE nombre_etiqueta = :nombre";
-                $consultaBuscar = $this->conn->prepare($sqlBuscar);
+                $consultaBuscar = $this->conexion->prepare($sqlBuscar);
                 $consultaBuscar->bindParam(":nombre", $etiqueta, PDO::PARAM_STR);
                 $consultaBuscar->execute();
                 $fila = $consultaBuscar->fetch(PDO::FETCH_ASSOC);
@@ -63,16 +63,16 @@ class PublicacionBBDD {
                     $id_etiqueta = (int)$fila["id_etiqueta"];
                 } else {
                     $sqlInsert = "INSERT INTO etiquetas (nombre_etiqueta) VALUES (:nombre)";
-                    $consultaInsert = $this->conn->prepare($sqlInsert);
+                    $consultaInsert = $this->conexion->prepare($sqlInsert);
                     $consultaInsert->bindParam(":nombre", $etiqueta, PDO::PARAM_STR);
                     $consultaInsert->execute();
-                    $id_etiqueta = (int)$this->conn->lastInsertId();
+                    $id_etiqueta = (int)$this->conexion->lastInsertId();
                 }
 
                 // Comprobar relación
                 $sqlExisteRelacion = "SELECT 1 FROM publicacion_etiqueta 
                                       WHERE id_publicacion = :id_pub AND id_etiqueta = :id_et";
-                $cExiste = $this->conn->prepare($sqlExisteRelacion);
+                $cExiste = $this->conexion->prepare($sqlExisteRelacion);
                 $cExiste->bindParam(":id_pub", $id_publicacion, PDO::PARAM_INT);
                 $cExiste->bindParam(":id_et", $id_etiqueta, PDO::PARAM_INT);
                 $cExiste->execute();
@@ -81,7 +81,7 @@ class PublicacionBBDD {
                 if (!$cExiste->fetch()) {
                     $sqlRelacion = "INSERT INTO publicacion_etiqueta (id_publicacion, id_etiqueta)
                                     VALUES (:id_pub, :id_et)";
-                    $consultaRelacion = $this->conn->prepare($sqlRelacion);
+                    $consultaRelacion = $this->conexion->prepare($sqlRelacion);
                     $consultaRelacion->bindParam(":id_pub", $id_publicacion, PDO::PARAM_INT);
                     $consultaRelacion->bindParam(":id_et", $id_etiqueta, PDO::PARAM_INT);
                     $consultaRelacion->execute();
@@ -105,7 +105,7 @@ class PublicacionBBDD {
                     JOIN etiquetas e ON pe.id_etiqueta = e.id_etiqueta
                     WHERE pe.id_publicacion = :id";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(":id", $id_publicacion, PDO::PARAM_INT);
             $consulta->execute();
 
@@ -128,7 +128,7 @@ class PublicacionBBDD {
                     ORDER BY p.fecha_hora DESC
                     LIMIT :limite";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindValue(":limite", (int)$limite, PDO::PARAM_INT);
             $consulta->execute();
 
@@ -150,7 +150,7 @@ class PublicacionBBDD {
                     JOIN usuarios u ON p.id_usuario = u.id_usuario
                     WHERE p.id_publicacion = :id";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(":id", $id_publicacion, PDO::PARAM_INT);
             $consulta->execute();
 
@@ -171,7 +171,7 @@ class PublicacionBBDD {
                     SET mensaje = :mensaje, estado_emocional = :estado 
                     WHERE id_publicacion = :id";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(":id", $id_publicacion, PDO::PARAM_INT);
             $consulta->bindParam(":mensaje", $mensaje, PDO::PARAM_STR);
             $consulta->bindParam(":estado", $estado_emocional, PDO::PARAM_STR);
@@ -191,15 +191,15 @@ class PublicacionBBDD {
 
         // Borrar comentarios
         $sql = "DELETE FROM comentarios WHERE id_publicacion = :p";
-        $this->conn->prepare($sql)->execute([":p" => $idPublicacion]);
+        $this->conexion->prepare($sql)->execute([":p" => $idPublicacion]);
 
         // Borrar likes
         $sql = "DELETE FROM megusta WHERE id_publicacion = :p";
-        $this->conn->prepare($sql)->execute([":p" => $idPublicacion]);
+        $this->conexion->prepare($sql)->execute([":p" => $idPublicacion]);
 
         // Borrar publicación
         $sql = "DELETE FROM publicaciones WHERE id_publicacion = :p";
-        $this->conn->prepare($sql)->execute([":p" => $idPublicacion]);
+        $this->conexion->prepare($sql)->execute([":p" => $idPublicacion]);
     }
 
     // ============================================================
@@ -234,7 +234,7 @@ class PublicacionBBDD {
                     ORDER BY p.fecha_hora DESC 
                     LIMIT :limite";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
             $consulta->bindValue(":limite", (int)$limite, PDO::PARAM_INT);
             $consulta->execute();
@@ -258,7 +258,7 @@ class PublicacionBBDD {
                     WHERE c.id_publicacion = :id
                     ORDER BY c.fecha_hora ASC";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(":id", $id_publicacion, PDO::PARAM_INT);
             $consulta->execute();
 
@@ -277,7 +277,7 @@ class PublicacionBBDD {
         try {
             $sql = "SELECT COUNT(*) as total FROM megusta WHERE id_publicacion = :id";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(":id", $id_publicacion, PDO::PARAM_INT);
             $consulta->execute();
 
@@ -297,7 +297,7 @@ class PublicacionBBDD {
         try {
             $sql = "SELECT COUNT(*) as total FROM publicaciones WHERE id_usuario = :id";
 
-            $consulta = $this->conn->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(":id", $id_usuario, PDO::PARAM_INT);
             $consulta->execute();
 
@@ -321,7 +321,7 @@ class PublicacionBBDD {
                 WHERE s.id_seguidor = :id_usuario
                 ORDER BY p.fecha_hora DESC";
 
-        $consulta = $this->conn->prepare($sql);
+        $consulta = $this->conexion->prepare($sql);
         $consulta->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         $consulta->execute();
 
@@ -338,7 +338,7 @@ class PublicacionBBDD {
                 WHERE p.estado_emocional = :emocion
                 ORDER BY p.fecha_hora DESC";
 
-        $consulta = $this->conn->prepare($sql);
+        $consulta = $this->conexion->prepare($sql);
         $consulta->bindParam(":emocion", $emocion, PDO::PARAM_STR);
         $consulta->execute();
 
@@ -360,7 +360,7 @@ class PublicacionBBDD {
                 WHERE e.nombre_etiqueta IN ($placeholders)
                 ORDER BY p.fecha_hora DESC";
 
-        $consulta = $this->conn->prepare($sql);
+        $consulta = $this->conexion->prepare($sql);
 
         foreach ($etiquetas as $i => $et) {
             $consulta->bindValue($i + 1, $et, PDO::PARAM_STR);
@@ -380,7 +380,7 @@ class PublicacionBBDD {
                 ORDER BY total DESC
                 LIMIT 5";
 
-        $consulta = $this->conn->query($sql);
+        $consulta = $this->conexion->query($sql);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -395,7 +395,7 @@ class PublicacionBBDD {
                 ORDER BY total DESC
                 LIMIT 5";
 
-        $consulta = $this->conn->query($sql);
+        $consulta = $this->conexion->query($sql);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -405,10 +405,18 @@ class PublicacionBBDD {
     public function esPublicacionDeUsuario($idPublicacion, $idUsuario) {
         $sql = "SELECT 1 FROM publicaciones WHERE id_publicacion = :p AND id_usuario = :u";
 
-        $consulta = $this->conn->prepare($sql);
+        $consulta = $this->conexion->prepare($sql);
         $consulta->execute([":p" => $idPublicacion, ":u" => $idUsuario]);
 
         return $consulta->fetch() ? true : false;
     }
+
+    public function usuarioDioMG($idUsuario, $idPublicacion) {
+        $sql = "SELECT COUNT(*) FROM megusta WHERE id_usuario = :u AND id_publicacion = :p";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([":u" => $idUsuario, ":p" => $idPublicacion]);
+        return $stmt->fetchColumn() > 0;
+    }
+
 }
 ?>

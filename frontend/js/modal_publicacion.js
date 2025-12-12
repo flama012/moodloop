@@ -34,3 +34,24 @@ cards.forEach(card => {
 function cerrarModal() {
     document.getElementById("modalPublicacion").style.display = "none";
 }
+
+
+// ============================================================
+// LIKE BUTTON
+// ============================================================
+document.addEventListener("click", function(e) {
+
+    let btn = e.target.closest(".like-button");
+    if (!btn) return;
+
+    let img = btn.querySelector("img");
+    let liked = btn.dataset.liked === "1";
+
+    if (liked) {
+        btn.dataset.liked = "0";
+        img.src = "../assets/like-heart2.svg";
+    } else {
+        btn.dataset.liked = "1";
+        img.src = "../assets/like-heart-filled.svg";
+    }
+});
