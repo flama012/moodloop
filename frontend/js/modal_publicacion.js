@@ -4,17 +4,25 @@ let cards = document.querySelectorAll(".card-publicacion");
 // Añadir evento a cada una
 cards.forEach(card => {
 
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (e) => {
 
-        // Clonar la tarjeta completa
+        // Si el clic viene de un textarea, botón, input o formulario → NO abrir modal
+        if (
+            e.target.tagName === "TEXTAREA" ||
+            e.target.tagName === "BUTTON" ||
+            e.target.tagName === "INPUT" ||
+            e.target.closest("form")
+        ) {
+            return; // No abrir modal
+        }
+
+        // Si no, abrir modal
         let clon = card.cloneNode(true);
 
-        // Insertar en el modal
         let cont = document.getElementById("modalPublicacionContenido");
-        cont.innerHTML = ""; // limpiar
+        cont.innerHTML = "";
         cont.appendChild(clon);
 
-        // Mostrar modal
         document.getElementById("modalPublicacion").style.display = "flex";
     });
 });
