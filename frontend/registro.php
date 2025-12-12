@@ -9,6 +9,13 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+// Si ya hay login
+if (isset($_SESSION["id_usuario"])) {
+    // Usuario YA está logueado → bloquear acceso
+    header("Location: ../index.php");
+    exit();
+}
+
 // Obtenemos la conexión a la base de datos
 $db = ConexionDB::getConexion("moodloop");
 
