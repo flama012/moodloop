@@ -99,7 +99,9 @@ if (isset($_POST['registrarse'])) {
     <!-- CSS del registro -->
     <link rel="stylesheet" href="css/registro.css">
 
-    <script src="js/validar_registro.js"></script>
+    <script src="js/validar_registro.js" defer></script>
+    <script src="js/emojis.js" defer></script>
+
 
 </head>
 <body>

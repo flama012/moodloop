@@ -190,6 +190,12 @@ form[name="formRegistro"] input:focus {
     letter-spacing: 8px;
 }
 
+.emoji-wall span {
+    display: inline-block;
+    position: relative;
+    will-change: transform;
+}
+
 /* Contenedor interno */
 .right-box {
     max-width: 480px;

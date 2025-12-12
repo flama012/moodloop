@@ -217,6 +217,12 @@ footer a {
     letter-spacing: 8px;
 }
 
+.emoji-wall span {
+    display: inline-block;
+    position: relative;
+    will-change: transform;
+}
+
 /* Título principal */
 .login-right h2 {
     font-size: 30px;

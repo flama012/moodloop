@@ -75,7 +75,8 @@ if (isset($_POST["iniciar"])) {
     <!-- CSS del login -->
     <link rel="stylesheet" href="css/login.css">
 
-    <script src="js/validar_login.js"></script>
+    <script src="js/validar_login.js" defer></script>
+    <script src="js/emojis.js" defer></script>
 </head>
 <body>
 
