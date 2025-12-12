@@ -34,7 +34,8 @@ if ($busqueda != "") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Buscar usuario</title>
+    <title>Buscar usuario - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/buscar_usuario.css">

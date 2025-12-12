@@ -93,7 +93,8 @@ if (isset($_POST['registrarse'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear cuenta - MoodLoop</title>
+    <title>Registro - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 
     <!-- CSS del registro -->
     <link rel="stylesheet" href="css/registro.css">

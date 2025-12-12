@@ -90,7 +90,8 @@ $topEtiquetas = $publiBBDD->obtenerTopEtiquetas();
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Feed</title>
+    <title>Feed - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/feed.css">

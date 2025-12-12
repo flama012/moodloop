@@ -44,6 +44,7 @@ if (isset($_POST["volverAlLogin"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmar correo - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 
     <link rel="stylesheet" href="css/confirmarCorreo.css">
 </head>

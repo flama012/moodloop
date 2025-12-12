@@ -70,6 +70,7 @@ if (isset($_POST["iniciar"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 
     <!-- CSS del login -->
     <link rel="stylesheet" href="css/login.css">

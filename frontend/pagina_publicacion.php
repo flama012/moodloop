@@ -75,7 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear publicación</title>
+    <title>Crear publicación - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 </head>
 <link href="css/cabecera.css" rel="stylesheet">
 <link href="css/crear_publicacion.css" rel="stylesheet">

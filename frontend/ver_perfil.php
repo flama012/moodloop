@@ -78,7 +78,8 @@ if (isset($_POST["dejar_seguir"])) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Perfil de <?= $usuario->nombre_usuario ?></title>
+    <title>Perfil de <?= $usuario->nombre_usuario ?> - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/ver_perfil.css">

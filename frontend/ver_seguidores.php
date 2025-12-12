@@ -46,7 +46,8 @@ $seguidores = $bbdd->obtenerSeguidores($idUsuario);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Seguidores</title>
+    <title>Seguidores - MoodLoop</title>
+    <link rel="icon" type="image/png" href="../assets/logo2.PNG">
 
     <link rel="stylesheet" href="css/cabecera.css">
     <link rel="stylesheet" href="css/ver_seguidores.css">
