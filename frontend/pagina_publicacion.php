@@ -85,38 +85,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <?php require_once "cabecera.php"; ?>
+<div class="wrapper-centrado">
+    <div class="crear-publicacion-contenedor">
 
-<div class="crear-publicacion-contenedor">
+        <div class="crear-header">
+            <h2>Crear publicación</h2>
+            <button type="submit" form="form-publicacion" class="btn-publicar">Publicar</button>
+        </div>
 
-    <div class="crear-header">
-        <h2>Crear publicación</h2>
-        <button type="submit" form="form-publicacion" class="btn-publicar">Publicar</button>
+        <!-- Mensajes de éxito o error -->
+        <?php if ($mensaje_exito != "") echo "<p class='mensaje-exito'>$mensaje_exito</p>"; ?>
+        <?php if ($mensaje_error != "") echo "<p class='mensaje-error'>$mensaje_error</p>"; ?>
+
+        <form method="POST" id="form-publicacion" class="form-publicacion">
+
+            <!-- Selector de emoción -->
+            <label for="estado_emocional">¿Cómo te sientes?</label>
+            <select name="estado_emocional" id="estado_emocional" required>
+                <option value="">Selecciona...</option>
+                <?php foreach ($listaEmociones as $emo) {
+                    echo "<option value='$emo'>$emo</option>";
+                } ?>
+            </select>
+
+            <!-- Textarea con contador -->
+            <label for="mensaje">Comparte cómo te sientes...</label>
+            <textarea name="mensaje" id="mensaje" maxlength="500" placeholder="Comparte cómo te sientes..."></textarea>
+            <div class="contador-caracteres"><span id="contador">0</span> / 500</div>
+
+            <!-- Etiquetas -->
+            <label for="etiquetas">Añadir etiquetas (máx. 5)</label>
+            <input type="text" name="etiquetas" id="etiquetas" placeholder="#motivacion#felicidad">
+        </form>
     </div>
-
-    <!-- Mensajes de éxito o error -->
-    <?php if ($mensaje_exito != "") echo "<p class='mensaje-exito'>$mensaje_exito</p>"; ?>
-    <?php if ($mensaje_error != "") echo "<p class='mensaje-error'>$mensaje_error</p>"; ?>
-
-    <form method="POST" id="form-publicacion" class="form-publicacion">
-
-        <!-- Selector de emoción -->
-        <label for="estado_emocional">¿Cómo te sientes?</label>
-        <select name="estado_emocional" id="estado_emocional" required>
-            <option value="">Selecciona...</option>
-            <?php foreach ($listaEmociones as $emo) {
-                echo "<option value='$emo'>$emo</option>";
-            } ?>
-        </select>
-
-        <!-- Textarea con contador -->
-        <label for="mensaje">Comparte cómo te sientes...</label>
-        <textarea name="mensaje" id="mensaje" maxlength="500" placeholder="Comparte cómo te sientes..."></textarea>
-        <div class="contador-caracteres"><span id="contador">0</span> / 500</div>
-
-        <!-- Etiquetas -->
-        <label for="etiquetas">Añadir etiquetas (máx. 5)</label>
-        <input type="text" name="etiquetas" id="etiquetas" placeholder="#motivacion#felicidad">
-    </form>
 </div>
 
 </body>
